@@ -8,7 +8,7 @@ class Deck {
     // Draw n cards from the top of the deck. Default to the number of cards
     // drawn at the end of the turn
     // int -> List[Card]
-    draw(n = this.endTurnPickupValue) {
+    draw(n=this.endTurnPickupValue) {
         let drawnCards = [];
         for (let i = 0; i < n; i++) {
             if (this.empty) {
