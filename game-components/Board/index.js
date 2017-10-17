@@ -5,11 +5,13 @@ import Prompt from '../Prompt';
 import Editor from '../Editor';
 import Player from '../Player';
 
+import shuffle from 'fisher-yates-shuffle';
 
 class Board {
-    constructor() {
-        this.prompt = new Prompt();
-        this.deck = initializeDeck();
+    // Prompt -> Board
+    constructor(prompt) {
+        this.prompt = prompt;
+        this.deck = this.initializeDeck();
         // Deck
         // Card
         // DiscardPile
@@ -18,12 +20,9 @@ class Board {
         // Player
     }
 
-    randomizeDeck() {
-        let cards = this.prompt.cardSet;
-    }
+    // -> Deck
     initializeDeck() {
-        let initialCards = randomizeDeck();
-        return Deck(initialCards);
+        return new Deck(shuffle(this.prompt.cardSet));
     }
 }
 
