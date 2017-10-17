@@ -1,4 +1,6 @@
 class Prompt {
+    // The Prompt class is abstract and should only ever be implemented
+    // -> Prompt
     constructor() {
         if (new.target === Prompt) {
             throw new TypeError("Prompt is an abstract class.");
