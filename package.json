@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,14 @@
   },
   "homepage": "https://github.com/NUDelta/pear#readme",
   "dependencies": {
-    "fisher-yates-shuffle": "^0.1.2"
+    "babel-jest": "^21.2.0",
+    "babel-preset-env": "^1.6.1",
+    "fisher-yates-shuffle": "^0.1.2",
+    "jest": "^21.2.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }
