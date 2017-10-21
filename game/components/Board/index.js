@@ -10,8 +10,8 @@ import shuffle from 'fisher-yates-shuffle';
 class Board {
     // Prompt -> Board
     constructor(prompt) {
-        this.prompt = prompt;
-        this.deck = this.initializeDeck();
+        this._prompt = prompt;
+        this._deck = this.initializeDeck();
         // Deck
         // Card
         // DiscardPile
@@ -20,9 +20,13 @@ class Board {
         // Player
     }
 
+    get deck() {
+        return this._deck;
+    }
+
     // -> Deck
     initializeDeck() {
-        return new Deck(shuffle(this.prompt.cardSet));
+        return new Deck(shuffle(this._prompt.cardSet));
     }
 }
 

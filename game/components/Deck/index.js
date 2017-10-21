@@ -9,6 +9,10 @@ class Deck {
     // drawn at the end of the turn
     // int -> List[Card]
     draw(n=this.cardsDrawnPerTurn) {
+        if (this.empty) {
+            // trigger lose condition
+        }
+
         let drawnCards = [];
         for (let i = 0; i < n; i++) {
             if (this.empty) {
