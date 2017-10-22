@@ -1,9 +1,7 @@
-import Card from '../Card';
 import Deck from '../Deck';
 import DiscardPile from '../DiscardPile';
-import Prompt from '../Prompt';
-import Editor from '../Editor';
 import Player from '../Player';
+import Editor from '../Editor';
 
 import shuffle from 'fisher-yates-shuffle';
 
@@ -11,13 +9,10 @@ class Board {
     // Prompt -> Board
     constructor(prompt) {
         this._prompt = prompt;
+        this._editor = new Editor();
         this._deck = this.initializeDeck();
-        // Deck
-        // Card
-        // DiscardPile
-        // Editor
-        // Prompt
-        // Player
+        this._players = [];
+        this._discardPile = new DiscardPile();
     }
 
     get deck() {
@@ -27,6 +22,19 @@ class Board {
     // -> Deck
     initializeDeck() {
         return new Deck(shuffle(this._prompt.cardSet));
+    }
+
+    get players() {
+        return this._players;
+    }
+
+    // Player ->
+    addPlayer(player) {
+        this._players.push(player);
+    }
+
+    get prompt() {
+        return this._prompt;
     }
 }
 

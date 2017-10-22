@@ -13,6 +13,6 @@ test('Game starts and runs', () => {
     expect(game.registerPlayer(p1)).toBe(true);
     expect(game.registerPlayer(p2)).toBe(true);
     expect(game.registerPlayer(p3)).toBe(false);
-    
+
     game.start();
 });
