@@ -29,7 +29,7 @@ class Game {
     // ->
     start() {
         for (let player of this._players) {
-            const hand = this._board.deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START)
+            const hand = this._board.deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
             player.addCards(hand);
         }
 

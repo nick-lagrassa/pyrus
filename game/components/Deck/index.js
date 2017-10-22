@@ -1,14 +1,16 @@
+import settings from '../../config/settings';
+
 class Deck {
     // List[Card] -> Deck
-    constructor(cards, cardsDrawnPerTurn) {
-        this.cardsDrawnPerTurn = cardsDrawnPerTurn;
-        this.cards = cards;
+    constructor(cards) {
+        this._cardsDrawnPerTurn = settings.NUM_CARDS_DRAWN_PER_TURN;
+        this._cards = cards;
     }
 
     // Draw n cards from the top of the deck. Default to the number of cards
     // drawn at the end of the turn
     // int -> List[Card]
-    draw(n=this.cardsDrawnPerTurn) {
+    draw(n=this._cardsDrawnPerTurn) {
         if (this.isEmpty) {
             // trigger lose condition
         }
@@ -19,14 +21,14 @@ class Deck {
                 return drawnCards;
             }
 
-            drawnCards.push(this.cards.pop());
+            drawnCards.push(this._cards.pop());
         }
         return drawnCards;
     }
 
     // -> boolean
     get isEmpty() {
-        return this.cards.length === 0;
+        return this._cards.length === 0;
     }
 }
 
