@@ -3,7 +3,7 @@ class Action {
     // -> Action
     constructor() {
         if (new.target === Action) {
-            throw new TypeError("Prompt is an abstract class.");
+            throw new TypeError("Action is an abstract class.");
         }
     }
 }

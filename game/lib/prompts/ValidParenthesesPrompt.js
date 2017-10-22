@@ -1,5 +1,20 @@
 import Prompt from '../../components/Prompt';
-import HashTableCard from '../cards/HashTableCard';
+import {
+    HashTableCard,
+    WhileCard,
+    FunctionCard,
+    QueueCard,
+    BSTCard,
+    StackCard,
+    DoWhileCard,
+    ConditionalCard,
+    ObjectCard,
+    ArrayCard,
+    LinkedListCard,
+    ForCard,
+    ClassCard,
+    SwitchCard
+} from '../cards';
 
 class ValidParenthesesPrompt extends Prompt {
     constructor() {
@@ -14,7 +29,27 @@ class ValidParenthesesPrompt extends Prompt {
         ];
 
         this._cardSet = [
-            new HashTableCard()
+            new HashTableCard(),
+            new HashTableCard(),
+            new WhileCard(),
+            new WhileCard(),
+            new FunctionCard(),
+            new QueueCard(),
+            new BSTCard(),
+            new StackCard(),
+            new DoWhileCard(),
+            new ConditionalCard(),
+            new ConditionalCard(),
+            new ConditionalCard(),
+            new ObjectCard(),
+            new ObjectCard(),
+            new ArrayCard(),
+            new ArrayCard(),
+            new ArrayCard(),
+            new LinkedListCard(),
+            new ForCard(),
+            new ClassCard(),
+            new SwitchCard()
         ];
 
         this._info = {
