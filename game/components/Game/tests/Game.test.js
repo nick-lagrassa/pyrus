@@ -1,6 +1,8 @@
 import Game from '../index';
 import Player from '../../Player';
-import ValidParenthesesPrompt from '../../../lib/prompts/ValidParenthesesPrompt';
+import prompts from '../../../lib/prompts';
+
+const { ValidParenthesesPrompt } = prompts
 
 test('Game starts and runs', () => {
     const game = new Game(new ValidParenthesesPrompt());

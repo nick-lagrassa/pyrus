@@ -1,5 +1,7 @@
 import Prompt from '../../components/Prompt';
-import {
+import cards from '../cards';
+
+const {
     HashTableCard,
     WhileCard,
     FunctionCard,
@@ -14,7 +16,7 @@ import {
     ForCard,
     ClassCard,
     SwitchCard
-} from '../cards';
+} = cards;
 
 class ValidParenthesesPrompt extends Prompt {
     constructor() {

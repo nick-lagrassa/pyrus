@@ -11,6 +11,7 @@ import ObjectCard from './ObjectCard';
 import QueueCard from './QueueCard';
 import StackCard from './StackCard';
 import WhileCard from './WhileCard';
+import SwitchCard from './SwitchCard';
 
 export default {
     ArrayCard,
@@ -26,4 +27,5 @@ export default {
     QueueCard,
     StackCard,
     WhileCard,
+    SwitchCard,
 };

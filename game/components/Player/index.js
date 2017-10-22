@@ -1,5 +1,5 @@
 import Action from '../Action';
-import { settings } from '../../config/settings';
+import settings from '../../config/settings';
 
 class Player {
     constructor(name) {

@@ -1,4 +1,4 @@
-export const settings = {
+export default {
     MAX_PLAYERS_PER_GAME: 2,
     NUM_CARDS_DRAWN_PER_TURN: 2,
     MAX_CARDS_PER_HAND: 4,
