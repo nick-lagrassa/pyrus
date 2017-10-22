@@ -1,7 +1,7 @@
 import RulesEnforcer from '../RulesEnforcer';
 import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
-import { settings } from '../../config/settings';
+import settings from '../../config/settings';
 
 class Game {
     // Prompt -> Game
