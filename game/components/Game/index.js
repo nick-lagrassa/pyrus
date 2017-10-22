@@ -5,11 +5,11 @@ import settings from '../../config/settings';
 
 class Game {
     // Prompt -> Game
-    constructor(editor, prompt) {
+    constructor(prompt) {
         this._gameOver = false;
         this._re = new RulesEnforcer();
         this._me = new MoveExecutor();
-        this._board = new Board(editor, prompt);
+        this._board = new Board(prompt);
     }
 
     // Attempts to add a player to the game, returns whether it was successful
@@ -19,7 +19,7 @@ class Game {
             return false
         }
 
-        this._board.addPlayer = player;
+        this._board.addPlayer(player);
         return true;
     }
 

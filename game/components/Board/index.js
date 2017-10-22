@@ -1,14 +1,15 @@
 import Deck from '../Deck';
 import DiscardPile from '../DiscardPile';
 import Player from '../Player';
+import Editor from '../Editor';
 
 import shuffle from 'fisher-yates-shuffle';
 
 class Board {
     // Prompt -> Board
-    constructor(editor, prompt) {
+    constructor(prompt) {
         this._prompt = prompt;
-        this._editor = editor;
+        this._editor = new Editor();
         this._deck = this.initializeDeck();
         this._players = [];
         this._discardPile = new DiscardPile();
@@ -28,7 +29,7 @@ class Board {
     }
 
     // Player ->
-    set addPlayer(player) {
+    addPlayer(player) {
         this._players.push(player);
     }
 
