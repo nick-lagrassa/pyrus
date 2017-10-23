@@ -30,5 +30,7 @@
   "devDependencies": {
     "pre-commit": "^1.2.2"
   },
-  "pre-commit": ["test"]
+  "pre-commit": [
+    "test"
+  ]
 }
