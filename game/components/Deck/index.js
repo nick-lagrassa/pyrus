@@ -1,10 +1,15 @@
 import settings from '../../config/settings';
+import shuffle from 'fisher-yates-shuffle';
 
 class Deck {
     // List[Card] -> Deck
     constructor(cards) {
         this._cardsDrawnPerTurn = settings.NUM_CARDS_DRAWN_PER_TURN;
-        this._cards = cards;
+        this._cards = shuffle(cards);
+    }
+
+    shuffle() {
+        this._cards = shuffle(this._cards);
     }
 
     // Draw n cards from the top of the deck. Default to the number of cards

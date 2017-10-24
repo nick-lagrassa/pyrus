@@ -3,8 +3,6 @@ import DiscardPile from '../DiscardPile';
 import Player from '../Player';
 import Editor from '../Editor';
 
-import shuffle from 'fisher-yates-shuffle';
-
 class Board {
     // Prompt -> Board
     constructor(prompt) {
@@ -21,7 +19,7 @@ class Board {
 
     // -> Deck
     initializeDeck() {
-        return new Deck(shuffle(this._prompt.cardSet));
+        return new Deck(this._prompt.cardSet);
     }
 
     get players() {
