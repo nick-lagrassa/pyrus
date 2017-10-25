@@ -1,5 +1,5 @@
 import ValidParenthesesGame from './ValidParenthesesGame';
 
-export default {
+export {
     ValidParenthesesGame,
 };

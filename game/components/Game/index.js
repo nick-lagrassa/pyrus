@@ -12,17 +12,6 @@ class Game {
         this._board = new Board(prompt);
     }
 
-    // Attempts to add a player to the game, returns whether it was successful
-    // Player -> bool
-    registerPlayer(player) {
-        if (this._board.players.length >= settings.MAX_PLAYERS_PER_GAME) {
-            return false
-        }
-
-        this._board.addPlayer(player);
-        return true;
-    }
-
     // Start the game loop
     // ->
     start() {
