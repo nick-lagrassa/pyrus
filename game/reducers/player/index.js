@@ -1,17 +1,17 @@
 import {
-    DECK_POP
-} from '../../constants/deck';
+    PLAYER_SET_HAND
+} from '../../constants/player';
 
 const initialState = {
-    cards: []
+    hand: []
 };
 
-export default function deck(state=initialState, action) {
+export default function player(state=initialState, action) {
     switch (action.type) {
-        case DECK_POP:
+        case PLAYER_SET_HAND:
             return {
                 ...state,
-                cards: state.cards.slice(action.num)
+                hand: action.hand
             }
             break;
         default:

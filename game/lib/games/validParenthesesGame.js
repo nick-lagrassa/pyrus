@@ -1,4 +1,6 @@
 import Game from '../../components/Game';
 import { ValidParenthesesPrompt } from '../prompts';
+import configureStore from '../../store/configureStore';
 
-export default new Game(new ValidParenthesesPrompt());
+const store = configureStore();
+export default new Game(new ValidParenthesesPrompt(), store);

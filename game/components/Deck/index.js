@@ -1,4 +1,5 @@
 import settings from '../../config/settings';
+import { } from '../../actions/deck';
 
 class Deck {
     // List[Card] -> Deck
@@ -24,6 +25,25 @@ class Deck {
             drawnCards.push(this._cards.pop());
         }
         return drawnCards;
+    }
+
+    // Return n cards from the top of the deck *without* removing them from
+    // the deck
+    // int -> List[Card]
+    peek(n=this._cardsDrawnPerTurn) {
+        if (this.isEmpty) {
+            // trigger lose condition
+        }
+
+        let peekedCards = [];
+        for (let i = 0; i < n; i++) {
+            if (this.isEmpty) {
+                return peekedCards;
+            }
+
+            peekedCards.push(this._cards[i]);
+        }
+        return peekedCards;
     }
 
     // -> boolean

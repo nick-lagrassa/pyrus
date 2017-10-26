@@ -18,6 +18,7 @@ export default function game(state=initialState, action) {
             }
             break;
         case GAME_START:
+            console.log("oiajwofij");
             if (state.status !== GAME_STATUS_INIT) {
                 // error
             }

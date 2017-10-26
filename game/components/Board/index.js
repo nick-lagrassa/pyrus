@@ -7,8 +7,9 @@ import shuffle from 'fisher-yates-shuffle';
 
 class Board {
     // Prompt -> Board
-    constructor(prompt) {
+    constructor(prompt, store) {
         this._prompt = prompt;
+        this._store = store;
         this._editor = new Editor();
         this._deck = this.initializeDeck();
         this._players = [];
@@ -16,7 +17,7 @@ class Board {
     }
 
     get deck() {
-        return this._deck;
+        return this._store.deck;
     }
 
     // -> Deck
@@ -25,7 +26,7 @@ class Board {
     }
 
     get players() {
-        return this._players;
+        return this._store.players;
     }
 
     // Player ->

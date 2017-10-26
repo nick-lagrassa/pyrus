@@ -2,22 +2,33 @@ import RulesEnforcer from '../RulesEnforcer';
 import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
 import settings from '../../config/settings';
+import { registerPlayer, gameStart } from '../../actions/game';
+import { pop } from '../../actions/deck';
+import { setPlayerHand } from '../../actions/player';
 
 class Game {
     // Prompt -> Game
-    constructor(prompt) {
-        this._gameOver = false;
+    constructor(prompt, store) {
+        this._store = store;
         this._re = new RulesEnforcer();
         this._me = new MoveExecutor();
-        this._board = new Board(prompt);
+        this._board = new Board(prompt, store);
+    }
+
+    registerPlayer(newPlayer) {
+        if (this._board.players.length < settings.MAX_PLAYERS_PER_GAME) {
+            this._store.dispatch(registerPlayer(newPlayer));
+        }
     }
 
     // Start the game loop
     // ->
     start() {
+        this._store.dispatch(gameStart());
         for (let player of this._board.players) {
-            const hand = this._board.deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
-            player.addCards(hand);
+            const hand = this._board.deck.peek(settings.NUM_CARDS_DRAWN_AT_GAME_START);
+            this._store.dispatch(pop(settings.NUM_CARDS_DRAWN_AT_GAME_START));
+            this._store.dispatch(setPlayerHand(hand));
         }
 
         let activePlayerIndex = 0;
