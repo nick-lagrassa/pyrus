@@ -14,10 +14,10 @@ class Game {
         this._board = new Board(prompt, store);
     }
 
-    // Player -> bool
-    registerPlayer(newPlayer) {
+    // String -> bool
+    registerPlayer(name) {
         if (this._board.players.length < settings.MAX_PLAYERS_PER_GAME) {
-            this._store.dispatch(registerPlayer(newPlayer));
+            this._store.dispatch(registerPlayer(name, this._board.players.length));
             return true;
         }
         return false;
@@ -29,7 +29,7 @@ class Game {
         this._store.dispatch(gameStart());
         for (let player of this._board.players) {
             const hand = this._board.deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
-            this._store.dispatch(setPlayerHand(hand));
+            player.setHand(hand);
         }
 
         let activePlayerIndex = 0;

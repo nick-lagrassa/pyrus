@@ -30,6 +30,7 @@
     }
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "pre-commit": "^1.2.2"
   },
   "pre-commit": [

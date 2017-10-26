@@ -1,14 +1,15 @@
 import Action from '../Action';
 import settings from '../../config/settings';
+import { setPlayerName, setPlayerHand } from '../../actions/player';
 
 class Player {
-    constructor(name) {
-        this._name = name;
-        this._hand = [];
+    constructor(name, id, store) {
+        this._store = store;
+        this._store.dispatch(setPlayerName(name));
     }
 
     get name() {
-        return this._name;
+        return this._store;
     }
 
     get hand() {
@@ -27,6 +28,11 @@ class Player {
         }
 
         this._hand = newHand;
+    }
+
+    // Takes a set of cards and sets the player's hand
+    setHand(cards) {
+        this._store.dispatch(setPlayerHand(cards));
     }
 
     // Constructs an Action object

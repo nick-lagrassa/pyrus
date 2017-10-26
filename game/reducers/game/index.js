@@ -12,11 +12,6 @@ const initialState = {
 
 export default function game(state=initialState, action) {
     switch (action.type) {
-        case GAME_REGISTER_PLAYER:
-            if (state.status !== GAME_STATUS_INIT) {
-                // error
-            }
-            break;
         case GAME_START:
             console.log("oiajwofij");
             if (state.status !== GAME_STATUS_INIT) {
