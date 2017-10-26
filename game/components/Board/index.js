@@ -22,7 +22,7 @@ class Board {
 
     // -> Deck
     initializeDeck() {
-        return new Deck(shuffle(this._prompt.cardSet));
+        return new Deck(shuffle(this._prompt.cardSet, this._store));
     }
 
     get players() {

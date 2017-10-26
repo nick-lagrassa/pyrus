@@ -1,11 +1,15 @@
 import settings from '../../config/settings';
-import { } from '../../actions/deck';
+import { pop } from '../../actions/deck';
 
 class Deck {
     // List[Card] -> Deck
-    constructor(cards) {
+    constructor(cards, store) {
         this._cardsDrawnPerTurn = settings.NUM_CARDS_DRAWN_PER_TURN;
-        this._cards = cards;
+        this._store = store
+    }
+
+    get cards() {
+        return this._store.deck.cards;
     }
 
     // Draw n cards from the top of the deck. Default to the number of cards
@@ -22,8 +26,9 @@ class Deck {
                 return drawnCards;
             }
 
-            drawnCards.push(this._cards.pop());
+            drawnCards.push(this.cards[i]);
         }
+        this._store.dispatch(pop(n));
         return drawnCards;
     }
 

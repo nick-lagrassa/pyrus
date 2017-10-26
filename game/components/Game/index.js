@@ -3,7 +3,6 @@ import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
 import settings from '../../config/settings';
 import { registerPlayer, gameStart } from '../../actions/game';
-import { pop } from '../../actions/deck';
 import { setPlayerHand } from '../../actions/player';
 
 class Game {
@@ -15,10 +14,13 @@ class Game {
         this._board = new Board(prompt, store);
     }
 
+    // Player -> bool
     registerPlayer(newPlayer) {
         if (this._board.players.length < settings.MAX_PLAYERS_PER_GAME) {
             this._store.dispatch(registerPlayer(newPlayer));
+            return true;
         }
+        return false;
     }
 
     // Start the game loop
@@ -26,8 +28,7 @@ class Game {
     start() {
         this._store.dispatch(gameStart());
         for (let player of this._board.players) {
-            const hand = this._board.deck.peek(settings.NUM_CARDS_DRAWN_AT_GAME_START);
-            this._store.dispatch(pop(settings.NUM_CARDS_DRAWN_AT_GAME_START));
+            const hand = this._board.deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
             this._store.dispatch(setPlayerHand(hand));
         }
 
