@@ -1,36 +1,33 @@
 import {
     PLAYERS_REGISTER_PLAYER,
     PLAYERS_SET_PLAYER_HAND,
-    PLAYERS_SET_PLAYER_NAME
-} from '../../constants/player';
+} from '../../constants/players';
 
-const initialState = {
-    players: {},
-    numPlayers   
-};
+const initialState = [];
 
 export default function player(state=initialState, action) {
     switch (action.type) {
-        case PLAYERS_REGISTER_PLAYER: 
-            return {
+        case PLAYERS_REGISTER_PLAYER:
+            return [
                 ...state,
-                [action.id]: {
-                    name: action.name
-                },
-                numPlayers: state.numPlayers + 1
-            }
+                action.player
+            ];
             break;
         case PLAYERS_SET_PLAYER_HAND:
-            return {
-                ...state,
-                hand: action.hand
+            const newState = [...state];
+
+            for (let i = 0; i < newState.length; i++) {
+                const player = newState[i];
+                if (player.id === action.id) {
+                    newState[i] = {
+                        ...newState[i],
+                        hand: action.hand
+                    };
+                }
             }
+
+            return newState;
             break;
-        case PLAYERS_SET_PLAYER_NAME: 
-            return {
-                ...state,
-                name: action.name
-            }
         default:
             return state;
     }

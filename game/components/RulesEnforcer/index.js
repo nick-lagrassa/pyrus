@@ -1,8 +1,6 @@
 class RulesEnforcer {
-    // Returns whether the game is over
-    // Board -> bool
-    isGameOver(board) {
-        return true;
+    constructor(store) {
+        this._store = store;
     }
 
     // Returns whether a given action is legal to perform

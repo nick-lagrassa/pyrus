@@ -1,6 +1,10 @@
 {
     "presets": [ "env" ],
-    "plugins": [ "transform-object-rest-spread" ],
+    "plugins": [
+        "transform-object-rest-spread",
+        "transform-es2015-parameters",
+        "transform-es2015-arrow-functions"
+    ],
     "env": {
         "test": {
             "presets": ["env"]
