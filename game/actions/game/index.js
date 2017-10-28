@@ -1,20 +1,12 @@
 import {
-    GAME_REGISTER_PLAYER,
-    GAME_START
-} from '../constants/game';
+    GAME_START,
+    GAME_SPEND_PLAYER_ACTION
+} from '../../constants/game';
 
-export const registerPlayer = newPlayer => (
-    dispatch => ({
-        type: GAME_REGISTER_PLAYER,
-        player: {
-            id: newPlayer.id,
-            name: newPlayer.name
-        }
-    })
-);
+export const gameStart = () => ({
+    type: GAME_START
+});
 
-export const gameStart = () => (
-    dispatch => ({
-        type: GAME_START
-    })
-);
+export const spendPlayerAction = () => ({
+    type: GAME_SPEND_PLAYER_ACTION
+});

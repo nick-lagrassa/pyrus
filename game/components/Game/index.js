@@ -2,43 +2,73 @@ import RulesEnforcer from '../RulesEnforcer';
 import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
 import settings from '../../config/settings';
+import { gameStart } from '../../actions/game';
+import { registerPlayer, setPlayerHand } from '../../actions/players';
+import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
 
 class Game {
-    // Prompt -> Game
-    constructor(prompt) {
-        this._gameOver = false;
-        this._re = new RulesEnforcer();
-        this._me = new MoveExecutor();
-        this._board = new Board(prompt);
+    // Prompt, Store -> Game
+    constructor(prompt, store) {
+        this._store = store;
+        this._re = new RulesEnforcer(store);
+        this._me = new MoveExecutor(store);
+        this._board = new Board(prompt, store);
+    }
+
+    get status() {
+        return this._store.getState().game.status;
+    }
+
+    get activePlayerIndex() {
+        return this._store.getState().game.activePlayerIndex;
+    }
+
+    // String -> bool
+    registerPlayer(name) {
+        if (this.status !== GAME_STATUS_INIT) {
+            return false;
+        }
+
+        if (this._board.players.length < settings.MAX_PLAYERS_PER_GAME) {
+            // eventually, we won't be able to use this._board.players.length because if players
+            // leave and then re-enter we won't be using unique ids anymore
+            this._store.dispatch(registerPlayer(name, this._board.players.length, this._store));
+            return true;
+        }
+        return false;
     }
 
     // Start the game loop
     // ->
     start() {
-        for (let player of this._board.players) {
-            const hand = this._board.deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
-            player.addCards(hand);
+        if (this.status !== GAME_STATUS_INIT) {
+            return;
         }
 
-        let activePlayerIndex = 0;
-        while (!this._re.isGameOver(this._board)) {
-            const activePlayer = this._board.players[activePlayerIndex];
-            let numActionsUsed = 0;
+        this._store.dispatch(gameStart());
+        for (let i = 0; i < this._board.players.length; i++) {
+            const player = this._board.players[i];
+            const hand = this._board._deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
+            this._store.dispatch(setPlayerHand(hand, player.id));
+        }
+    }
 
-            while (numActionsUsed < settings.NUM_PLAYER_ACTIONS_PER_TURN && !this._re.isGameOver(this._board)) {
-                const action = activePlayer.makeAction();
-                if (this._re.isLegalAction(this._board, action)) {
-                    this._me.executeMove(this._board, action);
-                    ++numActionsUsed;
-                } else {
-
-                }
-            }
-
-            activePlayerIndex = ++activePlayerIndex % this._board.players.length;
+    // Take an action and move through one step of the action loop
+    // Action ->
+    receiveAction(action) {
+        if (this.status !== GAME_STATUS_RUNNING) {
+            return;
         }
 
-        // endgame stuff
+        if (action.playerId !== this.activePlayerIndex) {
+            return;
+        }
+
+        if (this._re.isLegalAction(this._board, action)) {
+            this._me.executeMove(action);
+        } else {
+            return;
+        }
     }
 }
 

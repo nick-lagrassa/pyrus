@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
+    "dev": "parallelshell 'webpack-dev-server --content-base public/' 'babel-node app/index.js'",
     "test": "jest"
   },
   "repository": {
@@ -18,11 +20,22 @@
   "homepage": "https://github.com/NUDelta/pear#readme",
   "dependencies": {
     "babel-jest": "^21.2.0",
-    "babel-preset-env": "^1.6.1",
-    "fisher-yates-shuffle": "^0.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "fisher-yates": "^1.0.3",
     "jest": "^21.2.1",
+    "json-loader": "^0.5.7",
+    "parallelshell": "^3.0.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
   },
   "jest": {
     "transform": {
@@ -30,7 +43,25 @@
     }
   },
   "devDependencies": {
-    "pre-commit": "^1.2.2"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "copy-webpack-plugin": "^4.2.0",
+    "css-less-loader": "^0.1.0",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "pre-commit": "^1.2.2",
+    "react-redux": "^5.0.6",
+    "style-loader": "^0.19.0",
+    "tachyons-cli": "^1.0.11",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.3"
   },
   "pre-commit": [
     "test"

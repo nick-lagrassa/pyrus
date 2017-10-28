@@ -1,5 +1,5 @@
-import ValidParenthesesGame from './ValidParenthesesGame';
+import validParenthesesGame from './validParenthesesGame';
 
 export {
-    ValidParenthesesGame,
+    validParenthesesGame,
 };
