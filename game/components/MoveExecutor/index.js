@@ -1,14 +1,14 @@
-import { GAME_SPEND_PLAYER_ACTION } from '../../actions/game';
+import { GAME_SPEND_PLAYER_MOVE } from '../../actions/game';
 
 class MoveExecutor {
     constructor(store) {
         this._store = store;
     }
 
-    // Performs the specified action on the board, modifying the board
-    // Board, Action ->
-    executeMove(board, action) {
-        this._store.dispatch(spendPlayerAction());
+    // Performs the specified move on the board, modifying the board
+    // Board, Move ->
+    executeMove(board, move) {
+        this._store.dispatch(spendPlayerMove());
     }    
 }
 

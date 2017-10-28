@@ -53,19 +53,19 @@ class Game {
         }
     }
 
-    // Take an action and move through one step of the action loop
-    // Action ->
-    receiveAction(action) {
+    // Take an move and move through one step of the move loop
+    // Move ->
+    receiveMove(Move) {
         if (this.status !== GAME_STATUS_RUNNING) {
             return;
         }
 
-        if (action.player.id !== this.activePlayerIndex) {
+        if (Move.player.id !== this.activePlayerIndex) {
             return;
         }
 
-        if (this._re.isLegalAction(this._board, action)) {
-            this._me.executeMove(action);
+        if (this._re.isLegalMove(this._board, move)) {
+            this._me.executeMove(move);
         } else {
             return;
         }

@@ -1,3 +1,0 @@
-export const ACTION_WRITE = 'ACTION_WRITE';
-export const ACTION_CONSUME = 'ACTION_CONSUME';
-export const ACTION_DISCARD = 'ACTION_DISCARD';
