@@ -1,9 +1,10 @@
 import Card from '../../components/Card';
+import { CARDS_SWITCH_CASE } from '../../constants/cards.js';
 
 class SwitchCard extends Card {
     constructor() {
         super();
-        this._type = 'Hash Table';
+        this._type = CARDS_SWITCH_CASE;
         this._implementation = 'var hash = {};';
         this._example = 'var hash = { "foo": "bar" };';
     }
