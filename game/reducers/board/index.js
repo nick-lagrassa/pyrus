@@ -4,7 +4,6 @@ import {
 import settings from '../../config/settings';
 
 const initialState = {
-    players: []
 };
 
 export default function board(state=initialState, action) {
