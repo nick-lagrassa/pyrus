@@ -2,4 +2,5 @@ node_modules/
 npm-debug.log*
 *.swp
 public/bundle.js
+public/tachyons.css
 src/js/config/settings.js
