@@ -1,25 +1,25 @@
-import { ACTION_WRITE, ACTION_DISCARD, ACTION_CONSUME } from '../../constants/action';
+import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from '../../constants/move';
 
 class RulesEnforcer {
     constructor(store) {
         this._store = store;
     }
 
-    // Returns whether a given action is legal to perform
-    // Board, Action -> bool
-    isLegalAction(board, action) {
-        switch(action.type) {
-            case ACTION_DISCARD:
-                return board.deck.cards.length > 0 && this.playerHasCard(board, action);
+    // Returns whether a given move is legal to perform
+    // Board, Move -> bool
+    isLegalMove(board, move) {
+        switch(move.type) {
+            case MOVE_DISCARD:
+                return board.deck.cards.length > 0 && this.playerHasCard(board, move);
             default:
                 return false;
         }
         return true;
     }
 
-    playerHasCard(board, action) {
-        const player = board.getPlayerById(action.player.id);
-        return player.hand.filter(card => card.type === action.card.type).length > 0;
+    playerHasCard(board, move) {
+        const player = board.getPlayerById(move.player.id);
+        return player.hand.filter(card => card.type === move.card.type).length > 0;
     }
 }
 

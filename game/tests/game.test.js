@@ -4,9 +4,9 @@ import {
     GAME_STATUS_RUNNING
 } from '../constants/game';
 import settings from '../config/settings';
-import ConsumeAction from '../components/ConsumeAction';
-import DiscardAction from '../components/DiscardAction';
-import WriteAction from '../components/WriteAction';
+import ConsumeMove from '../components/ConsumeMove';
+import DiscardMove from '../components/DiscardMove';
+import WriteMove from '../components/WriteMove';
 
 test('ValidParenthesesGame runs correctly', () => {
     const game = makeGame();
