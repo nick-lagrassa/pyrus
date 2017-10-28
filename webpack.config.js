@@ -13,12 +13,16 @@ module.exports =  {
                 loader: 'babel-loader',
                 include: [
                     path.resolve(__dirname, 'src'),
+                    path.resolve(__dirname, 'game'),
                 ],
                 query: {
                     plugins: [
+                        "transform-es2015-destructuring",
+                        "transform-es2015-parameters",
+                        "transform-object-rest-spread",
+                        "transform-es2015-arrow-functions",
                         'transform-runtime',
                         'transform-class-properties',
-                        'transform-object-rest-spread'
                     ],
                     presets: ['env', 'react'],
                 }
