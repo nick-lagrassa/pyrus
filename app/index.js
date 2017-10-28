@@ -4,7 +4,7 @@ import * as games from '../game/lib/games';
 import bodyParser from 'body-parser';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {

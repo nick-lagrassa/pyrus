@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
     "dev": "parallelshell 'webpack-dev-server --content-base public/' 'babel-node app/index.js'",
     "test": "jest"
   },
@@ -52,8 +52,14 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "copy-webpack-plugin": "^4.2.0",
+    "css-less-loader": "^0.1.0",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.2",
     "pre-commit": "^1.2.2",
     "react-redux": "^5.0.6",
+    "style-loader": "^0.19.0",
+    "tachyons-cli": "^1.0.11",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
   },
