@@ -1,15 +1,17 @@
 import settings from '../../config/settings';
-import shuffle from 'fisher-yates-shuffle';
+import { pop, initializeDeck } from '../../actions/deck';
+import shuffleInplace from 'fisher-yates/inplace';
 
 class Deck {
     // List[Card] -> Deck
-    constructor(cards) {
+    constructor(cards, store) {
         this._cardsDrawnPerTurn = settings.NUM_CARDS_DRAWN_PER_TURN;
-        this._cards = shuffle(cards);
+        this._store = store;
+        this._store.dispatch(initializeDeck(shuffleInplace(cards)));
     }
 
-    shuffle() {
-        this._cards = shuffle(this._cards);
+    get cards() {
+        return this._store.getState().deck.cards;
     }
 
     // Draw n cards from the top of the deck. Default to the number of cards
@@ -23,17 +25,19 @@ class Deck {
         let drawnCards = [];
         for (let i = 0; i < n; i++) {
             if (this.isEmpty) {
+                this._store.dispatch(pop(n));
                 return drawnCards;
             }
 
-            drawnCards.push(this._cards.pop());
+            drawnCards.push(this.cards[i]);
         }
+        this._store.dispatch(pop(n));
         return drawnCards;
     }
 
     // -> boolean
     get isEmpty() {
-        return this._cards.length === 0;
+        return this.cards.length === 0;
     }
 }
 

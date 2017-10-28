@@ -1,5 +1,5 @@
 import ValidParenthesesPrompt from './ValidParenthesesPrompt';
 
-export default {
+export {
     ValidParenthesesPrompt
 };

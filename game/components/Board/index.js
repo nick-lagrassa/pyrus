@@ -1,34 +1,23 @@
 import Deck from '../Deck';
 import DiscardPile from '../DiscardPile';
-import Player from '../Player';
 import Editor from '../Editor';
 
 class Board {
     // Prompt -> Board
-    constructor(prompt) {
+    constructor(prompt, store) {
         this._prompt = prompt;
+        this._store = store;
         this._editor = new Editor();
-        this._deck = this.initializeDeck();
-        this._players = [];
+        this._deck = new Deck(this._prompt.cardSet, this._store);
         this._discardPile = new DiscardPile();
     }
 
     get deck() {
-        return this._deck;
-    }
-
-    // -> Deck
-    initializeDeck() {
-        return new Deck(this._prompt.cardSet);
+        return this._store.getState().deck;
     }
 
     get players() {
-        return this._players;
-    }
-
-    // Player ->
-    addPlayer(player) {
-        this._players.push(player);
+        return this._store.getState().players;
     }
 
     get prompt() {
