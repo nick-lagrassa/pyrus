@@ -60,7 +60,7 @@ class Game {
             return;
         }
 
-        if (action.playerId !== this.activePlayerIndex) {
+        if (action.player.id !== this.activePlayerIndex) {
             return;
         }
 

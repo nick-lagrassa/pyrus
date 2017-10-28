@@ -23,6 +23,12 @@ class Board {
     get prompt() {
         return this._prompt;
     }
+
+    // Given id return player object
+    // int -> Object
+    getPlayerById(id) {
+        return this.players.filter(player => player.id === id)[0] || null;
+    }
 }
 
 export default Board;
