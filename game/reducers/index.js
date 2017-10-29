@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
     game,
     deck,
     board,
-    players
+    players,
 });
 
 export default rootReducer;
