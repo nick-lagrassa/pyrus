@@ -19,7 +19,8 @@ class MoveExecutor {
         switch (move.type) {
             case MOVE_CONSUME:
                 this._store.dispatch(discardPlayerCard(move.card, move.player.id));
-
+                // TODO: add discarded card to discard pile
+                this._store.dispatch(updateEditor(board.editor));
                 break;
             case MOVE_DISCARD:
                 this._store.dispatch(discardPlayerCard(move.card, move.player.id));
@@ -28,7 +29,7 @@ class MoveExecutor {
                 this._store.dispatch(givePlayerCards(hand, move.player.id));
                 break;
             case MOVE_WRITE:
-
+                this._store.dispatch(updateEditor(board.editor));
                 break;
         }
     }    
