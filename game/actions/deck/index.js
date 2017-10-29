@@ -6,7 +6,7 @@ import {
 export const initializeDeck = cards => ({
     type: INITIALIZE_DECK,
     cards
-})
+});
 
 export const pop = num => ({
     type: DECK_POP,

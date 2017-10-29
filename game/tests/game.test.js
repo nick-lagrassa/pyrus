@@ -17,13 +17,9 @@ test('ValidParenthesesGame runs correctly', () => {
     expect(game._board.players).toHaveLength(1);
     expect(game._board.players[0].name).toBe('Jack');
 
-    const playerJack = game._board.players[0];
-
     expect(game.registerPlayer('Jill')).toBe(true);
     expect(game._board.players).toHaveLength(2);
     expect(game._board.players[1].name).toBe('Jill');
-
-    const playerJill = game._board.players[1];
 
     expect(game.registerPlayer('Jornagan')).toBe(false);
     expect(game._board.players).toHaveLength(2);
@@ -34,4 +30,24 @@ test('ValidParenthesesGame runs correctly', () => {
 
     expect(game._board.players[0].hand).toHaveLength(settings.NUM_CARDS_DRAWN_AT_GAME_START);
     expect(game._board.players[1].hand).toHaveLength(settings.NUM_CARDS_DRAWN_AT_GAME_START);
+
+    for (let i = 0; i < settings.NUM_PLAYER_MOVES_PER_TURN; i++) {
+        let playerJack = game._board.players[0];
+        let discardMove = new DiscardMove(playerJack, playerJack.hand[0]);
+        let oldDeckSize = game._board.deck.cards.length;
+        game.receiveMove(discardMove);
+
+        // this conditional needs to be kept in until we figure out how we want to handle 
+        // players discarding cards until they reach settings.MAX_CARDS_PER_HAND
+        if (i < settings.NUM_PLAYER_MOVES_PER_TURN - 1) {
+            expect(game._board.players[0].hand).toHaveLength(settings.NUM_CARDS_DRAWN_AT_GAME_START);
+            expect(game._board.deck.cards.length).toBe(oldDeckSize - 1);
+        } else {
+            expect(game._board.players[0].hand).toHaveLength(settings.NUM_CARDS_DRAWN_AT_GAME_START + settings.NUM_CARDS_DRAWN_PER_TURN);
+            expect(game._board.deck.cards.length).toBe(oldDeckSize - 1 - settings.NUM_CARDS_DRAWN_PER_TURN);
+        }
+    }
+
+    expect(game._store.getState().game.activePlayerIndex).toBe(1);
+    expect(game._store.getState().game.numMovesRemaining).toBe(4);
 });

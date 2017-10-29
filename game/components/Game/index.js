@@ -2,8 +2,8 @@ import RulesEnforcer from '../RulesEnforcer';
 import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
 import settings from '../../config/settings';
-import { gameStart } from '../../actions/game';
-import { registerPlayer, setPlayerHand } from '../../actions/players';
+import { gameStart, spendMove, cycleToNextPlayer } from '../../actions/game';
+import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
 import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
 
 class Game {
@@ -21,6 +21,10 @@ class Game {
 
     get activePlayerIndex() {
         return this._store.getState().game.activePlayerIndex;
+    }
+
+    get numMovesRemaining() {
+        return this._store.getState().game.numMovesRemaining;
     }
 
     // String -> bool
@@ -55,17 +59,24 @@ class Game {
 
     // Take an move and move through one step of the move loop
     // Move ->
-    receiveMove(Move) {
+    receiveMove(move) {
         if (this.status !== GAME_STATUS_RUNNING) {
             return;
         }
 
-        if (Move.player.id !== this.activePlayerIndex) {
+        if (this._board.players[this.activePlayerIndex].id !== move.player.id) {
             return;
         }
 
         if (this._re.isLegalMove(this._board, move)) {
-            this._me.executeMove(move);
+            this._me.executeMove(this._board, move);
+            this._store.dispatch(spendMove());
+
+            if (this.numMovesRemaining <= 0) {
+                const hand = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
+                this._store.dispatch(givePlayerCards(hand, this._board.players[this.activePlayerIndex].id));
+                this._store.dispatch(cycleToNextPlayer());
+            }
         } else {
             return;
         }
