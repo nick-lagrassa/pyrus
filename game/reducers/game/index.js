@@ -6,24 +6,17 @@ import {
     GAME_SPEND_MOVE,
     GAME_CYCLE_TO_NEXT_PLAYER
 } from '../../constants/game';
-import { PLAYERS_REGISTER_PLAYER } from '../../constants/players';
 import settings from '../../config/settings'
 
 const initialState = {
     status: GAME_STATUS_INIT,
-    numPlayers: 0,
-    activePlayerIndex: 0,
+    turnCount: 0,
     numMovesRemaining: settings.NUM_PLAYER_MOVES_PER_TURN,
     err: null
 };
 
 export default function game(state=initialState, action) {
     switch (action.type) {
-        case PLAYERS_REGISTER_PLAYER:
-            return {
-                ...state,
-                numPlayers: state.numPlayers + 1
-            };
         case GAME_START:
             return {
                 ...state,
@@ -37,7 +30,7 @@ export default function game(state=initialState, action) {
         case GAME_CYCLE_TO_NEXT_PLAYER:
             return {
                 ...state,
-                activePlayerIndex: (state.activePlayerIndex + 1) % state.numPlayers,
+                turnCount: state.turnCount + 1,
                 numMovesRemaining: settings.NUM_PLAYER_MOVES_PER_TURN
             };
         default:

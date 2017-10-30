@@ -19,8 +19,16 @@ class Game {
         return this._store.getState().game.status;
     }
 
+    get turnCount() {
+        return this._store.getState().game.turnCount;
+    }
+
     get activePlayerIndex() {
-        return this._store.getState().game.activePlayerIndex;
+        return this.turnCount % this._board.players.length;
+    }
+
+    get activePlayer() {
+        return this._board.players[this.activePlayerIndex];
     }
 
     get numMovesRemaining() {
@@ -64,7 +72,7 @@ class Game {
             return;
         }
 
-        if (this._board.players[this.activePlayerIndex].id !== move.player.id) {
+        if (this.activePlayer.id !== move.player.id) {
             return;
         }
 
@@ -73,8 +81,8 @@ class Game {
             this._store.dispatch(spendMove());
 
             if (this.numMovesRemaining <= 0) {
-                const hand = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
-                this._store.dispatch(givePlayerCards(hand, this._board.players[this.activePlayerIndex].id));
+                const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
+                this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
                 this._store.dispatch(cycleToNextPlayer());
             }
         } else {

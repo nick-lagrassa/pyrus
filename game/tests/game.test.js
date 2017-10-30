@@ -48,6 +48,6 @@ test('ValidParenthesesGame runs correctly', () => {
         }
     }
 
-    expect(game._store.getState().game.activePlayerIndex).toBe(1);
-    expect(game._store.getState().game.numMovesRemaining).toBe(4);
+    expect(game.activePlayerIndex).toBe(1);
+    expect(game.numMovesRemaining).toBe(4);
 });
