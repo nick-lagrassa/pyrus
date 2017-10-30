@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Game from '../../components/game';
 
 const mapStateToProps = (state, ownProps) => ({
-    game: state
+    ...state
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
