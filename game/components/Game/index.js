@@ -4,6 +4,7 @@ import Board from '../Board';
 import settings from '../../config/settings';
 import { gameStart, spendMove, cycleToNextPlayer } from '../../actions/game';
 import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
+import { setPrompt } from '../../actions/prompt';
 import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
 
 class Game {
@@ -13,6 +14,8 @@ class Game {
         this._re = new RulesEnforcer(store);
         this._me = new MoveExecutor(store);
         this._board = new Board(prompt, store);
+
+        this._store.dispatch(setPrompt(prompt));
     }
 
     get status() {
