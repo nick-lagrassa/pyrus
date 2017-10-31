@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
-    "dev": "parallelshell 'webpack-dev-server --content-base public/' 'babel-node app/index.js'",
+    "dev": "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
     "test": "jest"
   },
   "repository": {
@@ -33,7 +33,6 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "request": "^2.83.0",

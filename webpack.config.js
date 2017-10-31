@@ -42,5 +42,5 @@ module.exports =  {
         net: 'empty',
         tls: 'empty'
     },
-    devtool: "source-map"    
+    devtool: "source-map",
 };
