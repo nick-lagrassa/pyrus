@@ -1,5 +1,5 @@
 import {
-    ME_SET_NAME
+    ME_SET_INFO
 } from '../../constants/me';
 
 const initialState = {
@@ -9,10 +9,11 @@ const initialState = {
 
 export default function me(state=initialState, action) {
     switch (action.type) {
-        case ME_SET_NAME:
+        case ME_SET_INFO:
             return {
                 ...state,
-                name: action.name
+                name: action.name,
+                id: action.id
             }
         default:
             return state;
