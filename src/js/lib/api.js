@@ -3,8 +3,16 @@ import request from 'request-promise-native';
 
 export const newGame = async (game) => {
     return new Promise(resolve => {
-        request(`${settings.APP_BACKEND}/new/${game}`)
-            .then(body => resolve(body))
+        request(`${ settings.APP_BACKEND }/new/${ game }`)
+            .then(body => resolve(JSON.parse(body)))
             .catch(err => {});
-    })
+    });
+}
+
+export const getGame = async (gameId) => {
+    return new Promise(resolve => {
+        request(`${ settings.APP_BACKEND }/game/${ gameId }`)
+            .then(body => resolve(JSON.parse(body)))
+            .catch(err => {});
+    });
 }

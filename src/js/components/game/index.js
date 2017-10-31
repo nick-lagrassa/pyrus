@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Card from '../card';
+import { getGame } from '../../lib/api';
 
 export default class Game extends Component {
     constructor(props) {
@@ -7,11 +8,11 @@ export default class Game extends Component {
     }
 
     render() {
-        const { game } = this.props;
+        const { deck } = this.props;
 
         return (
             <div>
-                { game.deck.cards.map((card, i) => 
+                { deck.cards.map((card, i) => 
                     <Card
                         key={ i }
                         _type={ card._type }
