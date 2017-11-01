@@ -18,8 +18,10 @@ export default class GameProvider extends Component {
     componentWillMount() {
         const { gameId } = this.props.match.params;
         getGame(gameId)
-            .then(initialState => this.setState({ initialState }) )
-            .catch(err => this.setState({ err }));
+            .then(initialState => { this.setState({ initialState }) })
+            .catch(err => console.log(err));
+
+      startSocket(gameId).then().catch();
     }
 
     render() {
