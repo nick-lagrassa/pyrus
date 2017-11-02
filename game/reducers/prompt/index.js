@@ -1,18 +1,15 @@
 import {
-    BOARD_UPDATE_EDITOR
-} from '../../constants/board';
+    PROMPT_SET_PROMPT
+} from '../../constants/prompt';
 import settings from '../../config/settings';
 
-const initialState = {
-    code: ''
-};
+const initialState = {};
 
 export default function board(state=initialState, action) {
     switch (action.type) {
-        case BOARD_UPDATE_EDITOR:
+        case PROMPT_SET_PROMPT:
             return {
-                ...state,
-                code: action.editor.getValue()
+                ...action.prompt
             };
         default:
             return state;
