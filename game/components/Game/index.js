@@ -6,6 +6,7 @@ import { gameStart, spendMove, cycleToNextPlayer } from '../../actions/game';
 import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
 import { setPrompt } from '../../actions/prompt';
 import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
+import { activePlayerIndex } from '../../util';
 
 class Game {
     // Prompt, Store -> Game
@@ -27,7 +28,7 @@ class Game {
     }
 
     get activePlayerIndex() {
-        return this.turnCount % this._board.players.length;
+        return activePlayerIndex(this.turnCount, this._board.players.length);
     }
 
     get activePlayer() {

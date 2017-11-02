@@ -1,1 +1,1 @@
-export const ME_SET_NAME = 'ME_SET_NAME';
+export const ME_SET_INFO = 'ME_SET_INFO';

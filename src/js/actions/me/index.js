@@ -1,8 +1,9 @@
 import {
-    ME_SET_NAME
+    ME_SET_INFO
 } from '../../constants/me';
 
-export const setName = name => ({
-    type: ME_SET_NAME,
-    name
+export const setInfo = (name, id) => ({
+    type: ME_SET_INFO,
+    name,
+    id
 });

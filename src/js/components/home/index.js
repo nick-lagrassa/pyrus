@@ -19,7 +19,7 @@ export default class Home extends Component {
         newGame(gameTitle)
             .then(({ gameId }) => {
                 this.setState({
-                    gameId: gameId,
+                    gameId,
                     gameReady: true
                 });
             })
@@ -42,7 +42,7 @@ export default class Home extends Component {
 
     handleGameIdChange = e => {
         this.setState({
-            gameId: e.target.id
+            gameId: e.target.value
         });
     }
 
