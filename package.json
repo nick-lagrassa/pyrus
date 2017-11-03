@@ -26,6 +26,8 @@
     "babel-runtime": "^6.26.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "firebase": "^4.6.0",
+    "firepad": "^1.4.0",
     "fisher-yates": "^1.0.3",
     "jest": "^21.2.1",
     "json-loader": "^0.5.7",

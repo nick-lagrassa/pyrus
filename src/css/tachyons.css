@@ -86,5 +86,9 @@
 @import './_debug-children';
 @import './_debug-grid';
 
+/* Custom styles */
+@import './_codemirror';
+@import './_firepad';
+
 /* Uncomment out the line below to help debug layout issues */
 /* @import './_debug'; */

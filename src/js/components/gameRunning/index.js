@@ -29,11 +29,13 @@ export default class GameRunning extends Component {
     }
 
     render() {
+        const { gameId } = this.props;
+
         return (
             <div>
                 <InfoHeader />
                 <div>
-                    <Board />
+                    <Board gameId={ gameId } />
                 </div>
                 <div>
                     <div>

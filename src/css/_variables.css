@@ -20,7 +20,7 @@
                 arial,
                 sans-serif;
   --serif: georgia, serif;
-  --code: consolas, monaco, monospace;
+  --code: 'Roboto Mono', consolas, monaco, monospace;
 
   --font-size-headline: 6rem;
   --font-size-subheadline: 5rem;
