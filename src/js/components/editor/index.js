@@ -11,8 +11,7 @@ export default class Editor extends Component {
             databaseURL: settings.FIREBASE_DATABASE_URL,
             authDomain: settings.FIREBASE_AUTH_DOMAIN
         });
-        // the string that goes into the .child() call should be replaced with the gameId
-        this.firebaseRef = firebase.database().ref('firepads').child('gameId');
+        this.firebaseRef = firebase.database().ref('firepads').child(props.gameId || '');
     }
 
     componentDidMount() {

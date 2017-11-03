@@ -3,14 +3,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Game from '../../components/game';
-import { setName } from '../../actions/me';
+import { setInfo } from '../../actions/me';
 
 const mapStateToProps = (state, ownProps) => ({
     ...state
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-    setName
+    setInfo
 }, dispatch);
 
 export default connect(

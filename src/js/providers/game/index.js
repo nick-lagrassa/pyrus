@@ -23,6 +23,7 @@ export default class GameProvider extends Component {
     }
 
     render() {
+        const { gameId } = this.props.match.params;
         const { initialState, err } = this.state;
 
         if (initialState === null) {
@@ -40,7 +41,7 @@ export default class GameProvider extends Component {
 
         return (
             <Provider store={ configureStore(initialState) }>
-                <Game />
+                <Game gameId={ gameId } />
             </Provider>
         );
     }
