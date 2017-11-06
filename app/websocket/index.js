@@ -1,55 +1,45 @@
+import { WS_ACTION } from '../game/constants/ws';
+import { PLAYERS_REGISTER_PLAYER } from '../game/constants/players';
+
 class ServerStreamHandler {
-    constructor(socket, gameId) {
+    constructor(socket, game, playerId) {
         this.socket = socket;
-        this.gameId = gameId;
-        this.playerId = null;
+        this.game = game;
+        this.playerId = playerId;
         const stream = this;
 
-        socket.on('setup', (data) => {
-            this.playerId = JSON.parse(data).playerId;
-        }
-
-        // TODO restructure once run code, delete, comment, etc are added
-        socket.on('message', (data) => {
-            const parsed = JSON.parse(data);
-            if(parsed.action) {
-                this.game.receiveMove(action);
-            }
-            if(parsed.code) {
-                this.game.receiveCode(parsed.code);
+        this.socket.on('message', (data) => {
+            const message = JSON.parse(data);
+            if(message.type === WS_ACTION) {
+                switch(message.action.type) {
+                    case PLAYERS_REGISTER_PLAYER:
+                        this.game.registerPlayer(message.action.name, this.playerId);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
-        // TODO handle removing stream correctly
         // remove player from state
-        socket.on('close', () => {
-            this.game.removePlayer(playerId);
+        this.socket.on('close', () => {
             stream.push(null);
-            socket.close();
+            this.socket.close();
         }
 
         // print error message
-        socket.on('error', (err) => {
+        this.socket.on('error', (err) => {
             console.log('ServerStreamHandler received error: %s', err);
         }
 
-        // TODO is socket.close sufficient
-        socket.on('end', () => {
-            socket.close();
+        this.socket.on('end', () => {
+            this.socket.close();
         }
     }
 
-    // Send messagne (action) into socket to be received on client side
+    // Send message (action) into this.socket to be received on client side
     // obj ->
     sendToClient(message) {
-        socket.send(JSON.stringify(message);
-    }
-
-    get gameId() {
-        return this.gameId;
-    }
-
-    set playerId(id) {
-        this.playerId = id;
+        this.socket.send(JSON.stringify(message));
     }
 }

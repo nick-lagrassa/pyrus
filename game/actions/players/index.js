@@ -7,7 +7,7 @@ import {
     PLAYERS_REMOVE_PLAYER
 } from '../../constants/players';
 
-export const registerPlayer = (name, id, store) => ({
+export const registerPlayer = (name, id) => ({
     type: PLAYERS_REGISTER_PLAYER,
     player: { name, id }
 });

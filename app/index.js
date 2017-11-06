@@ -29,12 +29,13 @@ const wss = new WebSocketServer({ server });
 
 app.get('/new/:gameTitle', (req, res) => {
     const gameTitle = req.params.gameTitle || settings.DEFAULT_GAME;
-    const ip = (req.headers['x-forwarded-for'] || req.connection.remoteAddress) + Date.now();
+    const uid = (req.headers['x-forwarded-for'] || req.connection.remoteAddress) + Date.now();
 
     if (gameTitle in gamesLibrary) {
-        const newGame = gamesLibrary[gameTitle]();
         const hash = crypto.createHash('md5');
-        const gameId = hash.update(ip).digest('hex');
+        const gameId = hash.update(uid).digest('hex');
+        activeStreams[gameId] = {};
+        const newGame = gamesLibrary[gameTitle](gameId, activeStreams[gameId]);
         activeGames[gameId] = newGame;
         res.json({ gameId });
     } else {
@@ -56,8 +57,10 @@ app.get('/game/:gameId', (req, res) => {
 
 const connectSocket = id => {
     wss.on('connection', (socket) => {
-        const stream = new ServerStreamHandler(socket, id);
-        activeStreams.push(stream);
+        const hash = crypto.createHash('md5');
+        const playerId = hash.update(id + Date.now() + Math.random()).digest('hex');
+        const stream = new ServerStreamHandler(socket, activeGames[id], playerId);
+        Object.assign(activeStreams[gameId], { playerId: stream });
     });
 }
 

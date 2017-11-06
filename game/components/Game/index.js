@@ -40,15 +40,13 @@ class Game {
     }
 
     // String -> bool
-    registerPlayer(name) {
+    registerPlayer(name, playerId) {
         if (this.status !== GAME_STATUS_INIT) {
             return false;
         }
 
         if (this._board.players.length < settings.MAX_PLAYERS_PER_GAME) {
-            // eventually, we won't be able to use this._board.players.length because if players
-            // leave and then re-enter we won't be using unique ids anymore
-            this._store.dispatch(registerPlayer(name, this._board.players.length, this._store));
+            this._store.dispatch(registerPlayer(name, playerId));
             return true;
         }
         return false;
@@ -92,13 +90,6 @@ class Game {
         } else {
             return;
         }
-    }
-
-    // Update the board's live editor
-    // String ->
-    receiveCode(code) {
-        // TODO diff code with editor
-        this._board._editor = code;
     }
 
     // Remove player from game component

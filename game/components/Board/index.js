@@ -29,10 +29,6 @@ class Board {
     getPlayerById(id) {
         return this.players.filter(player => player.id === id)[0] || null;
     }
-
-    set editor(code) {
-        this._editor = code;
-    }
 }
 
 export default Board;

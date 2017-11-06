@@ -19,6 +19,7 @@ export const getGame = async (gameId) => {
 
 export const startSocket = async () => {
     return new Promise(resolve => {
-        resolve(new Websocket(`${ setting.WS_APP_BACKEND }`));
+        const ws = new Websocket(`${ setting.WS_APP_BACKEND }`);
+        ws.on('connection', (socket) => { resolve(socket) });
     });
 }

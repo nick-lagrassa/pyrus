@@ -21,9 +21,11 @@ export default class GameProvider extends Component {
         const { me } = this.props;
         getGame(gameId)
             .then(initialState => {
-                this.setState({ initialState })
-                this.store = configureStore(initialState)
-                startSocket().then(socket => new ClientStreamHandler(socket, me.id, this.store));
+                this.setState({ initialState });
+                this.store = configureStore(gameId, initialState);
+                startSocket().then(socket => {
+                    this.setState({ stream: new ClientStreamHandler(socket, this.store) });
+                });
             })
             .catch(err => console.log(err));
     }

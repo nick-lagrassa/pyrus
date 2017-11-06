@@ -13,15 +13,15 @@ test('ValidParenthesesGame runs correctly', () => {
     expect(game.status).toBe(GAME_STATUS_INIT);
     expect(game._board.players).toHaveLength(0);
 
-    expect(game.registerPlayer('Jack')).toBe(true);
+    expect(game.registerPlayer('Jack', 0)).toBe(true);
     expect(game._board.players).toHaveLength(1);
     expect(game._board.players[0].name).toBe('Jack');
 
-    expect(game.registerPlayer('Jill')).toBe(true);
+    expect(game.registerPlayer('Jill', 1)).toBe(true);
     expect(game._board.players).toHaveLength(2);
     expect(game._board.players[1].name).toBe('Jill');
 
-    expect(game.registerPlayer('Jornagan')).toBe(false);
+    expect(game.registerPlayer('Jornagan', 2)).toBe(false);
     expect(game._board.players).toHaveLength(2);
 
     game.start();

@@ -1,26 +1,22 @@
+import { WS_ACTION } from '../../../../game/constants/ws';
+
 class ClientStreamHandler {
-    constructor(socket, playerId, store) {
+    constructor(socket, store) {
         this.socket = socket;
         this.store = store;
-        socket.emit('setup', { playerId });
 
-        socket.on('message', (data) => {
-            const parsed = JSON.parse(data);
-            const action = parsed.action || null;
-
-            if(action) {
-                this.store.dispatch(action);
-            }
-            else {
-                console.log('ClientStreamHandler did not receive action, instead received: %s', parsed);
+        this.socket.on('message', (data) => {
+            const message = JSON.parse(data);
+            if(message.type === WS_ACTION) {
+                this.store.dispatch(message.action);    
             }
         }
 
-        socket.on('close', () => {
+        this.socket.on('close', () => {
 
         }
 
-        socket.on('error', (err) => {
+        this.socket.on('error', (err) => {
             console.log('ClientStreamHandler received error: %s', err);
         }
     }
@@ -28,6 +24,6 @@ class ClientStreamHandler {
     // Send messagne (action or code) into socket to be received on server side
     // obj ->
     sendToServer(message) {
-        socket.send(JSON.stringify(message);
+        this.socket.send(JSON.stringify(message));
     }
 }
