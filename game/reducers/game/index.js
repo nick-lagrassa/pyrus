@@ -1,5 +1,4 @@
-import { 
-    GAME_REGISTER_PLAYER,
+import {
     GAME_STATUS_INIT,
     GAME_START,
     GAME_STATUS_RUNNING,

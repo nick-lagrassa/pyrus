@@ -3,7 +3,8 @@ import {
     PLAYERS_SET_PLAYER_NAME,
     PLAYERS_REGISTER_PLAYER,
     PLAYERS_GIVE_PLAYER_CARDS,
-    PLAYERS_DISCARD_PLAYER_CARD
+    PLAYERS_DISCARD_PLAYER_CARD,
+    PLAYERS_REMOVE_PLAYER
 } from '../../constants/players';
 
 export const registerPlayer = (name, id, store) => ({
@@ -33,3 +34,9 @@ export const discardPlayerCard = (card, id) => ({
     card,
     id
 });
+
+export const removePlayer = id => ({
+    type: PLAYERS_REMOVE_PLAYER,
+    id
+});
+

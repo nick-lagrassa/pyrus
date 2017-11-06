@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 
 const server = http.createServer(app);
 const activeGames = {};
+const activeStreams = {};
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -24,7 +25,7 @@ server.listen(port, () => {
 });
 
 const WebSocketServer = ws.Server;
-const wss = new WebSocketServer({ server: server });
+const wss = new WebSocketServer({ server });
 
 app.get('/new/:gameTitle', (req, res) => {
     const gameTitle = req.params.gameTitle || settings.DEFAULT_GAME;
@@ -45,8 +46,8 @@ app.get('/game/:gameId', (req, res) => {
     const { gameId } = req.params;
 
     if (gameId in activeGames) {
-        connectSocket(gameId);
         const game = activeGames[gameId];
+        connectSocket(gameId);
         res.json(game._store.getState());
     } else {
         res.status(404).send(`Oops! Looks like your game ID is invalid. Try again.`);
@@ -55,6 +56,9 @@ app.get('/game/:gameId', (req, res) => {
 
 const connectSocket = id => {
     wss.on('connection', (socket) => {
-        const stream = new WriteStreamHandler(socket, id);
+        const stream = new ServerStreamHandler(socket, id);
+        activeStreams.push(stream);
     });
 }
+
+export default activeStreams;

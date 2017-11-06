@@ -93,6 +93,19 @@ class Game {
             return;
         }
     }
+
+    // Update the board's live editor
+    // String ->
+    receiveCode(code) {
+        // TODO diff code with editor
+        this._board._editor = code;
+    }
+
+    // Remove player from game component
+    // Int ->
+    removePlayer(playerId) {
+        this._store.dispatch(removePlayer(playerId));
+    }
 }
 
 export default Game;

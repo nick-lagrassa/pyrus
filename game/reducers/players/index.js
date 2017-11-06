@@ -2,9 +2,10 @@ import {
     PLAYERS_REGISTER_PLAYER,
     PLAYERS_SET_PLAYER_HAND,
     PLAYERS_GIVE_PLAYER_CARDS,
-    PLAYERS_DISCARD_PLAYER_CARD
+    PLAYERS_DISCARD_PLAYER_CARD,
+    PLAYERS_REMOVE_PLAYER
 } from '../../constants/players';
-import { 
+import {
     MOVE_CONSUME,
     MOVE_DISCARD,
     MOVE_WRITE,
@@ -63,6 +64,10 @@ export default function player(state=initialState, action) {
                 }
             }
 
+            return newState;
+        case PLAYERS_REMOVE_PLAYER:
+            index = indexOfPlayer(newState, action.id);
+            newState.splice(index, 1);
             return newState;
         default:
             return state;
