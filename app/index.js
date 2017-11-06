@@ -5,6 +5,7 @@ import * as gamesLibrary from '../game/lib/games';
 import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import ws from 'ws';
+import ServerStreamHandler from './websocket';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -60,7 +61,7 @@ const connectSocket = id => {
         const hash = crypto.createHash('md5');
         const playerId = hash.update(id + Date.now() + Math.random()).digest('hex');
         const stream = new ServerStreamHandler(socket, activeGames[id], playerId);
-        Object.assign(activeStreams[gameId], { playerId: stream });
+        Object.assign(activeStreams[id], { playerId: stream });
     });
 }
 
