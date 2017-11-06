@@ -2,10 +2,10 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 
-export default (initialState={}) => (
+export default (gameId, streams, initialState={}) => (
     createStore(
         rootReducer,
         initialState,
-        compose(applyMiddleware(thunk)),
+        compose(applyMiddleware(thunk.withExtraArgument(streams))),
     )
 );

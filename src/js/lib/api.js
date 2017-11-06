@@ -16,3 +16,10 @@ export const getGame = async (gameId) => {
             .catch(err => {});
     });
 }
+
+export const startSocket = async () => {
+    return new Promise(resolve => {
+        const ws = new Websocket(`${ setting.WS_APP_BACKEND }`);
+        ws.on('connection', (socket) => { resolve(socket) });
+    });
+}
