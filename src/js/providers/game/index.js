@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { getGame } from '../../lib/api';
 import configureStore from '../../store/configureStore';
 import Game from '../../containers/game';
+import ClientStreamHandler from '../../lib/websocket';
 
 export default class GameProvider extends Component {
     constructor(props) {
@@ -17,11 +18,14 @@ export default class GameProvider extends Component {
 
     componentWillMount() {
         const { gameId } = this.props.match.params;
+        const { me } = this.props;
         getGame(gameId)
-            .then(initialState => { this.setState({ initialState }) })
+            .then(initialState => {
+                this.setState({ initialState })
+                this.store = configureStore(initialState)
+                startSocket().then(socket => new ClientStreamHandler(socket, me.id, this.store));
+            })
             .catch(err => console.log(err));
-
-      startSocket(gameId).then().catch();
     }
 
     render() {
