@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Card from '../card';
 import { getGame } from '../../lib/api';
 import settings from '../../../../game/config/settings';
+import { PLAYERS_REGISTER_PLAYER } from '../../../../game/constants/players';
 
 export default class gameInit extends Component {
     constructor(props) {
@@ -14,15 +15,12 @@ export default class gameInit extends Component {
     handleRegisterPlayerSubmit = e => {
         e.preventDefault();
         const { playerName } = this.state;
-        const { socket } = this.props;
+        const { stream } = this.props;
 
-        socket.send(JSON.stringify({
-            type: 'WS_ACTION',
-            action: {
-                type: 'PLAYERS_REGISTER_PLAYER',
-                name: playerName,
-            }
-        }));
+        stream.sendAction({
+            type: PLAYERS_REGISTER_PLAYER,
+            name: playerName
+        });
     }
 
     handlePlayerNameChange = e => {

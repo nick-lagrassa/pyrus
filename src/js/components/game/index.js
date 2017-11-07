@@ -30,16 +30,23 @@ export default class Game extends Component {
 
     render() {
         const { playerName } = this.state;
-        const { game, me, gameId } = this.props;
+        const { game, me, gameId, stream } = this.props;
 
         switch (game.status) {
             case GAME_STATUS_INIT:
                 return (
-                    <GameInit me={ me } />
+                    <GameInit
+                        me={ me }
+                        stream={ stream }
+                    />
                 );
             case GAME_STATUS_RUNNING:
                 return (
-                    <GameRunning game={ game } gameId={ gameId }/>
+                    <GameRunning
+                        game={ game }
+                        gameId={ gameId }
+                        stream={ stream }
+                    />
                 );
             default:
                 return <p>unrecognized game state</p>

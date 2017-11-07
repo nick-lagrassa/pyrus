@@ -1,5 +1,6 @@
 import { WS_ACTION } from '../../game/constants/ws';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
+import { ME_SET_INFO } from '../../src/js/constants/me';
 
 export default class ServerStreamHandler {
     constructor(socket, game, playerId) {
@@ -12,7 +13,13 @@ export default class ServerStreamHandler {
             if (data.type === WS_ACTION) {
                 switch(data.action.type) {
                     case PLAYERS_REGISTER_PLAYER:
-                        this.game.registerPlayer(data.action.name, this.playerId);
+                        if (this.game.registerPlayer(data.action.name, this.playerId)) {
+                            this.sendAction({
+                                type: ME_SET_INFO,
+                                name: data.action.name,
+                                id: this.playerId
+                            });
+                        };
                         break;
                     default:
                         break;
@@ -37,7 +44,10 @@ export default class ServerStreamHandler {
 
     // Send message (action) into this.socket to be received on client side
     // obj ->
-    sendToClient(message) {
-        this.socket.send(JSON.stringify(message));
+    sendAction(action) {
+        this.socket.send(JSON.stringify({
+            type: WS_ACTION,
+            action
+        }));
     }
 }
