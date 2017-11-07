@@ -6,7 +6,8 @@ import GameInit from '../../components/gameInit';
 
 const mapStateToProps = (state, ownProps) => ({
     players: state.players,
-    me: state.me
+    me: state.me,
+    socket: state.socket
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({

@@ -6,14 +6,13 @@ export default class ServerStreamHandler {
         this.socket = socket;
         this.game = game;
         this.playerId = playerId;
-        const stream = this;
 
-        this.socket.addEventListener('message', (data) => {
-            const message = JSON.parse(data);
-            if(message.type === WS_ACTION) {
-                switch(message.action.type) {
+        this.socket.addEventListener('message', message => {
+            const data = JSON.parse(message.data);
+            if (data.type === WS_ACTION) {
+                switch(data.action.type) {
                     case PLAYERS_REGISTER_PLAYER:
-                        this.game.registerPlayer(message.action.name, this.playerId);
+                        this.game.registerPlayer(data.action.name, this.playerId);
                         break;
                     default:
                         break;
@@ -23,8 +22,7 @@ export default class ServerStreamHandler {
 
         // remove player from state
         this.socket.addEventListener('close', () => {
-            stream.push(null);
-            this.socket.close();
+            
         })
 
         // print error message

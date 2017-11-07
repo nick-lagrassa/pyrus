@@ -22,7 +22,7 @@ export default class ClientStreamHandler {
         });
     }
 
-    // Send messagne (action or code) into socket to be received on server side
+    // Send message (action or code) into socket to be received on server side
     // obj ->
     sendToServer(message) {
         this.socket.send(JSON.stringify(message));
@@ -31,7 +31,6 @@ export default class ClientStreamHandler {
 
 export const startSocket = async () => {
     return new Promise(resolve => {
-        const ws = new WebSocket(`${ settings.WS_APP_BACKEND }`);
-        ws.addEventListener('connection', (socket) => { resolve(socket) });
+        resolve(new WebSocket(`${ settings.WS_APP_BACKEND }`));
     });
 }

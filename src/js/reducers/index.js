@@ -5,6 +5,7 @@ import board from '../../../game/reducers/board';
 import players from '../../../game/reducers/players';
 import prompt from '../../../game/reducers/prompt';
 import me from './me';
+import socket from './socket';
 
 const rootReducer = combineReducers({
     game,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     board,
     players,
     prompt,
-    me
+    me,
+    socket
 });
 
 export default rootReducer;

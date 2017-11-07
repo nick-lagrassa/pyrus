@@ -14,6 +14,15 @@ export default class gameInit extends Component {
     handleRegisterPlayerSubmit = e => {
         e.preventDefault();
         const { playerName } = this.state;
+        const { socket } = this.props;
+
+        socket.send(JSON.stringify({
+            type: 'WS_ACTION',
+            action: {
+                type: 'PLAYERS_REGISTER_PLAYER',
+                name: playerName,
+            }
+        }));
     }
 
     handlePlayerNameChange = e => {

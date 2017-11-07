@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 server.listen(port, () => {
-    console.log('Game server listening on port ' + port);
+    console.log(`Game server listening on port ${ port }`);
 });
 
 const WebSocketServer = ws.Server;

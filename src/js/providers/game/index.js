@@ -12,7 +12,8 @@ export default class GameProvider extends Component {
         super(props);
         this.state = {
             initialState: null,
-            err: null
+            err: null,
+            ready: false,
         };
     }
 
@@ -22,9 +23,15 @@ export default class GameProvider extends Component {
         getGame(gameId)
             .then(initialState => {
                 this.setState({ initialState });
-                this.store = configureStore(initialState);
-                startSocket().then(socket => {
-                    this.setState({ stream: new ClientStreamHandler(socket, this.store) });
+                return startSocket();
+            })
+            .then(socket => {
+                this.setState({
+                    initialState: {
+                        ...this.state.initialState,
+                        socket
+                    },
+                    ready: true
                 });
             })
             .catch(err => console.log(err));
@@ -32,9 +39,9 @@ export default class GameProvider extends Component {
 
     render() {
         const { gameId } = this.props.match.params;
-        const { initialState, err } = this.state;
+        const { initialState, err, ready } = this.state;
 
-        if (initialState === null) {
+        if (!ready) {
             return <h1>loading</h1>;
         }
 
