@@ -5,10 +5,12 @@ import Prompt from '../prompt';
 
 export default class Board extends Component {
     render() {
+        const { gameId } = this.props;
+
         return (
             <div>
                 <Prompt />
-                <Editor />
+                <Editor gameId={ gameId } />
             </div>
         );
     }

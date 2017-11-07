@@ -11,7 +11,7 @@ export default class Editor extends Component {
             databaseURL: settings.FIREBASE_DATABASE_URL,
             authDomain: settings.FIREBASE_AUTH_DOMAIN
         });
-        this.firebaseRef = firebase.database().ref('firepads').child(props.gameId || '');
+        this.firebaseRef = firebase.database().ref('firepads').child(props.gameId);
     }
 
     componentDidMount() {

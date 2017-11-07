@@ -1,6 +1,7 @@
 import { WS_ACTION } from '../../game/constants/ws';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
 import { ME_SET_INFO } from '../../src/js/constants/me';
+import { GAME_START } from '../../game/constants/game';
 
 export default class ServerStreamHandler {
     constructor(socket, game, playerId) {
@@ -21,6 +22,8 @@ export default class ServerStreamHandler {
                             });
                         };
                         break;
+                    case GAME_START:
+                        this.game.start();
                     default:
                         break;
                 }

@@ -43,7 +43,6 @@ export default class Game extends Component {
             case GAME_STATUS_RUNNING:
                 return (
                     <GameRunning
-                        game={ game }
                         gameId={ gameId }
                         stream={ stream }
                     />

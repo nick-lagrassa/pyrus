@@ -3,6 +3,7 @@ import Card from '../card';
 import { getGame } from '../../lib/api';
 import settings from '../../../../game/config/settings';
 import { PLAYERS_REGISTER_PLAYER } from '../../../../game/constants/players';
+import { GAME_START } from '../../../../game/constants/game';
 
 export default class gameInit extends Component {
     constructor(props) {
@@ -31,6 +32,11 @@ export default class gameInit extends Component {
 
     handleGameStartSubmit = e => {
         e.preventDefault();
+        const { stream } = this.props;
+        
+        stream.sendAction({
+            type: GAME_START
+        });
     }
 
     meInGame = () => {
