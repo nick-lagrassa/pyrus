@@ -5,6 +5,9 @@
 
 */
 
+.system {
+  font-family: var(--system);
+}
 
 .sans-serif {
   font-family: var(--sans-serif);

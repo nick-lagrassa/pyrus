@@ -56,33 +56,42 @@ export default class Home extends Component {
         }
 
         return (
-            <div>
-                <h1>Start a new game or join an existing one</h1>
+            <div className="mw6 center mt6">
+                <h1 className="tc f1 near-black">Pear</h1>
                 <div>
-                    <form onSubmit={ this.handleGameTitleFormSubmit }>
-                        <label>Start:</label>
+                    <form
+                        className="flex w-100 justify-between"
+                        onSubmit={ this.handleGameTitleFormSubmit }
+                    >
                         <input
+                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3"
                             type="text"
                             name="gameTitle"
                             value={ gameTitle }
                             onChange={ this.handleGameTitleChange }
                         />
                         <input
+                            className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
                             type="submit"
                             value="Start new game"
                         />
                     </form>
                 </div>
                 <div>
-                    <form onSubmit={ this.handleGameIdFormSubmit }>
-                        <label>Join:</label>
+                    <form
+                        className="flex w-100 justify-between"
+                        onSubmit={ this.handleGameIdFormSubmit }
+                    >
                         <input
+                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3"
                             type="text"
                             name="gameId"
                             value={ gameId }
                             onChange={ this.handleGameIdChange }
+                            placeholder="Game ID"
                         />
                         <input
+                            className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
                             type="submit"
                             value="Join an existing game"
                         />

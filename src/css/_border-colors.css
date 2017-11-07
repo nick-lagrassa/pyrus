@@ -82,3 +82,9 @@
 .b--washed-red { border-color: var(--washed-red); }
 
 .b--transparent { border-color: var(--transparent); }
+
+.b--pear-blue { border-color: var(--pear-blue); }
+.b--pear-light-gray { border-color: var(--pear-light-gray); }
+.b--pear-purple { border-color: var(--pear-purple); }
+.b--pear-near-white { border-color: var(--pear-near-white); }
+.b--pear-green { border-color: var(--pear-green); }
