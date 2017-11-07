@@ -1,5 +1,6 @@
 import http from 'http';
 import express from 'express';
+import url from 'url';
 import settings from './config/settings';
 import * as gamesLibrary from '../game/lib/games';
 import bodyParser from 'body-parser';
@@ -28,6 +29,14 @@ server.listen(port, () => {
 const WebSocketServer = ws.Server;
 const wss = new WebSocketServer({ server });
 
+wss.on('connection', (socket, req) => {
+    const id = url.parse(req.url, true).path.replace('/', '');
+    const hash = crypto.createHash('md5');
+    const playerId = hash.update(id + Date.now() + Math.random()).digest('hex');
+    const stream = new ServerStreamHandler(socket, activeGames[id], playerId);
+    activeStreams[id][playerId] = stream;
+});
+
 app.get('/new/:gameTitle', (req, res) => {
     const gameTitle = req.params.gameTitle || settings.DEFAULT_GAME;
     const uid = (req.headers['x-forwarded-for'] || req.connection.remoteAddress) + Date.now();
@@ -49,20 +58,10 @@ app.get('/game/:gameId', (req, res) => {
 
     if (gameId in activeGames) {
         const game = activeGames[gameId];
-        connectSocket(gameId);
         res.json(game._store.getState());
     } else {
         res.status(404).send(`Oops! Looks like your game ID is invalid. Try again.`);
     }
 });
-
-const connectSocket = id => {
-    wss.on('connection', (socket) => {
-        const hash = crypto.createHash('md5');
-        const playerId = hash.update(id + Date.now() + Math.random()).digest('hex');
-        const stream = new ServerStreamHandler(socket, activeGames[id], playerId);
-        Object.assign(activeStreams[id], { playerId: stream });
-    });
-}
 
 export default activeStreams;

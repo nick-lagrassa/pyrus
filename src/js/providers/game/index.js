@@ -48,7 +48,7 @@ export default class GameProvider extends Component {
         }
 
         const store = configureStore(initialState);
-        const stream = new ClientStreamHandler(store);
+        const stream = new ClientStreamHandler(store, gameId);
 
         return (
             <Provider store={ store }>

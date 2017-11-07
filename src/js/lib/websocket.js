@@ -2,9 +2,10 @@ import settings from '../config/settings';
 import { WS_ACTION } from '../../../game/constants/ws';
 
 export default class ClientStreamHandler {
-    constructor(store) {
-        this.socket = new WebSocket(`${ settings.WS_APP_BACKEND }`);
+    constructor(store, gameId) {
         this.store = store;
+        this.gameId = gameId;
+        this.socket = new WebSocket(`${ settings.WS_APP_BACKEND }/${ this.gameId }`);
 
         this.socket.addEventListener('message', message => {
             const data = JSON.parse(message.data);
@@ -24,7 +25,7 @@ export default class ClientStreamHandler {
 
     // Send message (action or code) into socket to be received on server side
     // obj ->
-    sendAction(action) {
+    sendAction = action => {
         this.socket.send(JSON.stringify({
             type: WS_ACTION,
             action
