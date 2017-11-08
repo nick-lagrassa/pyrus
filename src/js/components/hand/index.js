@@ -3,7 +3,7 @@ import Card from '../card';
 
 export default class Hand extends Component {
     render() {
-        const { cards, className, title } = this.props;
+        const { cards, className, title, align } = this.props;
 
         if (!cards) {
             return null;
@@ -12,7 +12,7 @@ export default class Hand extends Component {
         return (
             <div className={ className }>
                 { title }
-                <div class="flex">
+                <div className={`flex ${ align || '' }`}>
                     { cards.map((card, i) => 
                         <Card card={ card } key={ i }/>
                     )}

@@ -48,9 +48,10 @@ export default class GameRunning extends Component {
                 </div>
                 <div>
                     <Hand
-                        className="absolute bottom--2 w-50 left-0 z-999 ph2 flex flex-column"
+                        className="absolute bottom--2 w-50 left-0 z-999 ph2 flex flex-column self-end"
                         cards={ this.getPartnersHand() }
                         title={ <p className="silver f6 mv2 pa2 br2 dib bg-pear-near-white self-end ba b--pear-light-gray">{ `${ this.getPartner().name }'s hand` }</p> }
+                        align="flex-row-reverse"
                     />
                     <Hand
                         className="absolute bottom--2 w-50 right-0 z-999 ph2 flex flex-column"
