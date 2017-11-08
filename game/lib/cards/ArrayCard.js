@@ -5,6 +5,7 @@ class ArrayCard extends Card {
     constructor() {
         super();
         this._type = CARDS_ARRAY;
+        this._title = 'Array';
         this._implementation = 'var hash = {};';
         this._example = 'var hash = { "foo": "bar" };';
     }

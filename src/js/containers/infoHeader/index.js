@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import InfoHeader from '../../components/infoHeader';
 
 const mapStateToProps = (state, ownProps) => ({
-    ...state
+    game: state.game,
+    me: state.me,
+    players: state.players,
+    deck: state.deck
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({

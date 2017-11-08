@@ -5,6 +5,7 @@ class HashTableCard extends Card {
     constructor() {
         super();
         this._type = CARDS_HASH_TABLE;
+        this._title = 'Hash Table';
         this._implementation = 'var hash = {};';
         this._example = 'var hash = { "foo": "bar" };';
     }

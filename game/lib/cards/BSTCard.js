@@ -5,6 +5,7 @@ class BSTCard extends Card {
     constructor() {
         super();
         this._type = CARDS_BINARY_SEARCH_TREE;
+        this._title = 'Binary Search Tree';
         this._implementation = 'var hash = {};';
         this._example = 'var hash = { "foo": "bar" };';
     }

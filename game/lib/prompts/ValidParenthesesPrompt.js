@@ -55,9 +55,9 @@ class ValidParenthesesPrompt extends Prompt {
         ];
 
         this._info = {
-            title: '',
-            description: '',
-            examples: ''
+            title: 'Valid Parentheses',
+            description: 'Given a string containing some combination of the parentheses `()`, `[]`, `{}`, and the space character (\s), return whether that string contains a valid sequence of parens.',
+            examples: 'Given: `()`\nReturn: true\n\nGiven: `(]`\nReturn: false'
         };
     }
 }

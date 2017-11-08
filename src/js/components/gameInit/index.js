@@ -88,7 +88,7 @@ export default class gameInit extends Component {
             } else {
                 lobby.push(
                     <div
-                        className="w4 h4 b--pear-light-gray br2 ma2 ba flex flex-column justify-center align-center"
+                        className="w4 h4 bg-pear-near-white b--pear-light-gray br2 ma2 ba flex justify-center items-center"
                         key={ i }
                     >
                         <p className="pear-light-gray tc">Waiting for player...</p>

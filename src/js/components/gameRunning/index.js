@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import InfoHeader from '../../containers/infoHeader';
-import Deck from '../../containers/deck';
-import Board from '../../containers/board';
+import Editor from '../editor';
 import Hand from '../hand';
+import Prompt from '../../containers/prompt';
 
 export default class GameRunning extends Component {
     getPartnersHand = () => {
@@ -32,21 +32,19 @@ export default class GameRunning extends Component {
         const { gameId } = this.props;
 
         return (
-            <div>
+            <div className="flex flex-column">
                 <InfoHeader />
-                <div>
-                    <Board gameId={ gameId } />
+                <div className="flex mw9 center">
+                    <div className="w-50 pa3">
+                        <Prompt />
+                    </div>
+                    <div className="w-50 pa3">
+                        <Editor gameId={ gameId } />
+                    </div>
                 </div>
-                <div>
-                    <div>
-                        <Hand cards={ this.getPartnersHand() } />
-                    </div>
-                    <div>
-                        <Deck />
-                    </div>
-                    <div>
-                        <Hand cards={ this.getMyHand() } />
-                    </div>
+                <div className="flex">
+                    <Hand cards={ this.getPartnersHand() } />
+                    <Hand cards={ this.getMyHand() } />
                 </div>
             </div>   
         );

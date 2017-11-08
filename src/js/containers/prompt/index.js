@@ -2,10 +2,10 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Board from '../../components/board';
+import Prompt from '../../components/Prompt';
 
 const mapStateToProps = (state, ownProps) => ({
-    ...state.board
+    prompt: state.prompt,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Board);
+)(Prompt);
