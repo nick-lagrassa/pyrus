@@ -50,23 +50,35 @@ describe('isLegalMove', () => {
         });
 
         describe('is illegal', () => {
-            test('logic code creation', () => {
+            test('non-primitive code', () => {
                 const logicCode = ['var i = { \'x\': 5 }',
                                    'var i = { }',
-                                   'var array = [1,2,3,4]',
-                                   '\tif ()',
-                                   '  for (let i = 0; i < 5; i++)',
-                                   'while(i == true) ',
-                                   'do',
-                                   'i == 3 ? i++ : i--;',
-                                   'class LinkedList\t',
-                                   'else',
-                                   'else if',
-                                   'switch(action)',
-                                   'case Move:',
-                                   'helperFunction = () => ',
-                                   'helperFunction(arg)']
-                                  // 'var helperFunction = function()' - unsolved case
+                                   'let array = [1,2,3,4]',
+                                   'if (true) {}',
+                                   '  for ( i = 0; i < 5; i++) {}',
+                                   'while(i == true) {}',
+                                   'do {} while(true)',
+                                   ' i == 3 ? i++ : i--;',
+                                   'class LinkedList\t {}',
+                                   'else {}',
+                                   'else if {}',
+                                   'switch(action){}',
+                                   'case Move:']
+                for(let i = 0; i < logicCode.length; i++) {
+                    const writeMove = new WriteMove(player, logicCode[i]);
+                    expect(game._re.isLegalMove(game._board, writeMove)).toBe(false);
+                }
+            });
+
+            test('helper function creation', () => {
+                const logicCode = ['helperFunction = () => {}',
+                                   'var helperFunction = function() {}',
+                                   'function() {}',
+                                   'var c = (function() {})',
+                                   'var helperFunction = function foo() {}',
+                                   'var c = (function() { return true })',
+                                   'var foo = new function() {}',
+                                   ]
                 for(let i = 0; i < logicCode.length; i++) {
                     const writeMove = new WriteMove(player, logicCode[i]);
                     expect(game._re.isLegalMove(game._board, writeMove)).toBe(false);
