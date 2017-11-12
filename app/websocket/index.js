@@ -41,7 +41,7 @@ export default class ServerStreamHandler {
         })
 
         this.socket.addEventListener('end', () => {
-            this.socket.close();
+
         })
     }
 
