@@ -75,6 +75,7 @@
 .pear-purple { color: var(--pear-purple); }
 .pear-near-white { color: var(--pear-near-white); }
 .pear-green { color: var(--pear-green); }
+.pear-yellow { color: var(--pear-yellow); }
 
 .bg-black-90 {         background-color: var(--black-90); }
 .bg-black-80 {         background-color: var(--black-80); }
@@ -144,3 +145,4 @@
 .bg-pear-purple { background-color: var(--pear-purple); }
 .bg-pear-near-white { background-color: var(--pear-near-white); }
 .bg-pear-green { background-color: var(--pear-green); }
+.bg-pear-yellow { background-color: var(--pear-yellow); }
