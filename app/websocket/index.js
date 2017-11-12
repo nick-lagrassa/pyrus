@@ -1,45 +1,56 @@
-import { WS_ACTION } from '../game/constants/ws';
-import { PLAYERS_REGISTER_PLAYER } from '../game/constants/players';
+import { WS_ACTION } from '../../game/constants/ws';
+import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
+import { ME_SET_INFO } from '../../src/js/constants/me';
+import { GAME_START } from '../../game/constants/game';
 
-class ServerStreamHandler {
+export default class ServerStreamHandler {
     constructor(socket, game, playerId) {
         this.socket = socket;
         this.game = game;
         this.playerId = playerId;
-        const stream = this;
 
-        this.socket.on('message', (data) => {
-            const message = JSON.parse(data);
-            if(message.type === WS_ACTION) {
-                switch(message.action.type) {
+        this.socket.addEventListener('message', message => {
+            const data = JSON.parse(message.data);
+            if (data.type === WS_ACTION) {
+                switch(data.action.type) {
                     case PLAYERS_REGISTER_PLAYER:
-                        this.game.registerPlayer(message.action.name, this.playerId);
+                        if (this.game.registerPlayer(data.action.name, this.playerId)) {
+                            this.sendAction({
+                                type: ME_SET_INFO,
+                                name: data.action.name,
+                                id: this.playerId
+                            });
+                        };
                         break;
+                    case GAME_START:
+                        this.game.start();
                     default:
                         break;
                 }
             }
-        }
+        })
 
         // remove player from state
-        this.socket.on('close', () => {
-            stream.push(null);
-            this.socket.close();
-        }
+        this.socket.addEventListener('close', () => {
+            
+        })
 
         // print error message
-        this.socket.on('error', (err) => {
+        this.socket.addEventListener('error', (err) => {
             console.log('ServerStreamHandler received error: %s', err);
-        }
+        })
 
-        this.socket.on('end', () => {
-            this.socket.close();
-        }
+        this.socket.addEventListener('end', () => {
+
+        })
     }
 
     // Send message (action) into this.socket to be received on client side
     // obj ->
-    sendToClient(message) {
-        this.socket.send(JSON.stringify(message));
+    sendAction(action) {
+        this.socket.send(JSON.stringify({
+            type: WS_ACTION,
+            action
+        }));
     }
 }

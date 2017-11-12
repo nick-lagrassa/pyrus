@@ -4,6 +4,7 @@ class TestCard extends Card {
     constructor() {
         super();
         this._type = 'Bogus Card';
+        this._title = 'Test Card';
         this._implementation = '';
         this._example = '';
     }

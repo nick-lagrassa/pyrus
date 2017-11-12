@@ -3,13 +3,20 @@ import Card from '../card';
 
 export default class Hand extends Component {
     render() {
-        const { cards } = this.props;
+        const { cards, className, title, align } = this.props;
+
+        if (!cards) {
+            return null;
+        }
 
         return (
-            <div>
-                { cards.map((card, i) => 
-                    <Card card={ card } key={ i }/>
-                )}
+            <div className={ className }>
+                { title }
+                <div className={`flex ${ align || '' }`}>
+                    { cards.map((card, i) => 
+                        <Card card={ card } key={ i }/>
+                    )}
+                </div>
             </div>
         );
     }

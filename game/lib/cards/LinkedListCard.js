@@ -5,6 +5,7 @@ class LinkedListCard extends Card {
     constructor() {
         super();
         this._type = CARDS_LINKED_LIST;
+        this._title = 'Linked List';
         this._implementation = 'var hash = {};';
         this._example = 'var hash = { "foo": "bar" };';
     }

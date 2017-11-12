@@ -10,6 +10,15 @@
 
 :root {
 
+  --system: -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            Roboto,
+            Oxygen-Sans,
+            Ubuntu,
+            Cantarell,
+            "Helvetica Neue",
+            sans-serif;
   --sans-serif: -apple-system, BlinkMacSystemFont,
                 'avenir next', avenir,
                 helvetica, 'helvetica neue',
@@ -160,4 +169,10 @@
   --washed-green:  #e8fdf5;
   --washed-yellow:  #fffceb;
   --washed-red:  #ffdfdf;
+
+  --pear-blue: #1B7CFF;
+  --pear-light-gray: #C4C4C4;
+  --pear-purple: #7931FF;
+  --pear-near-white: #FAFBFC;
+  --pear-green: #00ED95;
 }

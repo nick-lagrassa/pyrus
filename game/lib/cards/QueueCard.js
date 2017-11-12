@@ -5,6 +5,7 @@ class QueueCard extends Card {
     constructor() {
         super();
         this._type = CARDS_QUEUE;
+        this._title = 'Queue';
         this._implementation = 'var hash = {};';
         this._example = 'var hash = { "foo": "bar" };';
     }

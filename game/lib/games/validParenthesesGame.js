@@ -3,7 +3,7 @@ import { ValidParenthesesPrompt } from '../prompts';
 import configureStore from '../../store/configureStore';
 
 
-export default function makeGame(gameId) {
-    const store = configureStore(gameId);
+export default function makeGame(gameId, streams) {
+    const store = configureStore(gameId, streams);
     return new Game(new ValidParenthesesPrompt(), store);
 };

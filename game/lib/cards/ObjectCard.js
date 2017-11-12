@@ -5,6 +5,7 @@ class ObjectCard extends Card {
     constructor() {
         super();
         this._type = CARDS_OBJECT;
+        this._title = 'Object';
         this._implementation = 'var hash = {};';
         this._example = 'var hash = { "foo": "bar" };';
     }

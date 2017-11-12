@@ -11,7 +11,7 @@ export default class Editor extends Component {
             databaseURL: settings.FIREBASE_DATABASE_URL,
             authDomain: settings.FIREBASE_AUTH_DOMAIN
         });
-        this.firebaseRef = firebase.database().ref('firepads').child(props.gameId || '');
+        this.firebaseRef = firebase.database().ref('firepads').child(props.gameId);
     }
 
     componentDidMount() {
@@ -27,6 +27,13 @@ export default class Editor extends Component {
     }
 
     render() {
-        return <div ref={ div => this.editorElement = div }></div>;
+        const { prompt } = this.props;
+        return (
+            <div className="mb6">
+                <pre className="moon-gray antialias ma0 pv2 ph3 br2 br--top bg-near-black">{ `${ prompt._signature } {` }</pre>
+                <div ref={ div => this.editorElement = div }></div>
+                <pre className="moon-gray antialias ma0 pv2 ph3 br2 br--bottom bg-near-black">}</pre>
+            </div>
+        );
     }    
 }

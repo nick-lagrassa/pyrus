@@ -1,5 +1,14 @@
 .CodeMirror {
     font-size: 16px;
+    font-family: var(--code);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.cm-s-monokai .CodeMirror-gutters {
+    background-color: var(--near-black);
+}
+
+.cm-s-monokai.CodeMirror {
+    background-color: var(--near-black);
 }

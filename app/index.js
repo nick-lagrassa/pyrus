@@ -1,10 +1,12 @@
 import http from 'http';
 import express from 'express';
+import url from 'url';
 import settings from './config/settings';
 import * as gamesLibrary from '../game/lib/games';
 import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import ws from 'ws';
+import ServerStreamHandler from './websocket';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -21,11 +23,19 @@ app.use((req, res, next) => {
 });
 
 server.listen(port, () => {
-    console.log('Game server listening on port ' + port);
+    console.log(`Game server listening on port ${ port }`);
 });
 
 const WebSocketServer = ws.Server;
 const wss = new WebSocketServer({ server });
+
+wss.on('connection', (socket, req) => {
+    const id = url.parse(req.url, true).path.replace('/', '');
+    const hash = crypto.createHash('md5');
+    const playerId = hash.update(id + Date.now() + Math.random()).digest('hex');
+    const stream = new ServerStreamHandler(socket, activeGames[id], playerId);
+    activeStreams[id][playerId] = stream;
+});
 
 app.get('/new/:gameTitle', (req, res) => {
     const gameTitle = req.params.gameTitle || settings.DEFAULT_GAME;
@@ -48,20 +58,10 @@ app.get('/game/:gameId', (req, res) => {
 
     if (gameId in activeGames) {
         const game = activeGames[gameId];
-        connectSocket(gameId);
         res.json(game._store.getState());
     } else {
         res.status(404).send(`Oops! Looks like your game ID is invalid. Try again.`);
     }
 });
-
-const connectSocket = id => {
-    wss.on('connection', (socket) => {
-        const hash = crypto.createHash('md5');
-        const playerId = hash.update(id + Date.now() + Math.random()).digest('hex');
-        const stream = new ServerStreamHandler(socket, activeGames[id], playerId);
-        Object.assign(activeStreams[gameId], { playerId: stream });
-    });
-}
 
 export default activeStreams;
