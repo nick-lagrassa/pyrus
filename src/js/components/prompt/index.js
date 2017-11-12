@@ -9,7 +9,7 @@ export default class Prompt extends Component {
         }
 
         return (
-            <div className="pa3 mb6 br2 bg-pear-near-white">
+            <div className="pa3 mb2 br2 bg-pear-near-white">
                 <h1 className="f1">{ prompt._info.title }</h1>
                 <p className="silver">Task</p>
                 <p className="lh-copy">{ prompt._info.description }</p>
