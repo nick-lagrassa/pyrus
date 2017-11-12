@@ -59,6 +59,31 @@ class ValidParenthesesPrompt extends Prompt {
             description: 'Given a string containing some combination of the parentheses `()`, `[]`, `{}`, and the space character (\s), return whether that string contains a valid sequence of parens.',
             examples: 'Given: `()`\nReturn: true\n\nGiven: `(]`\nReturn: false'
         };
+
+        this._tests = [
+            {
+                input: "'()'",
+                expected: true
+            }, {
+                input: "'({[]})'",
+                expected: true
+            }, {
+                input: "'{]'",
+                expected: false
+            }, {
+                input: "'()[]{}'",
+                expected: true
+            }, {
+                input: "' (({} {}) [])'",
+                expected: true
+            }, {
+                input: "'(((()){})'",
+                expected: false
+            }, {
+                input: "'{[]{{()}}}}}}}'",
+                expected: false
+            }
+        ]
     }
 }
 

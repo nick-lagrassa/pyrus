@@ -15,6 +15,8 @@ export default class Editor extends Component {
     }
 
     componentDidMount() {
+        const { getEditor } = this.props;
+
         this.codeMirror = CodeMirror(this.editorElement, {
             lineWrapping: true,
             lineNumbers: true,
@@ -24,6 +26,8 @@ export default class Editor extends Component {
         this.firepad = Firepad.fromCodeMirror(this.firebaseRef, this.codeMirror, {
             defaultText: '// Your code here'
         });
+
+        getEditor(this.codeMirror);
     }
 
     render() {
