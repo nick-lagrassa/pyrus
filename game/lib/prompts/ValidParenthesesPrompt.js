@@ -62,25 +62,25 @@ class ValidParenthesesPrompt extends Prompt {
 
         this._tests = [
             {
-                input: "()",
+                input: "'()'",
                 expected: true
             }, {
-                input: "({[]})",
+                input: "'({[]})'",
                 expected: true
             }, {
-                input: "{]",
+                input: "'{]'",
                 expected: false
             }, {
-                input: "()[]{}",
+                input: "'()[]{}'",
                 expected: true
             }, {
-                input: " (({} {}) [])",
+                input: "' (({} {}) [])'",
                 expected: true
             }, {
-                input: "(((()){})",
+                input: "'(((()){})'",
                 expected: false
             }, {
-                input: "{[]{{()}}}}}}}",
+                input: "'{[]{{()}}}}}}}'",
                 expected: false
             }
         ]

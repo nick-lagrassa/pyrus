@@ -38,7 +38,7 @@ export default class GameRunning extends Component {
         const { prompt } = this.props;
 
         for (let test of prompt._tests) {
-            const fn = `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})("${ test.input }")`
+            const fn = `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})(${ test.input })`;
             limitEval(fn, (done, val) => {
                 if (!done) {
                     console.log('Your code timed out.');
