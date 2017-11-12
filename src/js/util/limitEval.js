@@ -1,3 +1,5 @@
+// source: http://cwestblog.com/2016/03/16/javascript-detecting-infinite-loops/
+
 export default function limitEval(code, fnOnStop, opt_timeoutInMS=1000) {
     var id = Math.random() + 1,
       blob = new Blob(
