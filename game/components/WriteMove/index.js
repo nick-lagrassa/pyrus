@@ -1,8 +1,11 @@
 import Move from '../Move';
+import { MOVE_WRITE } from '../../constants/move';
 
 class WriteMove extends Move {
-    constructor() {
-        super();
+    constructor(player, code) {
+        super(player);
+        this.code = code;
+        this.type = MOVE_WRITE;
     }
 }
 
