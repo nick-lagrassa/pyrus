@@ -5,7 +5,7 @@ import Editor from '../../containers/editor';
 import Hand from '../hand';
 import Prompt from '../../containers/prompt';
 import limitEval from '../../util/limitEval';
-import { getActivePlayer, myTurn } from '../../../../game/util';
+import { myTurn } from '../../../../game/util';
 
 export default class GameRunning extends Component {
     constructor(props) {
