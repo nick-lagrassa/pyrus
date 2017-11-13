@@ -17,24 +17,32 @@ describe('isLegalMove', () => {
 
     describe('Discard Move', () => {
         test('is legal', () => {
-            const discardMove = new DiscardMove(player, player.hand[0]);
+            const game = makeGame()
+            game.registerPlayer('Jack');
+            game.start()
+            const player = game._board.players[0];
+            const discardMove = new DiscardMove(player.id, player.hand[0]);
             expect(game._re.isLegalMove(game._board, discardMove)).toBe(true);
         });
 
         test('is illegal', () => {
-            const discardMove = new DiscardMove(player, new TestCard());
+            const game = makeGame()
+            game.registerPlayer('Jill');
+            game.start()
+            const player = game._board.players[0];
+            const discardMove = new DiscardMove(player.id, new TestCard());
             expect(game._re.isLegalMove(game._board, discardMove)).toBe(false);
         });
     });
 
     describe('Consume Card Move', () => {
         test('is legal', () => {
-            const consumeMove = new ConsumeMove(player, player.hand[0]);
+            const consumeMove = new ConsumeMove(player.id, player.hand[0]);
             expect(game._re.isLegalMove(game._board, consumeMove)).toBe(true);
         });
 
         test('is illegal', () => {
-            const consumeMove = new ConsumeMove(player, new TestCard());
+            const consumeMove = new ConsumeMove(player.id, new TestCard());
             expect(game._re.isLegalMove(game._board, consumeMove)).toBe(false);
         });
     });

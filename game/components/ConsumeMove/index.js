@@ -2,8 +2,8 @@ import Move from '../Move';
 import { MOVE_CONSUME } from '../../constants/move';
 
 class ConsumeMove extends Move {
-    constructor(player, card) {
-        super(player);
+    constructor(playerId, card) {
+        super(playerId);
         this.card = card;
         this.type = MOVE_CONSUME;
     }

@@ -23,12 +23,6 @@ class ValidParenthesesPrompt extends Prompt {
         super();
         this._name = 'Valid Parentheses';
         this._signature = 'function validParentheses(str)';
-        this._tests = [
-            {
-                input: '()',
-                output: true
-            }
-        ];
 
         this._cardSet = [
             new HashTableCard(),

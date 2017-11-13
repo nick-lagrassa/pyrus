@@ -4,10 +4,10 @@ import { CARDS_HELPER_FUNCTION } from '../../constants/cards.js';
 class FunctionCard extends Card {
     constructor() {
         super();
-        this._type = CARDS_HELPER_FUNCTION;
-        this._title = 'Function';
-        this._implementation = 'var hash = {};';
-        this._example = 'var hash = { "foo": "bar" };';
+        this.type = CARDS_HELPER_FUNCTION;
+        this.title = 'Function';
+        this.implementation = 'var hash = {};';
+        this.example = 'var hash = { "foo": "bar" };';
     }
 }
 

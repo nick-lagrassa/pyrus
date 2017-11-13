@@ -4,8 +4,8 @@ import InfoHeader from '../../containers/infoHeader';
 import Editor from '../../containers/editor';
 import Hand from '../hand';
 import Prompt from '../../containers/prompt';
-
 import limitEval from '../../util/limitEval';
+import { myTurn } from '../../../../game/util';
 
 export default class GameRunning extends Component {
     constructor(props) {
@@ -73,7 +73,7 @@ export default class GameRunning extends Component {
     }
 
     render() {
-        const { gameId } = this.props;
+        const { me, game, gameId, stream, players } = this.props;
         const { testResults } = this.state;
         let numTestsPassed = testResults ? testResults.filter(result => result.passed).length : null;
 
@@ -109,7 +109,9 @@ export default class GameRunning extends Component {
                     <div className="absolute bottom--2 w-50 left-0 z-999 ph2 flex flex-column self-end">
                         <p className="silver f6 mv2 pa2 br2 dib bg-pear-near-white self-end ba b--pear-light-gray">{ `${ this.getPartner().name }'s hand` }</p>
                         <div className="flex flex-row-reverse">
-                            <Hand cards={ this.getPartnersHand() } />
+                            <Hand
+                                cards={ this.getPartnersHand() }
+                            />
                         </div>
                     </div>
                     <div className="absolute bottom--2 w-50 right-0 z-999 ph2 flex flex-column">
@@ -123,7 +125,10 @@ export default class GameRunning extends Component {
                             />
                         </div>
                         <div className="flex">
-                            <Hand cards={ this.getMyHand() } />
+                            <Hand
+                                cards={ this.getMyHand() }
+                                stream={ myTurn(me, game, players) ? stream : null }
+                            />
                         </div>
                     </div>
                 </div>

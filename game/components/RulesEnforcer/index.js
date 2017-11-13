@@ -35,7 +35,7 @@ class RulesEnforcer {
     }
 
     playerHasCard(board, move) {
-        const player = board.getPlayerById(move.player.id);
+        const player = board.getPlayerById(move.playerId);
         return player.hand.filter(card => card.type === move.card.type).length > 0;
     }
 

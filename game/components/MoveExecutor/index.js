@@ -18,15 +18,15 @@ class MoveExecutor {
     executeMove(board, move) {
         switch (move.type) {
             case MOVE_CONSUME:
-                this._store.dispatch(discardPlayerCard(move.card, move.player.id));
+                this._store.dispatch(discardPlayerCard(move.card, move.playerId));
                 // TODO: add discarded card to discard pile
                 this._store.dispatch(updateEditor(board.editor));
                 break;
             case MOVE_DISCARD:
-                this._store.dispatch(discardPlayerCard(move.card, move.player.id));
+                this._store.dispatch(discardPlayerCard(move.card, move.playerId));
                 // TODO: add discarded card to discard pile
                 const hand = board._deck.draw(1);
-                this._store.dispatch(givePlayerCards(hand, move.player.id));
+                this._store.dispatch(givePlayerCards(hand, move.playerId));
                 break;
             case MOVE_WRITE:
                 this._store.dispatch(updateEditor(board.editor));

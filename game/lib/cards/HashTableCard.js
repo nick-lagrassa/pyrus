@@ -4,10 +4,10 @@ import { CARDS_HASH_TABLE } from '../../constants/cards.js';
 class HashTableCard extends Card {
     constructor() {
         super();
-        this._type = CARDS_HASH_TABLE;
-        this._title = 'Hash Table';
-        this._implementation = 'var hash = {};';
-        this._example = 'var hash = { "foo": "bar" };';
+        this.type = CARDS_HASH_TABLE;
+        this.title = 'Hash Table';
+        this.implementation = 'var hash = {};';
+        this.example = 'var hash = { "foo": "bar" };';
     }
 }
 

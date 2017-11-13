@@ -4,10 +4,10 @@ import { CARDS_LINKED_LIST } from '../../constants/cards.js';
 class LinkedListCard extends Card {
     constructor() {
         super();
-        this._type = CARDS_LINKED_LIST;
-        this._title = 'Linked List';
-        this._implementation = 'var hash = {};';
-        this._example = 'var hash = { "foo": "bar" };';
+        this.type = CARDS_LINKED_LIST;
+        this.title = 'Linked List';
+        this.implementation = 'var hash = {};';
+        this.example = 'var hash = { "foo": "bar" };';
     }
 }
 

@@ -67,15 +67,16 @@ class Game {
         }
     }
 
-    // Take an move and move through one step of the move loop
-    // Move ->
+    // Take an move and move through one step of the move loop, returns whether
+    // the move was allowed
+    // Move -> bool
     receiveMove(move) {
         if (this.status !== GAME_STATUS_RUNNING) {
-            return;
+            return false;
         }
 
-        if (this.activePlayer.id !== move.player.id) {
-            return;
+        if (this.activePlayer.id !== move.playerId) {
+            return false;
         }
 
         if (this._re.isLegalMove(this._board, move)) {
@@ -87,9 +88,11 @@ class Game {
                 this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
                 this._store.dispatch(cycleToNextPlayer());
             }
-        } else {
-            return;
+
+            return true;
         }
+        
+        return false;
     }
 
     // Remove player from game component

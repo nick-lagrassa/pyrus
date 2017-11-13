@@ -17,11 +17,6 @@ export default class Game extends Component {
         };
     }
 
-    handleRegisterPlayerSubmit = e => {
-        e.preventDefault();
-        const { playerName } = this.state;
-    }
-
     handlePlayerNameChange = e => {
         this.setState({
             playerName: e.target.value

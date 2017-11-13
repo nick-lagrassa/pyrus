@@ -4,10 +4,10 @@ import { CARDS_FOR_LOOP } from '../../constants/cards.js';
 class ForCard extends Card {
     constructor() {
         super();
-        this._type = CARDS_FOR_LOOP;
-        this._title = 'For Loop';
-        this._implementation = 'var hash = {};';
-        this._example = 'var hash = { "foo": "bar" };';
+        this.type = CARDS_FOR_LOOP;
+        this.title = 'For Loop';
+        this.implementation = 'var hash = {};';
+        this.example = 'var hash = { "foo": "bar" };';
     }
 }
 
