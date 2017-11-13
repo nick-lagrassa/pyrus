@@ -7,7 +7,8 @@ import GameRunning from '../../components/gameRunning';
 const mapStateToProps = (state, ownProps) => ({
     players: state.players,
     me: state.me,
-    prompt: state.prompt
+    prompt: state.prompt,
+    game: state.game
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
