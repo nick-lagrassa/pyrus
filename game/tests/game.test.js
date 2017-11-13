@@ -33,7 +33,7 @@ test('ValidParenthesesGame runs correctly', () => {
 
     for (let i = 0; i < settings.NUM_PLAYER_MOVES_PER_TURN; i++) {
         let playerJack = game._board.players[0];
-        let discardMove = new DiscardMove(playerJack, playerJack.hand[0]);
+        let discardMove = new DiscardMove(playerJack.id, playerJack.hand[0]);
         let oldDeckSize = game._board.deck.cards.length;
         game.receiveMove(discardMove);
 

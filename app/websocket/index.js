@@ -28,7 +28,7 @@ export default class ServerStreamHandler {
                         this.game.start();
                         break;
                     case MOVE_DISCARD:
-                        const move = new DiscardMove({ id: this.playerId }, data.action.card);
+                        const move = new DiscardMove(this.playerId, data.action.card);
                         this.game.receiveMove(move);
                         break;
                     default:

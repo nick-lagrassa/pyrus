@@ -75,7 +75,7 @@ class Game {
             return false;
         }
 
-        if (this.activePlayer.id !== move.player.id) {
+        if (this.activePlayer.id !== move.playerId) {
             return false;
         }
 
