@@ -4,10 +4,10 @@ import { CARDS_ARRAY } from '../../constants/cards.js';
 class ArrayCard extends Card {
     constructor() {
         super();
-        this._type = CARDS_ARRAY;
-        this._title = 'Array';
-        this._implementation = 'var hash = {};';
-        this._example = 'var hash = { "foo": "bar" };';
+        this.type = CARDS_ARRAY;
+        this.title = 'Array';
+        this.implementation = 'var hash = {};';
+        this.example = 'var hash = { "foo": "bar" };';
     }
 }
 

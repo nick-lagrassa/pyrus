@@ -3,10 +3,10 @@ import Card from '../../components/Card';
 class TestCard extends Card {
     constructor() {
         super();
-        this._type = 'Bogus Card';
-        this._title = 'Test Card';
-        this._implementation = '';
-        this._example = '';
+        this.type = 'Bogus Card';
+        this.title = 'Test Card';
+        this.implementation = '';
+        this.example = '';
     }
 }
 

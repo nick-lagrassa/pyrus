@@ -4,10 +4,10 @@ import { CARDS_CONDITIONAL } from '../../constants/cards.js';
 class ConditionalCard extends Card {
     constructor() {
         super();
-        this._type = CARDS_CONDITIONAL;
-        this._title = 'Conditional';
-        this._implementation = 'var hash = {};';
-        this._example = 'var hash = { "foo": "bar" };';
+        this.type = CARDS_CONDITIONAL;
+        this.title = 'Conditional';
+        this.implementation = 'var hash = {};';
+        this.example = 'var hash = { "foo": "bar" };';
     }
 }
 

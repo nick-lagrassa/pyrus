@@ -4,10 +4,10 @@ import { CARDS_OBJECT } from '../../constants/cards.js';
 class ObjectCard extends Card {
     constructor() {
         super();
-        this._type = CARDS_OBJECT;
-        this._title = 'Object';
-        this._implementation = 'var hash = {};';
-        this._example = 'var hash = { "foo": "bar" };';
+        this.type = CARDS_OBJECT;
+        this.title = 'Object';
+        this.implementation = 'var hash = {};';
+        this.example = 'var hash = { "foo": "bar" };';
     }
 }
 
