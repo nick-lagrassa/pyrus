@@ -14,30 +14,39 @@ const CLASS_PATTERN           = new RegExp('class\\s');
 const SWITCH_CASE_PATTERN     = new RegExp('(switch|case.*:|default)');
 
 class RulesEnforcer {
-    constructor(store) {
-        this._store = store;
+    // Returns whether a given move is legal to perform
+    // THIS FUNCTION IS VERY BAD!! I'M NOT PROUD OF THIS
+    // Board, Move -> bool
+    isLegalMove(board, move, deck, players) {
+        switch (arguments.length) {
+            case 4:
+                return this._checkMove(board, move, deck, players);
+            case 2:
+                return this._checkMove(board, move, board.deck, board.players);       
+            default:
+                return false;
+        }
     }
 
-    // Returns whether a given move is legal to perform
-    // Board, Move -> bool
-    isLegalMove(board, move) {
+    _checkMove(board, move, deck, players) {
         switch(move.type) {
             case MOVE_DISCARD:
-                return board.deck.cards.length > 0 && this.playerHasCard(board, move);
+                return deck.cards.length > 0 && this.playerHasCard(players, move);
             case MOVE_CONSUME:
-                return this.playerHasCard(board, move);
+                return this.playerHasCard(players, move);
             case MOVE_WRITE:
                 const diff = this.getEditorDifference(board.editor, move.code);
                 return this.isPrimitiveWrite(diff);
+
             default:
                 return false;
         }
         return true;
     }
 
-    playerHasCard(board, move) {
-        const player = board.getPlayerById(move.playerId);
-        return player.hand.filter(card => card.type === move.card.type).length > 0;
+    playerHasCard(players, move) {
+        const player = players.filter(player => player.id === move.playerId)[0];
+        return player && player.hand.filter(card => card.type === move.card.type).length > 0;
     }
 
     // gets diff on board editor and new editor string, returns only the string of the
@@ -78,16 +87,18 @@ class RulesEnforcer {
     }
 
     isPrimitiveWrite(code) {
-        const patterns = [ARRAY_PATTERN,
-                          OBJECT_PATTERN,
-                          FOR_PATTERN,
-                          WHILE_PATTERN,
-                          DO_WHILE_PATTERN,
-                          IF_PATTERN,
-                          ELSE_PATTERN,
-                          TERNARY_PATTERN,
-                          CLASS_PATTERN,
-                          SWITCH_CASE_PATTERN];
+        const patterns = [
+            ARRAY_PATTERN,
+            OBJECT_PATTERN,
+            FOR_PATTERN,
+            WHILE_PATTERN,
+            DO_WHILE_PATTERN,
+            IF_PATTERN,
+            ELSE_PATTERN,
+            TERNARY_PATTERN,
+            CLASS_PATTERN,
+            SWITCH_CASE_PATTERN
+        ];
         for (let i = 0; i < patterns.length; i++) {
             const pattern = patterns[i];
             if(code.match(pattern)) {

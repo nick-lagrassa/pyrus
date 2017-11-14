@@ -4,6 +4,7 @@ import { ME_SET_INFO } from '../../src/js/constants/me';
 import { GAME_START } from '../../game/constants/game';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../game/constants/move';
 import DiscardMove from '../../game/components/DiscardMove';
+import WriteMove from '../../game/components/WriteMove';
 
 export default class ServerStreamHandler {
     constructor(socket, game, playerId) {

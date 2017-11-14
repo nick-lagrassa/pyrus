@@ -7,6 +7,9 @@ import {
     discardPlayerCard,
     givePlayerCards
 } from '../../actions/players';
+import {
+    updateEditor
+} from '../../actions/board';
 
 class MoveExecutor {
     constructor(store) {
