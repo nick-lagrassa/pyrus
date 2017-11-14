@@ -13,8 +13,15 @@ export default class GameRunning extends Component {
         super(props);
         this.state = {
             testResults: null,
-            moveSelect: null
+            moveSelect: null,
+            waitingForSubmit: false,
+            selectedCard: null,
         };
+    }
+
+    shouldDisplayOverlay = () => {
+        const { waitingForSubmit, moveSelect } = this.state;
+        return !waitingForSubmit && (moveSelect === MOVE_DISCARD || moveSelect === MOVE_CONSUME);
     }
 
     getMe = () => {
@@ -86,41 +93,66 @@ export default class GameRunning extends Component {
         });
     }
 
+    handleWriteMoveClick = () => {
+        this.setState({
+            moveSelect: MOVE_WRITE,
+            waitingForSubmit: true
+        });
+    }
+
     handleCardClick = card => {
+        this.setState({
+            waitingForSubmit: true,
+            selectedCard: card
+        });
+    }
+
+    handleCancelAction = () => {
+        this.setState({
+            moveSelect: null,
+            waitingForSubmit: false,
+            selectedCard: null
+        });
+    }
+
+    handleSubmitActionClick = () => {
         const { stream } = this.props;
-        const { moveSelect } = this.state;
+        const { moveSelect, waitingForSubmit, selectedCard } = this.state;
 
         switch (moveSelect) {
             case MOVE_CONSUME:
                 stream.sendAction({
                     type: moveSelect,
-                    card
+                    code: this.editorElement.doc.getValue(),
+                    card: selectedCard
                 });
                 break;
             case MOVE_DISCARD:
                 stream.sendAction({
                     type: moveSelect,
-                    card
+                    card: selectedCard
                 });
+                break;
+            case MOVE_WRITE:
+                stream.sendAction({
+                    type: moveSelect,
+                    code: this.editorElement.doc.getValue(),
+                })
                 break;
             default: 
                 return;
         }
 
         this.setState({
-            moveSelect: null
-        });
-    }
-
-    handleCancelAction = () => {
-        this.setState({
-            moveSelect: null
+            moveSelect: null,
+            waitingForSubmit: false,
+            selectedCard: null
         });
     }
 
     render() {
         const { me, game, gameId, stream, players } = this.props;
-        const { testResults, moveSelect } = this.state;
+        const { testResults, moveSelect, waitingForSubmit } = this.state;
         let numTestsPassed = testResults ? testResults.filter(result => result.passed).length : null;
 
         return (
@@ -152,27 +184,45 @@ export default class GameRunning extends Component {
                     </div>
                     <div className="absolute right--2 top-4 slide-left-3 flex flex-column">
                         { myTurn(me, game, players) &&
-                            <div className="flex flex-column">
-                                <p className="f6 silver mv0">ACTIONS</p>
-                                <input
-                                    type="button"
-                                    className="db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1"
-                                    value="Write Code"
-                                    onClick={ this.handleRunCode }
-                                />
-                                <input
-                                    type="button"
-                                    className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer slide-left-1"
-                                    value="Consume Card"
-                                    onClick={ this.handleConsumeMoveClick }
-                                />
-                                <input
-                                    type="button"
-                                    className="db mv1 input-reset ba bg-pear-yellow b--pear-yellow pa3 br2 near-black pointer slide-left-1"
-                                    value="Discard Card"
-                                    onClick={ this.handleDiscardMoveClick }
-                                />
-                            </div>
+                            ( waitingForSubmit ? 
+                                <div className="flex flex-column">
+                                    <p className="f6 silver mv0">SUBMIT ACTION</p>
+                                    <input
+                                        type="button"
+                                        className="db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1"
+                                        value="Submit Action"
+                                        onClick={ this.handleSubmitActionClick }
+                                    />
+                                    <input
+                                        type="button"
+                                        className="db mv1 input-reset ba bg-red b--red pa3 br2 near-white pointer slide-left-1"
+                                        value="Cancel Action"
+                                        onClick={ this.handleCancelAction }
+                                    />
+                                </div> 
+                                : 
+                                <div className="flex flex-column">
+                                    <p className="f6 silver mv0">ACTIONS</p>
+                                    <input
+                                        type="button"
+                                        className="db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1"
+                                        value="Write Code"
+                                        onClick={ this.handleWriteMoveClick }
+                                    />
+                                    <input
+                                        type="button"
+                                        className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer slide-left-1"
+                                        value="Consume Card"
+                                        onClick={ this.handleConsumeMoveClick }
+                                    />
+                                    <input
+                                        type="button"
+                                        className="db mv1 input-reset ba bg-pear-yellow b--pear-yellow pa3 br2 near-black pointer slide-left-1"
+                                        value="Discard Card"
+                                        onClick={ this.handleDiscardMoveClick }
+                                    />
+                                </div> 
+                            )
                         }
                         <p className="f6 silver mt4 mb0">RUN</p>
                         <input
@@ -183,7 +233,7 @@ export default class GameRunning extends Component {
                         />
                     </div>
                 </div>
-                <div className={`absolute absolute--fill bg-near-black ${ moveSelect ? 'o-60 z-999' : 'o-0 z-0 dn' }`}></div>
+                <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-999' : 'o-0 z-0 dn' }`}></div>
                 <div>
                     <div className="absolute bottom--2 w-50 left-0 z-9 ph2 flex flex-column self-end">
                         <p className="silver f6 mv2 pa2 br2 dib bg-pear-near-white self-end ba b--pear-light-gray">{ `${ this.getPartner().name }'s hand` }</p>
@@ -194,7 +244,7 @@ export default class GameRunning extends Component {
                     <div className="absolute bottom--2 w-50 right-0 z-999 ph2 flex flex-column">
                         <div className="flex justify-between">
                             <p className="pear-near-white f6 mv2 pa2 br2 dib bg-pear-blue self-start ba b--pear-blue">Your hand</p>
-                            { moveSelect &&
+                            { this.shouldDisplayOverlay() &&
                                 <input
                                     type="button"
                                     className="db mv1 input-reset ba bg-red b--red pa3 br2 near-white pointer"
@@ -206,7 +256,7 @@ export default class GameRunning extends Component {
                         <div className="flex">
                             <Hand
                                 cards={ this.getMyHand() }
-                                handleCardClick={ moveSelect ? this.handleCardClick : null }
+                                handleCardClick={ this.shouldDisplayOverlay() ? this.handleCardClick : null }
                             />
                         </div>
                     </div>
