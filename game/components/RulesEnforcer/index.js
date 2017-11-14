@@ -12,7 +12,6 @@ const ELSE_PATTERN            = new RegExp('else(\\s{0,1}|\\()');
 const TERNARY_PATTERN         = new RegExp('\\?.*:');
 const CLASS_PATTERN           = new RegExp('class\\s');
 const SWITCH_CASE_PATTERN     = new RegExp('(switch|case.*:|default)');
-//const HELPER_FUNCTION_PATTERN = new RegExp('^\\s*\\w+(\\(|\\s*=\\s*(function\\(|\\())');
 
 class RulesEnforcer {
     constructor(store) {

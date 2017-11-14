@@ -31,6 +31,10 @@ export default class ServerStreamHandler {
                         const move = new DiscardMove(this.playerId, data.action.card);
                         this.game.receiveMove(move);
                         break;
+                    case MOVE_WRITE:
+                        const move = new WriteMove(this.playerId, data.action.code);
+                        this.game.receiveMove(move);
+                        break;
                     default:
                         break;
                 }
@@ -39,7 +43,7 @@ export default class ServerStreamHandler {
 
         // remove player from state
         this.socket.addEventListener('close', () => {
-            
+
         })
 
         // print error message

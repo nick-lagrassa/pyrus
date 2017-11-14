@@ -24,8 +24,9 @@ class Board {
     }
 
     get editor() {
-        return this._editor;
+        return this._store.getState().board.editor;
     }
+
     // Given id return player object
     // int -> Object
     getPlayerById(id) {
