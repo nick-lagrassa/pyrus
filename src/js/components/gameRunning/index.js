@@ -112,6 +112,12 @@ export default class GameRunning extends Component {
         });
     }
 
+    handleCancelAction = () => {
+        this.setState({
+            moveSelect: null
+        });
+    }
+
     render() {
         const { me, game, gameId, stream, players } = this.props;
         const { testResults, moveSelect } = this.state;
@@ -144,25 +150,25 @@ export default class GameRunning extends Component {
                             getEditor={ editor => this.editorElement = editor }
                         />
                     </div>
-                    <div className="absolute right--2 top-4 slide-left flex flex-column">
+                    <div className="absolute right--2 top-4 slide-left-3 flex flex-column">
                         { myTurn(me, game, players) &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mv0">ACTIONS</p>
                                 <input
                                     type="button"
-                                    className="db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer"
+                                    className="db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1"
                                     value="Write Code"
                                     onClick={ this.handleRunCode }
                                 />
                                 <input
                                     type="button"
-                                    className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer"
+                                    className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer slide-left-1"
                                     value="Consume Card"
                                     onClick={ this.handleConsumeMoveClick }
                                 />
                                 <input
                                     type="button"
-                                    className="db mv1 input-reset ba bg-pear-yellow b--pear-yellow pa3 br2 near-black pointer"
+                                    className="db mv1 input-reset ba bg-pear-yellow b--pear-yellow pa3 br2 near-black pointer slide-left-1"
                                     value="Discard Card"
                                     onClick={ this.handleDiscardMoveClick }
                                 />
@@ -171,7 +177,7 @@ export default class GameRunning extends Component {
                         <p className="f6 silver mt4 mb0">RUN</p>
                         <input
                             type="button"
-                            className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer"
+                            className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
                             value="Run Code"
                             onClick={ this.handleRunCode }
                         />
@@ -186,7 +192,17 @@ export default class GameRunning extends Component {
                         </div>
                     </div>
                     <div className="absolute bottom--2 w-50 right-0 z-999 ph2 flex flex-column">
-                        <p className="pear-near-white f6 mv2 pa2 br2 dib bg-pear-blue self-start ba b--pear-blue">Your hand</p>
+                        <div className="flex justify-between">
+                            <p className="pear-near-white f6 mv2 pa2 br2 dib bg-pear-blue self-start ba b--pear-blue">Your hand</p>
+                            { moveSelect &&
+                                <input
+                                    type="button"
+                                    className="db mv1 input-reset ba bg-red b--red pa3 br2 near-white pointer"
+                                    value="Cancel Action"
+                                    onClick={ this.handleCancelAction }
+                                />
+                            }
+                        </div>
                         <div className="flex">
                             <Hand
                                 cards={ this.getMyHand() }
