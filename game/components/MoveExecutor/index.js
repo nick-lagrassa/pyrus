@@ -20,7 +20,8 @@ class MoveExecutor {
             case MOVE_CONSUME:
                 this._store.dispatch(discardPlayerCard(move.card, move.playerId));
                 // TODO: add discarded card to discard pile
-                this._store.dispatch(updateEditor(board.editor));
+                // TODO: dispatch updateEditor after move.code is confirmed to be the pattern matching the card
+                this._store.dispatch(updateEditor(move.code));
                 break;
             case MOVE_DISCARD:
                 this._store.dispatch(discardPlayerCard(move.card, move.playerId));
@@ -29,7 +30,7 @@ class MoveExecutor {
                 this._store.dispatch(givePlayerCards(hand, move.playerId));
                 break;
             case MOVE_WRITE:
-                this._store.dispatch(updateEditor(board.editor));
+                this._store.dispatch(updateEditor(move.code));
                 break;
         }
     }    

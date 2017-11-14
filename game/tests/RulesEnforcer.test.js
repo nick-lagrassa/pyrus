@@ -15,6 +15,14 @@ describe('isLegalMove', () => {
         player = game._board.players[0];
     });
 
+    describe('getEditorDifference', () => {
+        test('returns string of added code only', () => {
+            const boardEditor = 'class Editor {\n\n}';
+            const newCode = 'class Editor {\n\tconstructor() {\n\t\tthis.hi = 5;\n\t}\n}';
+            expect(game._re.getEditorDifference(boardEditor, newCode)).toEqual('\tconstructor() {\n\t\tthis.hi = 5;\n\t}\n');
+        });
+    });
+
     describe('Discard Move', () => {
         test('is legal', () => {
             const game = makeGame()

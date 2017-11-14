@@ -1,4 +1,5 @@
 import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from '../../constants/move';
+import * as JsDiff from 'diff';
 import espree from 'espree';
 
 const ARRAY_PATTERN           = new RegExp('(\\[|\\])');
@@ -27,7 +28,8 @@ class RulesEnforcer {
             case MOVE_CONSUME:
                 return this.playerHasCard(board, move);
             case MOVE_WRITE:
-                return this.isPrimitiveWrite(board, move);
+                const diff = this.getEditorDifference(board.editor, move.code);
+                return this.isPrimitiveWrite(diff);
             default:
                 return false;
         }
@@ -37,6 +39,19 @@ class RulesEnforcer {
     playerHasCard(board, move) {
         const player = board.getPlayerById(move.playerId);
         return player.hand.filter(card => card.type === move.card.type).length > 0;
+    }
+
+    // gets diff on board editor and new editor string, returns only the string of the
+    // code that has been added
+    // string, string -> string
+    getEditorDifference(oldCode, newCode) {
+        const diff = JsDiff.diffLines(oldCode, newCode);
+        let addedCode = diff.filter(line => { return line.added === true });
+
+        let changed = '';
+        addedCode.filter(line => { return changed += line.value });
+
+        return changed;
     }
 
     // Use abstract syntax tree of pattern string to identify if string is function declaration
@@ -63,7 +78,7 @@ class RulesEnforcer {
         return false;
     }
 
-    isPrimitiveWrite(board, move) {
+    isPrimitiveWrite(code) {
         const patterns = [ARRAY_PATTERN,
                           OBJECT_PATTERN,
                           FOR_PATTERN,
@@ -76,11 +91,11 @@ class RulesEnforcer {
                           SWITCH_CASE_PATTERN];
         for (let i = 0; i < patterns.length; i++) {
             const pattern = patterns[i];
-            if(move.code.match(pattern)) {
+            if(code.match(pattern)) {
                 return false;
             }
         }
-        if (this.isFunction(move.code)) {
+        if (this.isFunction(code)) {
             return false;
         }
         return true;

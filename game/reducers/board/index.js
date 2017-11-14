@@ -12,7 +12,7 @@ export default function board(state=initialState, action) {
         case BOARD_UPDATE_EDITOR:
             return {
                 ...state,
-                code: action.editor.getValue()
+                code: action.editor
             };
         default:
             return state;
