@@ -45,11 +45,12 @@ export default class GameRunning extends Component {
 
     handleRunCode = () => {
         const { prompt } = this.props;
+        const brackets = /^\[|\]$/g;
 
         let results = [];
         for (let i = 0; i < prompt._tests.length; i++) {
             let test = prompt._tests[i];
-            const fn = `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})(${ test.input })`;
+            const fn = `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})(${ JSON.stringify(test.input).replace(brackets, '') })`;
             limitEval(fn, (done, val) => {
                 if (!done) {
                     results.push({
@@ -136,7 +137,7 @@ export default class GameRunning extends Component {
                                 </p>
                                 { testResults.filter(result => !result.passed).map((result, i) => (
                                     <div className="bg-pear-yellow mv2 pa3 br2" key={ i }>
-                                        <p className="code lh-copy mv0">Input: { JSON.stringify(result.input) }</p>
+                                        <p className="code lh-copy mv0">Input: { result.input.join(', ') }</p>
                                         <p className="code lh-copy mv0">Got: { JSON.stringify(result.output) }</p>
                                         <p className="code lh-copy mv0">Expected: { JSON.stringify(result.expected) }</p>
                                     </div>
