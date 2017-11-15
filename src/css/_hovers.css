@@ -104,9 +104,6 @@
 
 .pointer-none {
   pointer-events: none;
-}
-
-.pointer-none:hover {
   cursor: not-allowed;
 }
 

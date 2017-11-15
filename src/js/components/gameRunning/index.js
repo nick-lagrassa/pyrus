@@ -16,16 +16,17 @@ export default class GameRunning extends Component {
         super(props);
         this.re = new RulesEnforcer();
         this.state = {
-            testResults: null,
-            moveSelect: null,
-            waitingForSubmit: false,
+            isWaitingForSubmit: false,
+            isMoveValid: false,
+            selectedMove: null,
             selectedCard: null,
+            testResults: null,
         };
     }
 
     shouldDisplayOverlay = () => {
-        const { waitingForSubmit, moveSelect } = this.state;
-        return !waitingForSubmit && (moveSelect === MOVE_DISCARD || moveSelect === MOVE_CONSUME);
+        const { isWaitingForSubmit, selectedMove } = this.state;
+        return !isWaitingForSubmit && (selectedMove === MOVE_DISCARD || selectedMove === MOVE_CONSUME);
     }
 
     getMe = () => {
@@ -87,59 +88,60 @@ export default class GameRunning extends Component {
 
     handleDiscardMoveClick = () => {
         this.setState({
-            moveSelect: MOVE_DISCARD
+            selectedMove: MOVE_DISCARD
         });
     }
 
     handleConsumeMoveClick = () => {
         this.setState({
-            moveSelect: MOVE_CONSUME
+            selectedMove: MOVE_CONSUME
         });
     }
 
     handleWriteMoveClick = () => {
         this.setState({
-            moveSelect: MOVE_WRITE,
-            waitingForSubmit: true
+            selectedMove: MOVE_WRITE,
+            isWaitingForSubmit: true,
+            isMoveValid: false
         });
     }
 
     handleCardClick = card => {
         this.setState({
-            waitingForSubmit: true,
+            isWaitingForSubmit: true,
             selectedCard: card
         });
     }
 
     handleCancelAction = () => {
         this.setState({
-            moveSelect: null,
-            waitingForSubmit: false,
+            selectedMove: null,
+            isWaitingForSubmit: false,
             selectedCard: null
         });
     }
 
     handleSubmitActionClick = () => {
         const { stream } = this.props;
-        const { moveSelect, waitingForSubmit, selectedCard } = this.state;
+        const { selectedMove, isWaitingForSubmit, selectedCard } = this.state;
 
-        switch (moveSelect) {
+        switch (selectedMove) {
             case MOVE_CONSUME:
                 stream.sendAction({
-                    type: moveSelect,
+                    type: selectedMove,
                     code: this.editorElement.doc.getValue(),
                     card: selectedCard
                 });
                 break;
             case MOVE_DISCARD:
                 stream.sendAction({
-                    type: moveSelect,
+                    type: selectedMove,
                     card: selectedCard
                 });
                 break;
             case MOVE_WRITE:
                 stream.sendAction({
-                    type: moveSelect,
+                    type: selectedMove,
                     code: this.editorElement.doc.getValue(),
                 })
                 break;
@@ -148,19 +150,19 @@ export default class GameRunning extends Component {
         }
 
         this.setState({
-            moveSelect: null,
-            waitingForSubmit: false,
+            selectedMove: null,
+            isWaitingForSubmit: false,
             selectedCard: null
         });
     }
 
     handleEditorChange = () => {
         const { me, board, players, deck } = this.props;
-        const { moveSelect } = this.state;
+        const { selectedMove, isMoveValid } = this.state;
 
         let code = this.editorElement.doc.getValue();
         let move;
-        switch (moveSelect) {
+        switch (selectedMove) {
             case MOVE_WRITE:
                 move = new WriteMove(me.id, code);
                 break;
@@ -171,12 +173,12 @@ export default class GameRunning extends Component {
                 return;
         }
 
-        console.log(this.re.isLegalMove(board, move, deck, players));
+        this.setState({ isMoveValid: this.re.isLegalMove(board, move, deck, players) });
     }
 
     render() {
         const { me, game, gameId, stream, players } = this.props;
-        const { testResults, moveSelect, waitingForSubmit } = this.state;
+        const { testResults, selectedMove, isWaitingForSubmit, isMoveValid } = this.state;
         let numTestsPassed = testResults ? testResults.filter(result => result.passed).length : null;
 
         return (
@@ -208,12 +210,12 @@ export default class GameRunning extends Component {
                         />
                     </div>
                     <div className="absolute right--2 top-4 slide-left-3 flex flex-column">
-                        { myTurn(me, game, players) && waitingForSubmit &&
+                        { myTurn(me, game, players) && isWaitingForSubmit &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mv0">SUBMIT ACTION</p>
                                 <input
                                     type="button"
-                                    className="db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1"
+                                    className={`db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
                                     value="Submit Action"
                                     onClick={ this.handleSubmitActionClick }
                                 />
@@ -225,7 +227,7 @@ export default class GameRunning extends Component {
                                 />
                             </div>
                         }
-                        { myTurn(me, game, players) && !waitingForSubmit &&
+                        { myTurn(me, game, players) && !isWaitingForSubmit &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mv0">ACTIONS</p>
                                 <input
