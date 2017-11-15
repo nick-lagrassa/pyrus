@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import RulesEnforcer from '../../../../game/components/RulesEnforcer';
+import DiscardMove from '../../../../game/components/DiscardMove';
 import WriteMove from '../../../../game/components/WriteMove';
 import ConsumeMove from '../../../../game/components/ConsumeMove';
 import InfoHeader from '../../containers/infoHeader';
@@ -94,7 +95,9 @@ export default class GameRunning extends Component {
 
     handleConsumeMoveClick = () => {
         this.setState({
-            selectedMove: MOVE_CONSUME
+            selectedMove: MOVE_CONSUME,
+            isWaitingForSubmit: true,
+            isMoveValid: false
         });
     }
 
@@ -107,6 +110,21 @@ export default class GameRunning extends Component {
     }
 
     handleCardClick = card => {
+        const { stream, me } = this.props;
+        const { selectedMove } = this.state;
+
+        if (selectedMove === MOVE_DISCARD) {
+            stream.sendAction({
+                type: selectedMove,
+                move: new DiscardMove(me.id, card)
+            });
+
+            this.setState({
+                selectedMove: null
+            })
+            return;
+        }
+
         this.setState({
             isWaitingForSubmit: true,
             selectedCard: card
@@ -124,25 +142,18 @@ export default class GameRunning extends Component {
     handleSubmitActionClick = () => {
         const { stream } = this.props;
         const { selectedMove, isWaitingForSubmit, selectedCard } = this.state;
-
+        const code = this.editorElement.doc.getValue()
         switch (selectedMove) {
             case MOVE_CONSUME:
                 stream.sendAction({
                     type: selectedMove,
-                    code: this.editorElement.doc.getValue(),
-                    card: selectedCard
-                });
-                break;
-            case MOVE_DISCARD:
-                stream.sendAction({
-                    type: selectedMove,
-                    card: selectedCard
+                    move: new ConsumeMove(me.id, selectedCard, code)
                 });
                 break;
             case MOVE_WRITE:
                 stream.sendAction({
                     type: selectedMove,
-                    code: this.editorElement.doc.getValue(),
+                    move: new WriteMove(me.id, code)
                 })
                 break;
             default: 
@@ -158,7 +169,7 @@ export default class GameRunning extends Component {
 
     handleEditorChange = () => {
         const { me, board, players, deck } = this.props;
-        const { selectedMove, isMoveValid } = this.state;
+        const { isMoveValid, selectedMove, selectedCard } = this.state;
 
         let code = this.editorElement.doc.getValue();
         let move;
@@ -167,7 +178,7 @@ export default class GameRunning extends Component {
                 move = new WriteMove(me.id, code);
                 break;
             case MOVE_CONSUME:
-                // move = new ConsumeMove(me.id, );
+                move = new ConsumeMove(me.id, selectedCard, code);
                 break;
             default:
                 return;

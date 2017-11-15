@@ -18,13 +18,27 @@ class RulesEnforcer {
     // THIS FUNCTION IS VERY BAD!! I'M NOT PROUD OF THIS
     // Board, Move -> bool
     isLegalMove(board, move, deck, players) {
+        let checkMoveArgs;
+
         switch (arguments.length) {
             case 4:
-                return this._checkMove(board, move, deck, players);
+                checkMoveArgs = [board, move, deck, players];
+                break;
             case 2:
-                return this._checkMove(board, move, board.deck, board.players);       
+                checkMoveArgs = [board, move, board.deck, board.players];
+                break;
             default:
                 return false;
+        }
+
+        try {
+            return this._checkMove(...checkMoveArgs);
+        } catch (e) {
+            // NOTE: this is probably not the best way to do this. We want users to
+            // be able to submit syntactically incorrect code, but we DON'T want to 
+            // return true if an error is thrown due to some dumb mistake we made. 
+            // For now, we're just treating all errors as legal moves.
+            return true;
         }
     }
 
@@ -37,7 +51,6 @@ class RulesEnforcer {
             case MOVE_WRITE:
                 const diff = this.getEditorDifference(board.editor, move.code);
                 return this.isPrimitiveWrite(diff);
-
             default:
                 return false;
         }
@@ -69,17 +82,14 @@ class RulesEnforcer {
         const declaration = tree.body[0];
         if (declaration.type === 'FunctionDeclaration') {
             return true;
-        }
-        else if (declaration.type === 'VariableDeclaration') {
+        } else if (declaration.type === 'VariableDeclaration') {
             const expression = declaration.declarations[0].init;
             if (expression.type.includes('FunctionExpression')) {
                 return true;
-            }
-            else if (expression.type === 'CallExpression' || expression.type === "NewExpression") {
+            } else if (expression.type === 'CallExpression' || expression.type === "NewExpression") {
                 return expression.callee.type.includes('FunctionExpression');
             }
-        }
-        else if (declaration.type === "ClassDeclaration") {
+        } else if (declaration.type === "ClassDeclaration") {
             return declaration.body.body.filter(node => node.type.includes("Method")).length > 0;
         }
 
