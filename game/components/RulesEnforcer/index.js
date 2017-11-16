@@ -75,48 +75,98 @@ class RulesEnforcer {
         return changed;
     }
 
+    isArray(tree) {
+        return tree.body[0].declarations[0].init.type === 'ArrayExpression';        
+    }
+
+    isObject(tree) {
+        return tree.body[0].declarations[0].init.type === 'ObjectExpression';
+    }
+
+    isLoop(tree) {
+        const loops = ['ForStatement', 'ForInStatement', 'ForOfStatement', 'WhileStatement', 'DoWhileStatement'];
+        return loops.includes(tree.body[0].type);
+    }
+
+    // TODO if user write_move else statement without if - espree will return an error
+    isConditional(tree) {
+        const conditionals = ['IfStatement'];
+        if (conditionals.includes(tree.body[0].type)) {
+            return true;
+        }
+        return false;
+    }
+
+    isTernaryConditional(tree) {
+        let conditional;
+        try {
+            conditional = tree.body[0].declaractions[0].init.type;
+        } catch (e) {
+            try {
+                conditional = tree.body[0].expression.type;                
+            } catch (e){
+                return false;
+            }
+        }
+        return conditional === "ConditionalExpression";
+    }
+
+    isClass(tree) {
+        return tree.body[0].type === 'ClassDeclaration';
+    }
+
+    isSwitch(tree) {
+        return tree.body[0].type === 'SwitchStatement';
+    }
+
     // Use abstract syntax tree of pattern string to identify if string is function declaration
     // string -> boolean
-    isFunction(code) {
-        const tree = espree.parse(code, { ecmaVersion: 6 });
-        const declaration = tree.body[0];
-        if (declaration.type === 'FunctionDeclaration') {
-            return true;
-        } else if (declaration.type === 'VariableDeclaration') {
-            const expression = declaration.declarations[0].init;
-            if (expression.type.includes('FunctionExpression')) {
+    isFunction(tree) {
+        let ast = tree.body[0];
+        switch(ast.type) {
+            case 'FunctionDeclaration':
                 return true;
-            } else if (expression.type === 'CallExpression' || expression.type === "NewExpression") {
-                return expression.callee.type.includes('FunctionExpression');
-            }
-        } else if (declaration.type === "ClassDeclaration") {
-            return declaration.body.body.filter(node => node.type.includes("Method")).length > 0;
+            case 'VariableDeclaration':
+                const expression = ast.declarations[0].init;
+                if (expression.type.includes('FunctionExpression')) {
+                    return true;
+                } else if (expression.type === 'CallExpression' || expression.type === 'NewExpression') {
+                    return expression.callee.type.includes('FunctionExpression');
+                }
+            case 'ClassDeclaration':
+                return !!ast.body.body.filter(node => node.type.includes("Method"));
+            case 'ExpressionStatement':
+                return ast.expression.right.type.includes('FunctionExpression');
+            default:
+                return false;
         }
-
-        return false;
     }
 
     isPrimitiveWrite(code) {
         const patterns = [
-            ARRAY_PATTERN,
-            OBJECT_PATTERN,
-            FOR_PATTERN,
-            WHILE_PATTERN,
-            DO_WHILE_PATTERN,
-            IF_PATTERN,
-            ELSE_PATTERN,
-            TERNARY_PATTERN,
-            CLASS_PATTERN,
-            SWITCH_CASE_PATTERN
+            this.isArray,
+            this.isObject,
+            this.isLoop,
+            this.isConditional,
+            this.isTernaryConditional,
+            this.isClass,
+            this.isSwitch,
+            this.isFunction
         ];
         for (let i = 0; i < patterns.length; i++) {
-            const pattern = patterns[i];
-            if(code.match(pattern)) {
-                return false;
+            const tree = espree.parse(code, { ecmaVersion: 6 });
+            try {
+                if(patterns[i](tree)) {
+                    return false;
+                }
+            } catch (e) {
+                if (e instanceof ReferenceError) {
+                    // TODO what should this be
+                    return false;
+                } else {
+                    console.log(e);
+                }
             }
-        }
-        if (this.isFunction(code)) {
-            return false;
         }
         return true;
     }
