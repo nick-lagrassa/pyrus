@@ -15,7 +15,7 @@ export default class Editor extends Component {
     }
 
     componentDidMount() {
-        const { getEditor } = this.props;
+        const { getEditor, handleEditorChange } = this.props;
 
         this.codeMirror = CodeMirror(this.editorElement, {
             lineWrapping: true,
@@ -23,10 +23,8 @@ export default class Editor extends Component {
             mode: 'javascript',
             theme: 'monokai'
         });
-        this.firepad = Firepad.fromCodeMirror(this.firebaseRef, this.codeMirror, {
-            defaultText: '// Your code here'
-        });
-
+        this.codeMirror.on('change', handleEditorChange);
+        this.firepad = Firepad.fromCodeMirror(this.firebaseRef, this.codeMirror, {});
         getEditor(this.codeMirror);
     }
 

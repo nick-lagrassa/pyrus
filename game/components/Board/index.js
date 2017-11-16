@@ -1,13 +1,12 @@
 import Deck from '../Deck';
 import DiscardPile from '../DiscardPile';
-import Editor from '../Editor';
 
 class Board {
     // Prompt -> Board
     constructor(prompt, store) {
         this._prompt = prompt;
         this._store = store;
-        this._editor = new Editor();
+        this._editor = '';
         this._deck = new Deck(this._prompt.cardSet, this._store);
         this._discardPile = new DiscardPile();
     }
@@ -22,6 +21,10 @@ class Board {
 
     get prompt() {
         return this._prompt;
+    }
+
+    get editor() {
+        return this._store.getState().board.editor;
     }
 
     // Given id return player object

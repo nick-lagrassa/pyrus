@@ -4,7 +4,7 @@ import {
 import settings from '../../config/settings';
 
 const initialState = {
-    code: ''
+    editor: ''
 };
 
 export default function board(state=initialState, action) {
@@ -12,7 +12,7 @@ export default function board(state=initialState, action) {
         case BOARD_UPDATE_EDITOR:
             return {
                 ...state,
-                code: action.editor.getValue()
+                editor: action.editor
             };
         default:
             return state;

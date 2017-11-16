@@ -102,6 +102,11 @@
   cursor: pointer;
 }
 
+.pointer-none {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 /* 
    Add shadow on hover.
 

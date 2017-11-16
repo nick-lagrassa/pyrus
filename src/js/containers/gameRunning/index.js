@@ -8,7 +8,9 @@ const mapStateToProps = (state, ownProps) => ({
     players: state.players,
     me: state.me,
     prompt: state.prompt,
-    game: state.game
+    game: state.game,
+    board: state.board,
+    deck: state.deck
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({

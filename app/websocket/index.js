@@ -4,6 +4,7 @@ import { ME_SET_INFO } from '../../src/js/constants/me';
 import { GAME_START } from '../../game/constants/game';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../game/constants/move';
 import DiscardMove from '../../game/components/DiscardMove';
+import WriteMove from '../../game/components/WriteMove';
 
 export default class ServerStreamHandler {
     constructor(socket, game, playerId) {
@@ -28,8 +29,9 @@ export default class ServerStreamHandler {
                         this.game.start();
                         break;
                     case MOVE_DISCARD:
-                        const move = new DiscardMove(this.playerId, data.action.card);
-                        this.game.receiveMove(move);
+                    case MOVE_WRITE:
+                    case MOVE_CONSUME:
+                        this.game.receiveMove(data.action.move);
                         break;
                     default:
                         break;
@@ -39,7 +41,7 @@ export default class ServerStreamHandler {
 
         // remove player from state
         this.socket.addEventListener('close', () => {
-            
+
         })
 
         // print error message
