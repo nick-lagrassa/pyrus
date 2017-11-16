@@ -153,8 +153,11 @@ class RulesEnforcer {
             this.isSwitch,
             this.isFunction
         ];
+        const tree = espree.parse(code, { ecmaVersion: 6 });
+        if (tree.body.length > 1) {
+            return false;
+        }
         for (let i = 0; i < patterns.length; i++) {
-            const tree = espree.parse(code, { ecmaVersion: 6 });
             try {
                 if(patterns[i](tree)) {
                     return false;
