@@ -141,7 +141,7 @@ export default class GameRunning extends Component {
     }
 
     handleSubmitActionClick = () => {
-        const { stream } = this.props;
+        const { stream, me } = this.props;
         const { selectedMove, isWaitingForSubmit, selectedCard } = this.state;
         const code = this.editorElement.doc.getValue()
         switch (selectedMove) {
