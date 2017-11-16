@@ -7,13 +7,15 @@ import DiscardMove from '../../game/components/DiscardMove';
 import WriteMove from '../../game/components/WriteMove';
 
 export default class ServerStreamHandler {
-    constructor(socket, game, playerId) {
+    constructor(socket, game, playerId, logger) {
         this.socket = socket;
         this.game = game;
         this.playerId = playerId;
+        this.logger = logger;
 
         this.socket.addEventListener('message', message => {
             const data = JSON.parse(message.data);
+            this.logger.log(data);
             if (data.type === WS_ACTION) {
                 switch(data.action.type) {
                     case PLAYERS_REGISTER_PLAYER:
