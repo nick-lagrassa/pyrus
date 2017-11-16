@@ -5,7 +5,6 @@ import DiscardMove from '../components/DiscardMove';
 import WriteMove from '../components/WriteMove';
 import TestCard from '../lib/cards/TestCard';
 
-
 describe('isLegalMove', () => {
     let game, player;
     beforeEach(() => {
