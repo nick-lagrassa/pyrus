@@ -214,8 +214,9 @@ export default class GameRunning extends Component {
                             </div>
                         }
                     </div>
-                    <div className={`w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll ${ myTurn(me, game, players) ? '' : 'pointer-none' }`}>
+                    <div className={`w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
                         <Editor
+                            className={ myTurn(me, game, players) ? '' : 'pointer-none' }
                             gameId={ gameId }
                             getEditor={ editor => this.editorElement = editor }
                             handleEditorChange={ this.handleEditorChange }

@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import ws from 'ws';
 import ServerStreamHandler from './websocket';
+import PearLogger from './logger';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -33,7 +34,7 @@ wss.on('connection', (socket, req) => {
     const id = url.parse(req.url, true).path.replace('/', '');
     const hash = crypto.createHash('md5');
     const playerId = hash.update(id + Date.now() + Math.random()).digest('hex');
-    const stream = new ServerStreamHandler(socket, activeGames[id], playerId);
+    const stream = new ServerStreamHandler(socket, activeGames[id], playerId, new PearLogger(id));
     activeStreams[id][playerId] = stream;
 });
 
