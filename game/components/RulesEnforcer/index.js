@@ -35,8 +35,8 @@ class RulesEnforcer {
             return this._checkMove(...checkMoveArgs);
         } catch (e) {
             // NOTE: this is probably not the best way to do this. We want users to
-            // be able to submit syntactically incorrect code, but we DON'T want to 
-            // return true if an error is thrown due to some dumb mistake we made. 
+            // be able to submit syntactically incorrect code, but we DON'T want to
+            // return true if an error is thrown due to some dumb mistake we made.
             // For now, we're just treating all errors as legal moves.
             return true;
         }
@@ -76,7 +76,7 @@ class RulesEnforcer {
     }
 
     isArray(tree) {
-        return tree.body[0].declarations[0].init.type === 'ArrayExpression';        
+        return tree.body[0].declarations[0].init.type === 'ArrayExpression';
     }
 
     isObject(tree) {
@@ -103,7 +103,7 @@ class RulesEnforcer {
             conditional = tree.body[0].declaractions[0].init.type;
         } catch (e) {
             try {
-                conditional = tree.body[0].expression.type;                
+                conditional = tree.body[0].expression.type;
             } catch (e){
                 return false;
             }
@@ -162,9 +162,8 @@ class RulesEnforcer {
             } catch (e) {
                 if (e instanceof ReferenceError) {
                     // TODO what should this be
-                    return false;
-                } else {
                     console.log(e);
+                    return false;
                 }
             }
         }
