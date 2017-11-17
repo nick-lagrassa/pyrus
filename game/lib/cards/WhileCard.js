@@ -6,8 +6,11 @@ class WhileCard extends Card {
         super();
         this.type = CARDS_WHILE_LOOP;
         this.title = 'While Loop';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = 
+`while (cond) {
+
+}`;
+        this.example = '';
     }
 }
 

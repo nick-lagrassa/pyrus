@@ -6,8 +6,15 @@ class ObjectCard extends Card {
         super();
         this.type = CARDS_OBJECT;
         this.title = 'Object';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = `var obj = { key: 'value' };`;
+        this.example = 
+`var rect = {
+    x: 20,
+    y: 50
+};
+rect.y; // -> 50
+rect.x = 10;
+rect.x; // -> 10`;
     }
 }
 

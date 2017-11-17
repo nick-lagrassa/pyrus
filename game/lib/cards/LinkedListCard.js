@@ -6,8 +6,17 @@ class LinkedListCard extends Card {
         super();
         this.type = CARDS_LINKED_LIST;
         this.title = 'Linked List';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = 
+`function ListNode(val) {
+    this.val = val;
+    this.next = null;
+}`;
+        this.example = 
+`var head = new ListNode(12);
+head.val; // -> 12
+head.next = new ListNode(15);
+head.next.val; // -> 15
+head.next.next; // -> null`;
     }
 }
 

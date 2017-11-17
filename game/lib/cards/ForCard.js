@@ -6,8 +6,11 @@ class ForCard extends Card {
         super();
         this.type = CARDS_FOR_LOOP;
         this.title = 'For Loop';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = 
+`for (var i = 0; i < 3; i++) {
+
+}`;
+        this.example = '';
     }
 }
 

@@ -6,8 +6,11 @@ class StackCard extends Card {
         super();
         this.type = CARDS_STACK;
         this.title = 'Stack';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = 'var stack = [];';
+        this.example = 
+`stack.push(1);
+stack.push(2);
+stack.pop(); // -> 2`;
     }
 }
 

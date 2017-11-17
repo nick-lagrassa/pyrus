@@ -6,8 +6,15 @@ class SwitchCard extends Card {
         super();
         this.type = CARDS_SWITCH_CASE;
         this.title = 'Switch';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = `
+switch(day) {
+    case "Monday":
+        break;
+    case "Tuesday":
+        break;
+    default:
+}`;
+        this.example = '';
     }
 }
 
