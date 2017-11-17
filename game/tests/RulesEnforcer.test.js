@@ -4,6 +4,65 @@ import ConsumeMove from '../components/ConsumeMove';
 import DiscardMove from '../components/DiscardMove';
 import WriteMove from '../components/WriteMove';
 import TestCard from '../lib/cards/TestCard';
+import cardsObjects from '../lib/cards'
+
+const {
+    HashTableCard,
+    WhileCard,
+    FunctionCard,
+    QueueCard,
+    BSTCard,
+    StackCard,
+    DoWhileCard,
+    ConditionalCard,
+    ObjectCard,
+    ArrayCard,
+    LinkedListCard,
+    ForCard,
+    ClassCard,
+    SwitchCard
+} = cardsObjects;
+
+const cards = [
+    HashTableCard,
+    WhileCard,
+    FunctionCard,
+    QueueCard,
+    BSTCard,
+    StackCard,
+    DoWhileCard,
+    ConditionalCard,
+    ObjectCard,
+    ArrayCard,
+    LinkedListCard,
+    ForCard,
+    ClassCard,
+    SwitchCard
+];
+
+const nonPrimitiveCode = [
+    'var i = { \'x\': 5 }',
+    'var i = { }',
+    'let array = [1,2,3,4]',
+    'if (true) {}',
+    '  for ( i = 0; i < 5; i++) {}',
+    'while(i == true) {}',
+    'do {} while(true)',
+    ' i == 3 ? i++ : i--;',
+    'class LinkedList\t {}',
+    // 'else {}',
+    // 'else if {}',
+    'switch(action){}']
+    // 'case Move:']
+
+const functionCode = [
+    'helperFunction = () => {}',
+    'var helperFunction = function() {}',
+    //'function() {}',
+    'var c = (function() {})',
+    'var helperFunction = function foo() {}',
+    'var c = (function() { return true })',
+    'var foo = new function() {}']
 
 describe('isLegalMove', () => {
     let game, player;
@@ -43,13 +102,19 @@ describe('isLegalMove', () => {
     });
 
     describe('Consume Card Move', () => {
-        test('is legal', () => {
-            const consumeMove = new ConsumeMove(player.id, player.hand[0]);
-            expect(game._re.isLegalMove(game._board, consumeMove)).toBe(true);
+        describe('is legal', () => {
+            for(let i = 0; i < cards.length; i++) {
+                test('${cards[i]}', () => {
+                    player.hand[0] = new cards[i]();
+                    const consumeMove = new ConsumeMove(player.id, player.hand[0], player.hand[0].implementation);
+                    expect(game._re.isLegalMove(game._board, consumeMove)).toBe(true);
+                });
+            }
         });
 
         test('is illegal', () => {
-            const consumeMove = new ConsumeMove(player.id, new TestCard());
+            const objectCode = 'var i = { }';
+            const consumeMove = new ConsumeMove(player.id, new ArrayCard(), objectCode);
             expect(game._re.isLegalMove(game._board, consumeMove)).toBe(false);
         });
     });
@@ -66,36 +131,15 @@ describe('isLegalMove', () => {
 
         describe('is illegal', () => {
             test('non-primitive code', () => {
-                const logicCode = ['var i = { \'x\': 5 }',
-                                   'var i = { }',
-                                   'let array = [1,2,3,4]',
-                                   'if (true) {}',
-                                   '  for ( i = 0; i < 5; i++) {}',
-                                   'while(i == true) {}',
-                                   'do {} while(true)',
-                                   ' i == 3 ? i++ : i--;',
-                                   'class LinkedList\t {}',
-                                  // 'else {}',
-                                  // 'else if {}',
-                                   'switch(action){}']
-                                  // 'case Move:']
-                for(let i = 0; i < logicCode.length; i++) {
-                    const writeMove = new WriteMove(player, logicCode[i]);
+                for(let i = 0; i < nonPrimitiveCode.length; i++) {
+                    const writeMove = new WriteMove(player, nonPrimitiveCode[i]);
                     expect(game._re.isLegalMove(game._board, writeMove)).toBe(false);
                 }
             });
 
             test('helper function creation', () => {
-                const logicCode = ['helperFunction = () => {}',
-                                   'var helperFunction = function() {}',
-                                   //'function() {}',
-                                   'var c = (function() {})',
-                                   'var helperFunction = function foo() {}',
-                                   'var c = (function() { return true })',
-                                   'var foo = new function() {}',
-                                   ]
-                for(let i = 0; i < logicCode.length; i++) {
-                    const writeMove = new WriteMove(player, logicCode[i]);
+                for(let i = 0; i < functionCode.length; i++) {
+                    const writeMove = new WriteMove(player, functionCode[i]);
                     expect(game._re.isLegalMove(game._board, writeMove)).toBe(false);
                 }
             });

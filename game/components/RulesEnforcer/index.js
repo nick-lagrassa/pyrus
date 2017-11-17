@@ -1,4 +1,5 @@
 import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from '../../constants/move';
+import cards from '../../lib/cards'
 import { CARDS_HASH_TABLE,
          CARDS_BINARY_SEARCH_TREE,
          CARDS_CLASS,
@@ -24,6 +25,23 @@ import { isArray,
         } from '../../util';
 import * as JsDiff from 'diff';
 import espree from 'espree';
+
+const {
+    HashTableCard,
+    WhileCard,
+    FunctionCard,
+    QueueCard,
+    BSTCard,
+    StackCard,
+    DoWhileCard,
+    ConditionalCard,
+    ObjectCard,
+    ArrayCard,
+    LinkedListCard,
+    ForCard,
+    ClassCard,
+    SwitchCard
+} = cards;
 
 class RulesEnforcer {
     // Returns whether a given move is legal to perform
@@ -55,13 +73,16 @@ class RulesEnforcer {
     }
 
     _checkMove(board, move, deck, players) {
+        let diff;
         switch(move.type) {
             case MOVE_DISCARD:
                 return deck.cards.length > 0 && this.playerHasCard(players, move);
             case MOVE_CONSUME:
-                return this.playerHasCard(players, move) && this.isValidCodeForCard(move);
+                diff = this.getEditorDifference(board.editor, move.code);
+                return this.playerHasCard(players, move) &&
+                          this.isValidCodeForCard(move.card.type, diff);
             case MOVE_WRITE:
-                const diff = this.getEditorDifference(board.editor, move.code);
+                diff = this.getEditorDifference(board.editor, move.code);
                 return this.isPrimitiveWrite(diff);
             default:
                 return false;
@@ -74,41 +95,61 @@ class RulesEnforcer {
         return player && player.hand.filter(card => card.type === move.card.type).length > 0;
     }
 
-    isValidCodeForCard(move) {
-        const diff = getEditorDifference(board.editor, move.code);
-        switch(move.card.type) {
+    isValidCodeForCard(cardType, diff) {
+        let card;
+        switch(cardType) {
             case CARDS_HASH_TABLE:
-                break;
-            case CARDS_OBJECT:
+                card = new HashTableCard();
                 break;
             case CARDS_BINARY_SEARCH_TREE:
+                card = new BSTCard();
                 break;
             case CARDS_CLASS:
+                card = new ClassCard();
                 break;
             case CARDS_CONDITIONAL:
+                card = new ConditionalCard();
                 break;
             case CARDS_FOR_LOOP:
+                card = new ForCard();
                 break;
             case CARDS_WHILE_LOOP:
+                card = new WhileCard();
                 break;
             case CARDS_DO_WHILE_LOOP:
+                card = new DoWhileCard();
                 break;
             case CARDS_HELPER_FUNCTION:
+                card = new FunctionCard();
                 break;
             case CARDS_ARRAY:
+                card = new ArrayCard();
                 break;
             case CARDS_LINKED_LIST:
+                card = new LinkedListCard();
                 break;
             case CARDS_OBJECT:
+                card = new ObjectCard();
                 break;
             case CARDS_QUEUE:
+                card = new QueueCard();
                 break;
             case CARDS_STACK:
+                card = new StackCard();
                 break;
             case CARDS_SWITCH_CASE:
+                card = new SwitchCard();
                 break;
             default:
                 return false;
+        }
+        try {
+            return card.isInstanceOf(diff)
+        } catch (e) {
+            // TODO if syntax invalid while implementing consume card then automatically allow
+            // instead we should be able to recognize if someone is at least 'trying' to implement
+            // the right card -- pattern matching might do this
+            return true;
         }
     }
     // gets diff on board editor and new editor string, returns only the string of the
