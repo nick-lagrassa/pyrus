@@ -2,13 +2,23 @@ import React, { Component } from 'react';
 import { MOVE_DISCARD, MOVE_WRITE, MOVE_CONSUME } from '../../../../game/constants/move';
 
 export default class Hand extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isMouseOver: false
+        };
+    }
+
     render() {
         const { card, handleCardClick, style } = this.props;
+        const { isMouseOver } = this.state
 
         return (
             <div
-                className="w5 min-h5 ba b--pear-light-gray br2 pa3 bg-white rise pointer flex-none absolute"
+                className={`w5 min-h5 ba b--pear-light-gray br2 pa3 bg-white rise pointer flex-none absolute ${isMouseOver ? 'z-999' : 'z-99'} `}
                 onClick={ handleCardClick ? () => handleCardClick(card) : () => {} }
+                onMouseOver={ () => this.setState({ isMouseOver: true }) }
+                onMouseLeave={ () => this.setState({ isMouseOver: false }) }
                 style={ style }
             >
                 <p className="f3 mt0">{ card.title }</p>
