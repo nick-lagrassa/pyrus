@@ -6,8 +6,15 @@ class FunctionCard extends Card {
         super();
         this.type = CARDS_HELPER_FUNCTION;
         this.title = 'Function';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = 
+`function helper() {
+
+}`;
+        this.example = 
+`function helper() {
+    return 4;
+}
+helper(); // -> 4`;
     }
 }
 

@@ -6,8 +6,15 @@ class ConditionalCard extends Card {
         super();
         this.type = CARDS_CONDITIONAL;
         this.title = 'Conditional';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = 
+`if (cond) {
+
+} else if (otherCond) {
+
+} else {
+
+}`;
+        this.example = '';
     }
 }
 

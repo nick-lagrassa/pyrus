@@ -6,8 +6,11 @@ class QueueCard extends Card {
         super();
         this.type = CARDS_QUEUE;
         this.title = 'Queue';
-        this.implementation = 'var hash = {};';
-        this.example = 'var hash = { "foo": "bar" };';
+        this.implementation = 'var queue = [];';
+        this.example = 
+`queue.push(1);
+queue.push(2);
+queue.shift(); // -> 1`;
     }
 }
 
