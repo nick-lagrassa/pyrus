@@ -78,6 +78,8 @@ class ValidParenthesesPrompt extends Prompt {
                 expected: false
             }
         ]
+
+        this._testResults = [];
     }
 }
 

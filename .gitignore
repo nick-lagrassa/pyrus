@@ -6,3 +6,4 @@ public/bundle.js.map
 public/tachyons.css
 src/js/config/settings.js
 app/logger/logs/*.log
+.vscode/

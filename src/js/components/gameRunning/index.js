@@ -11,18 +11,17 @@ import Prompt from '../../containers/prompt';
 import limitEval from '../../util/limitEval';
 import { myTurn } from '../../../../game/util';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../../../game/constants/move';
+import { COMMAND_RUN_CODE } from '../../../../app/constants/command';
 
 export default class GameRunning extends Component {
     constructor(props) {
         super(props);
         this.re = new RulesEnforcer();
-        this.bracketsRe = /^\[|\]$/g;
         this.state = {
             isWaitingForSubmit: false,
             isMoveValid: false,
             selectedMove: null,
             selectedCard: null,
-            testResults: null,
         };
     }
 
@@ -58,34 +57,12 @@ export default class GameRunning extends Component {
     }
 
     handleRunCode = () => {
-        const { prompt } = this.props;
-
-        let results = [];
-        for (let i = 0; i < prompt._tests.length; i++) {
-            let test = prompt._tests[i];
-            const fn = `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})(${ JSON.stringify(test.input).replace(this.bracketsRe, '') })`;
-            limitEval(fn, (done, val) => {
-                if (!done) {
-                    results.push({
-                        passed: false,
-                        input: test.input,
-                        output: "Error: test timed out",
-                        expected: test.expected
-                    });
-                } else {
-                    results.push({
-                        passed: val === test.expected,
-                        input: test.input,
-                        output: val,
-                        expected: test.expected
-                    });
-                }
-
-                if (i === prompt._tests.length - 1) {
-                    this.setState({ testResults: results });
-                }
-            });
-        }
+        const { prompt, stream } = this.props;
+        stream.sendCommand({
+            type: COMMAND_RUN_CODE,
+            fn: `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
+            tests: prompt._tests
+        });
     }
 
     handleDiscardMoveClick = () => {
@@ -122,7 +99,7 @@ export default class GameRunning extends Component {
 
             this.setState({
                 selectedMove: null
-            })
+            });
             return;
         }
 
@@ -155,9 +132,9 @@ export default class GameRunning extends Component {
                 stream.sendAction({
                     type: selectedMove,
                     move: new WriteMove(me.id, code)
-                })
+                });
                 break;
-            default: 
+            default:
                 return;
         }
 
@@ -191,7 +168,6 @@ export default class GameRunning extends Component {
     render() {
         const { me, game, gameId, stream, players } = this.props;
         const { testResults, selectedMove, isWaitingForSubmit, isMoveValid } = this.state;
-        let numTestsPassed = testResults ? testResults.filter(result => result.passed).length : null;
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
@@ -199,20 +175,6 @@ export default class GameRunning extends Component {
                 <div className="flex mw8 center mb6">
                     <div className="w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll">
                         <Prompt />
-                        { testResults &&
-                            <div className="pa3 br2 bg-pear-near-white">
-                                <p className="b">
-                                    { numTestsPassed === testResults.length ? '✅' : '⚠️'} { numTestsPassed } out of { testResults.length } tests passed!
-                                </p>
-                                { testResults.filter(result => !result.passed).map((result, i) => (
-                                    <div className="bg-pear-yellow mv2 pa3 br2" key={ i }>
-                                        <p className="code lh-copy mv0">Input: { JSON.stringify(result.input).replace(this.bracketsRe, '') }</p>
-                                        <p className="code lh-copy mv0">Got: { JSON.stringify(result.output) }</p>
-                                        <p className="code lh-copy mv0">Expected: { JSON.stringify(result.expected) }</p>
-                                    </div>
-                                ))}
-                            </div>
-                        }
                     </div>
                     <div className={`w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
                         <Editor

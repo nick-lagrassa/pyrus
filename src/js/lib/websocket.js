@@ -1,5 +1,5 @@
 import settings from '../config/settings';
-import { WS_ACTION } from '../../../game/constants/ws';
+import { WS_ACTION, WS_COMMAND } from '../../../app/constants/ws';
 
 export default class ClientStreamHandler {
     constructor(store, gameId) {
@@ -29,6 +29,13 @@ export default class ClientStreamHandler {
         this.socket.send(JSON.stringify({
             type: WS_ACTION,
             action
+        }));
+    }
+
+    sendCommand = command => {
+        this.socket.send(JSON.stringify({
+            type: WS_COMMAND,
+            command
         }));
     }
 }
