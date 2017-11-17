@@ -1,17 +1,29 @@
 import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from '../../constants/move';
+import { CARDS_HASH_TABLE,
+         CARDS_BINARY_SEARCH_TREE,
+         CARDS_CLASS,
+         CARDS_CONDITIONAL,
+         CARDS_DO_WHILE_LOOP,
+         CARDS_FOR_LOOP,
+         CARDS_HELPER_FUNCTION,
+         CARDS_ARRAY,
+         CARDS_LINKED_LIST,
+         CARDS_OBJECT,
+         CARDS_QUEUE,
+         CARDS_STACK,
+         CARDS_SWITCH_CASE
+       } from '../../constants/cards';
+import { isArray,
+         isObject,
+         isLoop,
+         isConditional,
+         isTernaryConditional,
+         isClass,
+         isSwitch,
+         isFunction
+        } from '../../util';
 import * as JsDiff from 'diff';
 import espree from 'espree';
-
-const ARRAY_PATTERN           = new RegExp('(\\[|\\])');
-const OBJECT_PATTERN          = new RegExp('(\\{|\\})');
-const FOR_PATTERN             = new RegExp('for(\\s|\\()');
-const WHILE_PATTERN           = new RegExp('while(\\s{0,1}|\\()');
-const DO_WHILE_PATTERN        = new RegExp('do(\\s{0,1}|\\()');
-const IF_PATTERN              = new RegExp('if(\\s|\\()');
-const ELSE_PATTERN            = new RegExp('else(\\s{0,1}|\\()');
-const TERNARY_PATTERN         = new RegExp('\\?.*:');
-const CLASS_PATTERN           = new RegExp('class\\s');
-const SWITCH_CASE_PATTERN     = new RegExp('(switch|case.*:|default)');
 
 class RulesEnforcer {
     // Returns whether a given move is legal to perform
@@ -47,7 +59,7 @@ class RulesEnforcer {
             case MOVE_DISCARD:
                 return deck.cards.length > 0 && this.playerHasCard(players, move);
             case MOVE_CONSUME:
-                return this.playerHasCard(players, move);
+                return this.playerHasCard(players, move) && this.isValidCodeForCard(move);
             case MOVE_WRITE:
                 const diff = this.getEditorDifference(board.editor, move.code);
                 return this.isPrimitiveWrite(diff);
@@ -62,6 +74,43 @@ class RulesEnforcer {
         return player && player.hand.filter(card => card.type === move.card.type).length > 0;
     }
 
+    isValidCodeForCard(move) {
+        const diff = getEditorDifference(board.editor, move.code);
+        switch(move.card.type) {
+            case CARDS_HASH_TABLE:
+                break;
+            case CARDS_OBJECT:
+                break;
+            case CARDS_BINARY_SEARCH_TREE:
+                break;
+            case CARDS_CLASS:
+                break;
+            case CARDS_CONDITIONAL:
+                break;
+            case CARDS_FOR_LOOP:
+                break;
+            case CARDS_WHILE_LOOP:
+                break;
+            case CARDS_DO_WHILE_LOOP:
+                break;
+            case CARDS_HELPER_FUNCTION:
+                break;
+            case CARDS_ARRAY:
+                break;
+            case CARDS_LINKED_LIST:
+                break;
+            case CARDS_OBJECT:
+                break;
+            case CARDS_QUEUE:
+                break;
+            case CARDS_STACK:
+                break;
+            case CARDS_SWITCH_CASE:
+                break;
+            default:
+                return false;
+        }
+    }
     // gets diff on board editor and new editor string, returns only the string of the
     // code that has been added
     // string, string -> string
@@ -75,83 +124,16 @@ class RulesEnforcer {
         return changed;
     }
 
-    isArray(tree) {
-        return tree.body[0].declarations[0].init.type === 'ArrayExpression';
-    }
-
-    isObject(tree) {
-        return tree.body[0].declarations[0].init.type === 'ObjectExpression';
-    }
-
-    isLoop(tree) {
-        const loops = ['ForStatement', 'ForInStatement', 'ForOfStatement', 'WhileStatement', 'DoWhileStatement'];
-        return loops.includes(tree.body[0].type);
-    }
-
-    // TODO if user write_move else statement without if - espree will return an error
-    isConditional(tree) {
-        const conditionals = ['IfStatement'];
-        if (conditionals.includes(tree.body[0].type)) {
-            return true;
-        }
-        return false;
-    }
-
-    isTernaryConditional(tree) {
-        let conditional;
-        try {
-            conditional = tree.body[0].declaractions[0].init.type;
-        } catch (e) {
-            try {
-                conditional = tree.body[0].expression.type;
-            } catch (e){
-                return false;
-            }
-        }
-        return conditional === "ConditionalExpression";
-    }
-
-    isClass(tree) {
-        return tree.body[0].type === 'ClassDeclaration';
-    }
-
-    isSwitch(tree) {
-        return tree.body[0].type === 'SwitchStatement';
-    }
-
-    // Use abstract syntax tree of pattern string to identify if string is function declaration
-    // string -> boolean
-    isFunction(tree) {
-        let ast = tree.body[0];
-        switch(ast.type) {
-            case 'FunctionDeclaration':
-                return true;
-            case 'VariableDeclaration':
-                const expression = ast.declarations[0].init;
-                if (expression.type.includes('FunctionExpression')) {
-                    return true;
-                } else if (expression.type === 'CallExpression' || expression.type === 'NewExpression') {
-                    return expression.callee.type.includes('FunctionExpression');
-                }
-            case 'ClassDeclaration':
-                return !!ast.body.body.filter(node => node.type.includes("Method"));
-            case 'ExpressionStatement':
-                return ast.expression.right.type.includes('FunctionExpression');
-            default:
-                return false;
-        }
-    }
-
     isPrimitiveWrite(code) {
         const patterns = [
-            this.isArray,
-            this.isObject,
-            this.isLoop,
-            this.isConditional,
-            this.isTernaryConditional,
-            this.isClass,
-            this.isSwitch,
-            this.isFunction
+            isArray,
+            isObject,
+            isLoop,
+            isConditional,
+            isTernaryConditional,
+            isClass,
+            isSwitch,
+            isFunction
         ];
         const tree = espree.parse(code, { ecmaVersion: 6 });
         if (tree.body.length > 1) {
