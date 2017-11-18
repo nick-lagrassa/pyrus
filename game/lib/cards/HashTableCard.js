@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_HASH_TABLE } from '../../constants/cards.js';
+import { isObject } from '../../util';
+import espree from 'espree';
 
 class HashTableCard extends Card {
     constructor() {
@@ -16,6 +18,11 @@ hash["bar"] = "baz";
 hash["bar"]; // -> "baz"
 hash.keys(); // -> ["foo", "bar"];
         `;
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isObject(tree);
     }
 }
 

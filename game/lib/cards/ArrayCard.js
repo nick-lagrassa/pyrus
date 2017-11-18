@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_ARRAY } from '../../constants/cards.js';
+import { isArray } from '../../util';
+import espree from 'espree';
 
 class ArrayCard extends Card {
     constructor() {
@@ -14,6 +16,11 @@ arr[0]; // -> 1
 arr.pop(); // -> 1
 arr; // -> []
         `;
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isArray(tree);
     }
 }
 

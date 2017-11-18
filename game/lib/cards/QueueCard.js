@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_QUEUE } from '../../constants/cards.js';
+import { isQueue } from '../../util';
+import espree from 'espree';
 
 class QueueCard extends Card {
     constructor() {
@@ -11,6 +13,11 @@ class QueueCard extends Card {
 `queue.push(1);
 queue.push(2);
 queue.shift(); // -> 1`;
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isQueue(tree);
     }
 }
 

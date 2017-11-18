@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_OBJECT } from '../../constants/cards.js';
+import { isObject } from '../../util';
+import espree from 'espree';
 
 class ObjectCard extends Card {
     constructor() {
@@ -15,6 +17,11 @@ class ObjectCard extends Card {
 rect.y; // -> 50
 rect.x = 10;
 rect.x; // -> 10`;
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isObject(tree);
     }
 }
 

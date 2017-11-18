@@ -76,3 +76,19 @@ export const isFunction = tree => {
             return false;
     }
 }
+
+export const isBinarySearchTree = tree => {
+	return isClass(tree) || isFunction(tree);
+}
+
+export const isLinkedList = tree => {
+	return isClass(tree) || isFunction(tree);
+}
+
+export const isQueue = tree => {
+	return isArray(tree);
+}
+
+export const isStack = tree => {
+	return isArray(tree);
+}

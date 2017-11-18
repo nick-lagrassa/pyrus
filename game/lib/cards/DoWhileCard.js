@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_DO_WHILE_LOOP } from '../../constants/cards.js';
+import { isLoop } from '../../util';
+import espree from 'espree';
 
 class DoWhileCard extends Card {
     constructor() {
@@ -11,6 +13,11 @@ class DoWhileCard extends Card {
 
 } while (cond);`;
         this.example = 'var hash = { "foo": "bar" };';
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isLoop(tree);
     }
 }
 

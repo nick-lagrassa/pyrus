@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_LINKED_LIST } from '../../constants/cards.js';
+import { isLinkedList } from '../../util';
+import espree from 'espree';
 
 class LinkedListCard extends Card {
     constructor() {
@@ -17,6 +19,11 @@ head.val; // -> 12
 head.next = new ListNode(15);
 head.next.val; // -> 15
 head.next.next; // -> null`;
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isLinkedList(tree);
     }
 }
 

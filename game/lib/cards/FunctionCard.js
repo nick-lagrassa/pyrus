@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_HELPER_FUNCTION } from '../../constants/cards.js';
+import { isFunction } from '../../util';
+import espree from 'espree';
 
 class FunctionCard extends Card {
     constructor() {
@@ -15,6 +17,11 @@ class FunctionCard extends Card {
     return 4;
 }
 helper(); // -> 4`;
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isFunction(tree);
     }
 }
 

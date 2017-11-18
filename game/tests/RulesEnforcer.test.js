@@ -4,41 +4,24 @@ import ConsumeMove from '../components/ConsumeMove';
 import DiscardMove from '../components/DiscardMove';
 import WriteMove from '../components/WriteMove';
 import TestCard from '../lib/cards/TestCard';
-import cardsObjects from '../lib/cards'
+import cards from '../lib/cards'
 
 const {
     HashTableCard,
     WhileCard,
     FunctionCard,
+    ConditionalCard,
     QueueCard,
     BSTCard,
     StackCard,
     DoWhileCard,
-    ConditionalCard,
     ObjectCard,
     ArrayCard,
     LinkedListCard,
     ForCard,
     ClassCard,
     SwitchCard
-} = cardsObjects;
-
-const cards = [
-    HashTableCard,
-    WhileCard,
-    FunctionCard,
-    QueueCard,
-    BSTCard,
-    StackCard,
-    DoWhileCard,
-    ConditionalCard,
-    ObjectCard,
-    ArrayCard,
-    LinkedListCard,
-    ForCard,
-    ClassCard,
-    SwitchCard
-];
+} = cards;
 
 const nonPrimitiveCode = [
     'var i = { \'x\': 5 }',
@@ -103,19 +86,19 @@ describe('isLegalMove', () => {
 
     describe('Consume Card Move', () => {
         describe('is legal', () => {
-            for(let i = 0; i < cards.length; i++) {
-                test('${cards[i]}', () => {
-                    player.hand[0] = new cards[i]();
+            for(let key in cards) {
+                test(`${ key }`, () => {
+                    player.hand[0] = new cards[key];
                     const consumeMove = new ConsumeMove(player.id, player.hand[0], player.hand[0].implementation);
                     expect(game._re.isLegalMove(game._board, consumeMove)).toBe(true);
                 });
             }
         });
 
-        test('is illegal', () => {
+        test.only('is illegal', () => {
             const objectCode = 'var i = { }';
-            const consumeMove = new ConsumeMove(player.id, new ArrayCard(), objectCode);
-            expect(game._re.isLegalMove(game._board, consumeMove)).toBe(false);
+            const badConsumeMove = new ConsumeMove(player.id, new ArrayCard(), objectCode);
+            expect(game._re.isLegalMove(game._board, badConsumeMove)).toBe(false);
         });
     });
 

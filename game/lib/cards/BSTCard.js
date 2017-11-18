@@ -1,5 +1,7 @@
 import Card from '../../components/Card';
 import { CARDS_BINARY_SEARCH_TREE } from '../../constants/cards.js';
+import { isBinarySearchTree } from '../../util';
+import espree from 'espree';
 
 class BSTCard extends Card {
     constructor() {
@@ -19,6 +21,11 @@ head.left = new TreeNode(9);
 head.left.val; // -> 9
 head.left.left; // -> null
 head.left.right; // -> null`;
+    }
+
+    isInstanceOf(code) {
+        const tree = espree.parse(code);
+        return isBinarySearchTree(tree);
     }
 }
 
