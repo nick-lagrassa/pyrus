@@ -95,7 +95,8 @@ export default class ServerStreamHandler {
                 let results = [];
                 for (let i = 0; i < command.tests.length; i++) {
                     const test = command.tests[i];
-                    const code = `${ command.fn }(${ JSON.stringify(test.input).replace(bracketsRe, '') })`;
+                    const formattedInput = JSON.stringify(test.input).replace(bracketsRe, '');
+                    const code = `${ command.fn }(${ formattedInput })`;
                     // this is likely a very bad way to do this, since i believe (? not 100% sure)
                     // that safeEval is synchronous, so in the worst case (i.e. all tests timeout),
                     // we could leave the user waiting for a few seconds before the tests return
@@ -106,7 +107,7 @@ export default class ServerStreamHandler {
                     if (result instanceof Error) {
                         results.push({
                             passed: false,
-                            input: test.input,
+                            input: formattedInput,
                             // TODO: make error'd test case outputs not hardcoded
                             output: "Error: test timed out",
                             expected: test.expected
@@ -115,7 +116,7 @@ export default class ServerStreamHandler {
                         results.push({
                             // TODO: implement custom checks for equality
                             passed: result === test.expected,
-                            input: test.input,
+                            input: formattedInput,
                             output: result,
                             expected: test.expected
                         });

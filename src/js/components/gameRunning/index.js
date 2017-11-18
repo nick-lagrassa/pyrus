@@ -19,10 +19,19 @@ export default class GameRunning extends Component {
         this.re = new RulesEnforcer();
         this.state = {
             isWaitingForSubmit: false,
+            isWaitingForTestResults: false,
             isMoveValid: false,
             selectedMove: null,
             selectedCard: null,
         };
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        const { isWaitingForTestResults } = this.state;
+        const { prompt } = this.props;
+        if (isWaitingForTestResults && prompt._testResults !== nextProps.prompt._testResults) {
+            this.setState({ isWaitingForTestResults: false });
+        }
     }
 
     shouldDisplayOverlay = () => {
@@ -63,6 +72,8 @@ export default class GameRunning extends Component {
             fn: `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
             tests: prompt._tests
         });
+
+        this.setState({ isWaitingForTestResults: true });
     }
 
     handleDiscardMoveClick = () => {
@@ -167,14 +178,19 @@ export default class GameRunning extends Component {
 
     render() {
         const { me, game, gameId, stream, players } = this.props;
-        const { testResults, selectedMove, isWaitingForSubmit, isMoveValid } = this.state;
+        const { 
+            selectedMove, 
+            isWaitingForSubmit, 
+            isMoveValid,
+            isWaitingForTestResults 
+        } = this.state;
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
                 <InfoHeader />
                 <div className="flex mw8 center mb6">
                     <div className="w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll">
-                        <Prompt />
+                        <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
                     </div>
                     <div className={`w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
                         <Editor
