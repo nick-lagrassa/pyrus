@@ -3,7 +3,6 @@ import { COMMAND_RUN_CODE } from '../../app/constants/command';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
 import { ME_SET_INFO } from '../../src/js/constants/me';
 import { GAME_START } from '../../game/constants/game';
-import { PROMPT_SET_TEST_RESULTS } from '../../game/constants/prompt';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../game/constants/move';
 import DiscardMove from '../../game/components/DiscardMove';
 import WriteMove from '../../game/components/WriteMove';
@@ -122,11 +121,8 @@ export default class ServerStreamHandler {
                         });
                     }
                 }
-                
-                this.sendAction({
-                    type: PROMPT_SET_TEST_RESULTS,
-                    results
-                });
+
+                this.game.testResults = results;
                 break;
             default:
                 break;
