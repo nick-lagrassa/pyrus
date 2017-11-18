@@ -244,7 +244,7 @@ export default class GameRunning extends Component {
                         <p className="f6 silver mt4 mb0">RUN</p>
                         <input
                             type="button"
-                            className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
+                            className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
                             value="Run Code"
                             onClick={ this.handleRunCode }
                         />
