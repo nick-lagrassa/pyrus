@@ -88,25 +88,25 @@ export default class GameRunning extends Component {
         }
     }
 
-    handleDiscardMoveClick = () => {
+    handleWriteMoveClick = () => {
         this.setState({
-            selectedMove: MOVE_DISCARD
+            selectedMove: MOVE_WRITE,
+            isWaitingForSubmit: true,
+            isMoveValid: false
         });
     }
 
     handleConsumeMoveClick = () => {
         this.setState({
             selectedMove: MOVE_CONSUME,
-            isWaitingForSubmit: true,
+            isWaitingForSubmit: false,
             isMoveValid: false
         });
     }
 
-    handleWriteMoveClick = () => {
+    handleDiscardMoveClick = () => {
         this.setState({
-            selectedMove: MOVE_WRITE,
-            isWaitingForSubmit: true,
-            isMoveValid: false
+            selectedMove: MOVE_DISCARD
         });
     }
 
@@ -121,8 +121,8 @@ export default class GameRunning extends Component {
             });
 
             this.setState({
-                selectedMove: null
-            })
+                selectedMove: null,
+            });
             return;
         }
 
@@ -190,7 +190,13 @@ export default class GameRunning extends Component {
 
     render() {
         const { me, game, gameId, stream, players } = this.props;
-        const { testResults, selectedMove, isWaitingForSubmit, isMoveValid } = this.state;
+        const {
+            testResults,
+            selectedMove,
+            isWaitingForSubmit,
+            isMoveValid,
+            selectedCard 
+        } = this.state;
         let numTestsPassed = testResults ? testResults.filter(result => result.passed).length : null;
 
         return (
@@ -206,9 +212,15 @@ export default class GameRunning extends Component {
                                 </p>
                                 { testResults.filter(result => !result.passed).map((result, i) => (
                                     <div className="bg-pear-yellow mv2 pa3 br2" key={ i }>
-                                        <p className="code lh-copy mv0">Input: { JSON.stringify(result.input).replace(this.bracketsRe, '') }</p>
-                                        <p className="code lh-copy mv0">Got: { JSON.stringify(result.output) }</p>
-                                        <p className="code lh-copy mv0">Expected: { JSON.stringify(result.expected) }</p>
+                                        <p className="code lh-copy mv0">
+                                            Input: { JSON.stringify(result.input).replace(this.bracketsRe, '') }
+                                        </p>
+                                        <p className="code lh-copy mv0">
+                                            Got: { JSON.stringify(result.output) }
+                                        </p>
+                                        <p className="code lh-copy mv0">
+                                            Expected: { JSON.stringify(result.expected) }
+                                        </p>
                                     </div>
                                 ))}
                             </div>
@@ -298,6 +310,7 @@ export default class GameRunning extends Component {
                         <div className="flex-none relative">
                             <Hand
                                 cards={ this.getMyHand() }
+                                selectedCard={ selectedCard }
                                 handleCardClick={ this.shouldDisplayOverlay() ? this.handleCardClick : null }
                             />
                         </div>

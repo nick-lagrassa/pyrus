@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Card from '../card';
 
-const Hand = ({ cards, handleCardClick, inverse=false }) => (
+const Hand = ({ cards, handleCardClick, inverse=false, selectedCard }) => (
     cards ?
         cards.map((card, i) => (
             <Card 
@@ -13,6 +13,7 @@ const Hand = ({ cards, handleCardClick, inverse=false }) => (
                     :
                     { left: `${ i * 100 }px` }
                 }
+                shouldFloat={ selectedCard === card }
             />
         ))
         :
