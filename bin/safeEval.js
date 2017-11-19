@@ -31,5 +31,4 @@ function safeEval(code) {
     }
 }
 
-var fn = '(' + safeEncode.decode(process.argv[2]) + ')(' + safeEncode.decode(process.argv[3]) + ')';
-safeEval(fn);
+safeEval(safeEncode.decode(process.argv[2]));

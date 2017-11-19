@@ -104,7 +104,7 @@ export default class ServerStreamHandler {
                     const test = command.tests[i];
                     let formattedInput = JSON.stringify(test.input).replace(bracketsRe, '');
                     formattedInputs.push(formattedInput);
-                    tests.push(exec(`safeEval '${ encode(command.fn) }' '${ encode(formattedInput) }'`));
+                    tests.push(exec(`safeEval '(${ encode(command.fn) })(${encode( formattedInput )})'`));
                 }
 
                 Promise.all(tests)
