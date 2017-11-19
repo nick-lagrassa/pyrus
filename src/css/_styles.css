@@ -12,15 +12,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.rise {
+.transition {
   -webkit-transition: .2s ease-in-out;
   -moz-transition: .2s ease-in-out;
   -o-transition: .2s ease-in-out;
   transition: .2s ease-in-out;
-  transform: translateY(0px);
 }
 
-.rise:hover {
+.rise {
   -webkit-transform: translateY(-3rem);
   -moz-transform: translateY(-3rem);
   -o-transform: translateY(-3rem);
