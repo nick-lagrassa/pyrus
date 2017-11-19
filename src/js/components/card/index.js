@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MOVE_DISCARD, MOVE_WRITE, MOVE_CONSUME } from '../../../../game/constants/move';
 
-export default class Hand extends Component {
+export default class Card extends Component {
     constructor(props) {
         super(props);
         this.state = {

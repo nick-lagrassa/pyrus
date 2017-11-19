@@ -1,9 +1,11 @@
 import { VM, VMScript } from 'vm2';
-const vm = new VM({ timeout: 1000 });
+const TIMEOUT_MS = 500;
+const vm = new VM({ timeout: TIMEOUT_MS });
 
 // Function, Listof[Any] -> Any | Error
 export default (code) => {
     let script;
+    let timestamp = Date.now();
     try {
         script = new VMScript(code).compile();
     } catch (e) {
@@ -13,6 +15,9 @@ export default (code) => {
     try {
         return vm.run(script);
     } catch (e) {
-        return new Error('Timeout has occurred');
+        if (Date.now() - timestamp > TIMEOUT_MS) {
+            return new Error('Timeout has occurred');
+        }
+        return e;
     }
 }

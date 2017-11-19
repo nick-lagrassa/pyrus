@@ -30,7 +30,7 @@ export default class GameRunning extends Component {
     componentWillUpdate(nextProps, nextState) {
         const { isWaitingForTestResults } = this.state;
         const { prompt } = this.props;
-        if (isWaitingForTestResults && prompt._testResults !== nextProps.prompt._testResults) {
+        if (isWaitingForTestResults && prompt._testRunTimestampMS !== nextProps.prompt._testRunTimestampMS) {
             this.setState({ isWaitingForTestResults: false });
         }
     }
@@ -81,7 +81,10 @@ export default class GameRunning extends Component {
             tests: prompt._tests
         });
 
-        this.setState({ isWaitingForTestResults: true });
+        this.setState({ 
+            isWaitingForTestResults: true,
+            shouldDisplayTestResultsIndicator: false
+        });
     }
 
     handleDiscardMoveClick = () => {

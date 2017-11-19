@@ -15,7 +15,8 @@ export default function board(state=initialState, action) {
         case PROMPT_SET_TEST_RESULTS:
             return {
                 ...state,
-                _testResults: action.results
+                _testResults: action.results,
+                _testRunTimestampMS: Date.now()
             }
         default:
             return state;

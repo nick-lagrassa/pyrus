@@ -14,6 +14,7 @@ export default class ServerStreamHandler {
     constructor(socket, game, playerId, logger) {
         this.socket = socket;
         this.game = game;
+        this.playerName = null;
         this.playerId = playerId;
         this.logger = logger;
 
@@ -22,7 +23,7 @@ export default class ServerStreamHandler {
             this.logger.log({
                 sender: 'CLIENT',
                 playerId: this.playerId,
-                // should we also log the player's name?
+                name: this.playerName,
                 data
             });
             switch (data.type) {
@@ -68,6 +69,8 @@ export default class ServerStreamHandler {
     handleWSAction(action) {
         switch (action.type) {
             case PLAYERS_REGISTER_PLAYER:
+                this.playerName == action.name;
+
                 if (this.game.registerPlayer(action.name, this.playerId)) {
                     this.sendAction({
                         type: ME_SET_INFO,
@@ -109,7 +112,7 @@ export default class ServerStreamHandler {
                             passed: false,
                             input: formattedInput,
                             // TODO: make error'd test case outputs not hardcoded
-                            output: "Error: test timed out",
+                            output: result.message,
                             expected: test.expected
                         });
                     } else {

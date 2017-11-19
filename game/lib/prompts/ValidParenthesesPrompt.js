@@ -80,6 +80,7 @@ class ValidParenthesesPrompt extends Prompt {
         ]
 
         this._testResults = [];
+        this._testRunTimestampMS = Date.now()
     }
 }
 
