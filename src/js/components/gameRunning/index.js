@@ -23,6 +23,7 @@ export default class GameRunning extends Component {
             isMoveValid: false,
             selectedMove: null,
             selectedCard: null,
+            shouldDisplayTestResultsIndicator: false
         };
     }
 
@@ -31,6 +32,13 @@ export default class GameRunning extends Component {
         const { prompt } = this.props;
         if (isWaitingForTestResults && prompt._testResults !== nextProps.prompt._testResults) {
             this.setState({ isWaitingForTestResults: false });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { isWaitingForTestResults } = this.state;
+        if (!isWaitingForTestResults && prevState.isWaitingForTestResults) {
+            this.setState({ shouldDisplayTestResultsIndicator: true });
         }
     }
 
@@ -182,17 +190,24 @@ export default class GameRunning extends Component {
             selectedMove, 
             isWaitingForSubmit, 
             isMoveValid,
-            isWaitingForTestResults 
+            isWaitingForTestResults,
+            shouldDisplayTestResultsIndicator
         } = this.state;
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
                 <InfoHeader />
                 <div className="flex mw8 center mb6">
-                    <div className="w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll">
+                    <div
+                        className="w-50 pt3 ph3 pb6 overflow-scroll relative" 
+                        onScroll={ () => this.setState({ shouldDisplayTestResultsIndicator: false }) }
+                    >
                         <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
+                        { shouldDisplayTestResultsIndicator &&
+                            <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">👇 New test results!</div>
+                        }
                     </div>
-                    <div className={`w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
+                    <div className={`w-50 pt3 ph3 pb6 overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
                         <Editor
                             className={ myTurn(me, game, players) ? '' : 'pointer-none' }
                             gameId={ gameId }
@@ -200,7 +215,7 @@ export default class GameRunning extends Component {
                             handleEditorChange={ this.handleEditorChange }
                         />
                     </div>
-                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column">
+                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-9">
                         { myTurn(me, game, players) && isWaitingForSubmit &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mv0">SUBMIT ACTION</p>

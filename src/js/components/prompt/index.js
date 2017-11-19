@@ -20,25 +20,27 @@ export default class Prompt extends Component {
                 <p className="lh-copy">{ prompt._info.description }</p>
                 <p className="silver">Examples</p>
                 <pre className="lh-copy">{ prompt._info.examples }</pre>
-                { isWaitingForTestResults &&
-                    <div className="bg-pear-yellow mv pa3 br2">
-                        <span className="b">🏃🏾 Running tests...</span>
-                    </div>
-                }
-                { shouldShowTests &&
-                    <div className="pa3 br2 bg-pear-near-white">
-                        <p className="b">
-                            { numTestsPassed === prompt._testResults.length ? '✅' : '⚠️'} { numTestsPassed } out of { prompt._testResults.length } tests passed!
-                        </p>
-                        { prompt._testResults.filter(result => !result.passed).map((result, i) => (
-                            <div className="bg-pear-yellow mv2 pa3 br2" key={ i }>
-                                <p className="code lh-copy mv0">Input: { result.input }</p>
-                                <p className="code lh-copy mv0">Got: { JSON.stringify(result.output) }</p>
-                                <p className="code lh-copy mv0">Expected: { JSON.stringify(result.expected) }</p>
-                            </div>
-                        ))}
-                    </div>
-                }
+                <div>
+                    { isWaitingForTestResults &&
+                        <div className="bg-pear-yellow mv pa3 br2">
+                            <span className="b">🏃🏾 Running tests...</span>
+                        </div>
+                    }
+                    { shouldShowTests &&
+                        <div className="pv3 br2 bg-pear-near-white">
+                            <p className="b">
+                                { numTestsPassed === prompt._testResults.length ? '✅' : '⚠️'} { numTestsPassed } out of { prompt._testResults.length } tests passed!
+                            </p>
+                            { prompt._testResults.filter(result => !result.passed).map((result, i) => (
+                                <div className="bg-pear-yellow mv2 pa3 br2" key={ i }>
+                                    <p className="code lh-copy mv0">Input: { result.input }</p>
+                                    <p className="code lh-copy mv0">Got: { JSON.stringify(result.output) }</p>
+                                    <p className="code lh-copy mv0">Expected: { JSON.stringify(result.expected) }</p>
+                                </div>
+                            ))}
+                        </div>
+                    }
+                </div>
             </div>
         );
     }
