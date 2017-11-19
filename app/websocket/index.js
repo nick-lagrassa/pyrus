@@ -121,7 +121,7 @@ export default class ServerStreamHandler {
                                 results.push({
                                     passed: false,
                                     input: formattedInputs[i],
-                                    output: stderr,
+                                    output: `Error: ${ stderr }`,
                                     expected: command.tests[i].expected
                                 });
                             }

@@ -7,7 +7,13 @@ var vm = new VM2.VM({ timeout: TIMEOUT_MS });
 function safeEval(code) {
     var script;
     var timestamp = Date.now();
-    script = new VM2.VMScript(code).compile();
+    try {
+        script = new VM2.VMScript(code).compile();
+    } catch (e) {
+        process.stderr.write(e.message);
+        return;
+    }
+    
 
     try {
         var value = vm.run(script);
