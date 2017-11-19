@@ -190,11 +190,11 @@ export default class GameRunning extends Component {
 
     render() {
         const { me, game, gameId, stream, players } = this.props;
-        const { 
-            testResults, 
-            selectedMove, 
-            isWaitingForSubmit, 
-            isMoveValid, 
+        const {
+            testResults,
+            selectedMove,
+            isWaitingForSubmit,
+            isMoveValid,
             selectedCard 
         } = this.state;
         let numTestsPassed = testResults ? testResults.filter(result => result.passed).length : null;
@@ -208,7 +208,7 @@ export default class GameRunning extends Component {
                         { testResults &&
                             <div className="pa3 br2 bg-pear-near-white">
                                 <p className="b">
-                                    { numTestsPassed === testResults.length ? '✅' : '⚠️'} { numTestsPassed } out of { testResults.length }tests passed!
+                                    { numTestsPassed === testResults.length ? '✅' : '⚠️'} { numTestsPassed } out of { testResults.length } tests passed!
                                 </p>
                                 { testResults.filter(result => !result.passed).map((result, i) => (
                                     <div className="bg-pear-yellow mv2 pa3 br2" key={ i }>
@@ -310,7 +310,7 @@ export default class GameRunning extends Component {
                         <div className="flex-none relative">
                             <Hand
                                 cards={ this.getMyHand() }
-                                selectedCard={ selectedCard ? selectedCard : null }
+                                selectedCard={ selectedCard }
                                 handleCardClick={ this.shouldDisplayOverlay() ? this.handleCardClick : null }
                             />
                         </div>
