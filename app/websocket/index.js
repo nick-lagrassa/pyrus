@@ -133,7 +133,8 @@ export default class ServerStreamHandler {
                                     passed: result === command.tests[i].expected,
                                     input: formattedInputs[i],
                                     output: result.value,
-                                    expected: command.tests[i].expected
+                                    expected: command.tests[i].expected,
+                                    console: result.console
                                 });
                             }
                         }

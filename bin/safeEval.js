@@ -17,9 +17,26 @@ function safeEval(code) {
 
     try {
         var value = vm.run(script);
+        var logs = [];
+
+        // this is a huge hack: basically the issue is that VM2 doesn't allow you
+        // to hook into the console. so essentially what we're doing here is, after
+        // running the script once using the VM2 vm, we know that it won't time out.
+        // then, we run it in a NodeVM, which does give us access to the console, and
+        // take the console info from that. 
+        var nodevm = new VM2.NodeVM({
+            console: 'redirect',
+            sandbox: {},
+        });
+
+        nodevm.on('console.log', function(log) {
+            logs.push(JSON.stringify(log));
+        });
+
+        nodevm.run(code);
+
         process.stdout.write(JSON.stringify({
-            // TODO: figure out how to pipe console logs from the vm to this property so we can display it
-            console: '',
+            console: logs,
             value: value
         }));
     } catch (e) {
