@@ -6,7 +6,10 @@ import { GAME_START } from '../../game/constants/game';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../game/constants/move';
 import DiscardMove from '../../game/components/DiscardMove';
 import WriteMove from '../../game/components/WriteMove';
-import safeEval from '../../game/util/safeEval';
+import { encode, decode } from '../util/safeEncode';
+
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 const bracketsRe = /^\[|\]$/g;
 
@@ -95,38 +98,51 @@ export default class ServerStreamHandler {
     handleWSCommand(command) {
         switch (command.type) {
             case COMMAND_RUN_CODE:
-                let results = [];
+                let tests = [];
+                let formattedInputs = [];
                 for (let i = 0; i < command.tests.length; i++) {
                     const test = command.tests[i];
-                    const formattedInput = JSON.stringify(test.input).replace(bracketsRe, '');
-                    const code = `${ command.fn }(${ formattedInput })`;
-                    // this is likely a very bad way to do this, since i believe (? not 100% sure)
-                    // that safeEval is synchronous, so in the worst case (i.e. all tests timeout),
-                    // we could leave the user waiting for a few seconds before the tests return
-                    // and possibly our backend could miss some stuff if since it's blocking the
-                    // thread of execution? idk im not sure but in any case it sounds like trouble
-                    const result = safeEval(code);
-
-                    if (result instanceof Error) {
-                        results.push({
-                            passed: false,
-                            input: formattedInput,
-                            // TODO: make error'd test case outputs not hardcoded
-                            output: result.message,
-                            expected: test.expected
-                        });
-                    } else {
-                        results.push({
-                            // TODO: implement custom checks for equality
-                            passed: result === test.expected,
-                            input: formattedInput,
-                            output: result,
-                            expected: test.expected
-                        });
-                    }
+                    let formattedInput = JSON.stringify(test.input).replace(bracketsRe, '');
+                    formattedInputs.push(formattedInput);
+                    tests.push(exec(`safeEval '${ encode(command.fn) }' '${ encode(formattedInput) }'`));
                 }
 
-                this.game.testResults = results;
+                Promise.all(tests)
+                    .then(values => {
+                        let results = [];
+                        for (let i = 0; i < values.length; i++) {
+                            const { error, stdout, stderr } = values[i];
+                            if (error) {
+                                console.error(`exec error: ${ error }`);
+                                return;
+                            }
+
+                            if (stderr) {
+                                results.push({
+                                    passed: false,
+                                    input: formattedInputs[i],
+                                    output: stderr,
+                                    expected: command.tests[i].expected
+                                });
+                            }
+
+                            if (stdout) {
+                                const result = JSON.parse(stdout);
+                                results.push({
+                                    // TODO: implement custom checks for equality
+                                    passed: result === command.tests[i].expected,
+                                    input: formattedInputs[i],
+                                    output: result.value,
+                                    expected: command.tests[i].expected
+                                });
+                            }
+                        }
+
+                        this.game.testResults = results;
+                    })
+                    .catch(reason => {
+                        console.error(reason);
+                    });
                 break;
             default:
                 break;

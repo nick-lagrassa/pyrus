@@ -8,7 +8,6 @@ import InfoHeader from '../../containers/infoHeader';
 import Editor from '../../containers/editor';
 import Hand from '../hand';
 import Prompt from '../../containers/prompt';
-import limitEval from '../../util/limitEval';
 import { myTurn } from '../../../../game/util';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../../../game/constants/move';
 import { COMMAND_RUN_CODE } from '../../../../app/constants/command';
