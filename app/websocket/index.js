@@ -131,7 +131,7 @@ export default class ServerStreamHandler {
                                 const result = JSON.parse(stdout);
                                 results.push({
                                     // TODO: implement custom checks for equality
-                                    passed: result === command.tests[i].expected,
+                                    passed: result.value === command.tests[i].expected,
                                     input: formattedInputs[i],
                                     output: result.value,
                                     expected: command.tests[i].expected,
