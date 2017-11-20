@@ -1,14 +1,13 @@
 import Card from '../../components/Card';
 import { CARDS_DO_WHILE_LOOP } from '../../constants/cards.js';
-import { isDoWhileLoop } from '../../util';
-import espree from 'espree';
+import { isDoWhileLoop, getAST } from '../../util';
 
 class DoWhileCard extends Card {
     constructor() {
         super();
         this.type = CARDS_DO_WHILE_LOOP;
         this.title = 'Do While';
-        this.implementation = 
+        this.implementation =
 `do {
 
 } while (cond);`;
@@ -16,7 +15,7 @@ class DoWhileCard extends Card {
     }
 
     isInstanceOf(code) {
-        const tree = espree.parse(code);
+        const tree = getAST(code);
         return isDoWhileLoop(tree);
     }
 }

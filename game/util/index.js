@@ -1,3 +1,5 @@
+import espree from 'espree';
+
 export const activePlayerIndex = (turnCount, numPlayers) => {
     return turnCount % numPlayers;
 }
@@ -8,6 +10,10 @@ export const getActivePlayer = (game, players) => {
 
 export const myTurn = (me, game, players) => {
     return getActivePlayer(game, players).id === me.id;
+}
+
+export const getAST = code => {
+    return espree.parse(code, { ecmaVersion: 6 });
 }
 
 export const isArray = tree => {

@@ -1,14 +1,13 @@
 import Card from '../../components/Card';
 import { CARDS_FOR_LOOP } from '../../constants/cards.js';
-import { isForLoop } from '../../util';
-import espree from 'espree';
+import { isForLoop, getAST } from '../../util';
 
 class ForCard extends Card {
     constructor() {
         super();
         this.type = CARDS_FOR_LOOP;
         this.title = 'For Loop';
-        this.implementation = 
+        this.implementation =
 `for (var i = 0; i < 3; i++) {
 
 }`;
@@ -16,7 +15,7 @@ class ForCard extends Card {
     }
 
     isInstanceOf(code) {
-        const tree = espree.parse(code);
+        const tree = getAST(code);
         return isForLoop(tree);
     }
 }

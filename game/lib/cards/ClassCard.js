@@ -1,7 +1,6 @@
 import Card from '../../components/Card';
 import { CARDS_CLASS } from '../../constants/cards.js';
-import { isClass } from '../../util';
-import espree from 'espree';
+import { isClass, getAST } from '../../util';
 
 class ClassCard extends Card {
     constructor() {
@@ -13,7 +12,7 @@ class ClassCard extends Card {
     }
 
     isInstanceOf(code) {
-        const tree = espree.parse(code);
+        const tree = getAST(code);
         return isClass(tree);
     }
 }

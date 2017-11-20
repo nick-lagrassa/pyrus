@@ -2,7 +2,6 @@ import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from '../../constants/move';
 import cards from '../../lib/cards'
 import * as util from '../../util';
 import * as JsDiff from 'diff';
-import espree from 'espree';
 import * as cardConstants from '../../constants/cards'
 
 class RulesEnforcer {
@@ -42,10 +41,12 @@ class RulesEnforcer {
             case MOVE_CONSUME:
                 diff = this.getEditorDifference(board.editor, move.code);
                 return this.playerHasCard(players, move) &&
-                          this.isValidCodeForCard(move.card.type, diff);
+                        this.checkForSingleMove(diff) &&
+                        this.isValidCodeForCard(move.card.type, diff);
             case MOVE_WRITE:
                 diff = this.getEditorDifference(board.editor, move.code);
-                return this.isPrimitiveWrite(diff);
+                return this.checkForSingleMove(diff) &&
+                        this.isPrimitiveWrite(diff);
             default:
                 return false;
         }
@@ -129,6 +130,16 @@ class RulesEnforcer {
         return changed;
     }
 
+    checkForSingleMove(code) {
+        try {
+            const tree = util.getAST(code)
+            return tree.body.length <= 1;
+        } catch (e) {
+            return true;
+        }
+
+    }
+
     isPrimitiveWrite(code) {
         const patterns = [
             util.isArray,
@@ -142,11 +153,11 @@ class RulesEnforcer {
             util.isSwitch,
             util.isFunction
         ];
-        const tree = espree.parse(code, { ecmaVersion: 6 });
-
-        if (tree.body.length > 1) {
+        const tree = util.getAST(code)
+        if (!this.checkForSingleMove(tree)) {
             return false;
         }
+
         for (let i = 0; i < patterns.length; i++) {
             try {
                 if(patterns[i](tree)) {
