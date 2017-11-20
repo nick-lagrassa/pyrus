@@ -1,7 +1,7 @@
 import { WS_ACTION } from '../../game/constants/ws';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
 import { ME_SET_INFO } from '../../src/js/constants/me';
-import { GAME_START } from '../../game/constants/game';
+import { GAME_START, GAME_END_TURN } from '../../game/constants/game';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../game/constants/move';
 import DiscardMove from '../../game/components/DiscardMove';
 import WriteMove from '../../game/components/WriteMove';
@@ -29,6 +29,9 @@ export default class ServerStreamHandler {
                         break;
                     case GAME_START:
                         this.game.start();
+                        break;
+                    case GAME_END_TURN:
+                        this.game.endTurn(this.playerId);
                         break;
                     case MOVE_DISCARD:
                     case MOVE_WRITE:

@@ -11,6 +11,7 @@ import Prompt from '../../containers/prompt';
 import limitEval from '../../util/limitEval';
 import { myTurn } from '../../../../game/util';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../../../game/constants/move';
+import { GAME_END_TURN } from '../../../../game/constants/game';
 
 export default class GameRunning extends Component {
     constructor(props) {
@@ -168,6 +169,13 @@ export default class GameRunning extends Component {
         });
     }
 
+    handleEndTurnClick = () => {
+        const { stream } = this.props;
+        stream.sendAction({
+            type: GAME_END_TURN
+        });
+    }
+
     handleEditorChange = () => {
         const { me, board, players, deck } = this.props;
         const { isMoveValid, selectedMove, selectedCard } = this.state;
@@ -275,13 +283,26 @@ export default class GameRunning extends Component {
                                 />
                             </div>
                         }
-                        <p className="f6 silver mt4 mb0">RUN</p>
-                        <input
-                            type="button"
-                            className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
-                            value="Run Code"
-                            onClick={ this.handleRunCode }
-                        />
+                        <div className="flex flex-column">
+                            <p className="f6 silver mt4 mb0">RUN</p>
+                            <input
+                                type="button"
+                                className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
+                                value="Run Code"
+                                onClick={ this.handleRunCode }
+                            />
+                        </div>
+                        { myTurn(me, game, players) &&
+                            <div className="flex flex-column">
+                                <p className="f6 silver mt4 mb0">END TURN</p>
+                                <input
+                                    type="button"
+                                    className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
+                                    value="End Turn"
+                                    onClick={ this.handleEndTurnClick }
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-999' : 'o-0 z-0 dn' }`}></div>
