@@ -31,7 +31,9 @@ export default class ServerStreamHandler {
                         this.game.start();
                         break;
                     case GAME_END_TURN:
-                        this.game.endTurn(this.playerId);
+                        if (this.playerId === this.game.activePlayer.id) {
+                            this.game.endTurn();
+                        }
                         break;
                     case MOVE_DISCARD:
                     case MOVE_WRITE:
