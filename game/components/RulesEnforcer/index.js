@@ -5,6 +5,7 @@ import { CARDS_HASH_TABLE,
          CARDS_CLASS,
          CARDS_CONDITIONAL,
          CARDS_DO_WHILE_LOOP,
+         CARDS_WHILE_LOOP,
          CARDS_FOR_LOOP,
          CARDS_HELPER_FUNCTION,
          CARDS_ARRAY,
@@ -16,7 +17,9 @@ import { CARDS_HASH_TABLE,
        } from '../../constants/cards';
 import { isArray,
          isObject,
-         isLoop,
+         isForLoop,
+         isWhileLoop,
+         isDoWhileLoop,
          isConditional,
          isTernaryConditional,
          isClass,
@@ -156,11 +159,13 @@ class RulesEnforcer {
     // code that has been added
     // string, string -> string
     getEditorDifference(oldCode, newCode) {
-        const diff = JsDiff.diffLines(oldCode, newCode);
+        const diff = JsDiff.diffLines(oldCode, newCode, { newlineIsToken: true });
         let addedCode = diff.filter(line => { return line.added === true });
 
         let changed = '';
-        addedCode.filter(line => { return changed += line.value });
+        for(let line of addedCode) {
+            changed += line.value
+        }
 
         return changed;
     }
@@ -186,11 +191,7 @@ class RulesEnforcer {
                     return false;
                 }
             } catch (e) {
-                if (e instanceof ReferenceError) {
-                    // TODO what should this be
-                    console.log(e);
-                    return false;
-                }
+                continue;
             }
         }
         return true;

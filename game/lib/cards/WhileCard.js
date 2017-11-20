@@ -1,6 +1,6 @@
 import Card from '../../components/Card';
 import { CARDS_WHILE_LOOP } from '../../constants/cards.js';
-import { isLoop } from '../../util';
+import { isWhileLoop } from '../../util';
 import espree from 'espree';
 
 class WhileCard extends Card {
@@ -17,7 +17,7 @@ class WhileCard extends Card {
 
     isInstanceOf(code) {
         const tree = espree.parse(code);
-        return isLoop(tree);
+        return isWhileLoop(tree);
     }
 }
 
