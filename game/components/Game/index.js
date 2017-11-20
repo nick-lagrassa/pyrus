@@ -84,7 +84,7 @@ class Game {
             this._store.dispatch(spendMove());
 
             if (this.numMovesRemaining <= 0) {
-                this.endTurn(this.activePlayer.id);
+                this.endTurn();
             }
 
             return true;
