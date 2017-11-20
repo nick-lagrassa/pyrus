@@ -67,12 +67,12 @@ export default class Home extends Component {
                         onSubmit={ this.handleGameTitleFormSubmit }
                     >
                         <select 
-                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset" 
+                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset lh-copy"
                             onChange={ this.handleGameTitleChange }
                             defaultValue=""
                         >
                             <option value="" disabled hidden >
-                                Select Challenge
+                                Select Challenge ⬇️
                             </option>
                             <option value="validParenthesesGame" >
                                 Valid Parentheses
