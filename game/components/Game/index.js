@@ -88,9 +88,7 @@ class Game {
             this._store.dispatch(spendMove());
 
             if (this.numMovesRemaining <= 0) {
-                const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
-                this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
-                this._store.dispatch(cycleToNextPlayer());
+                this.endTurn();
             }
 
             return true;
@@ -103,6 +101,13 @@ class Game {
     // Int ->
     removePlayer(playerId) {
         this._store.dispatch(removePlayer(playerId));
+    }
+
+    // skip the current player's turn
+    endTurn() {
+        const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
+        this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
+        this._store.dispatch(cycleToNextPlayer());
     }
 }
 
