@@ -60,47 +60,47 @@ class RulesEnforcer {
     isValidCodeForCard(cardType, diff) {
         let card;
         switch(cardType) {
-            case cardConstants[CARDS_HASH_TABLE]:
-                card = new card[HashTableCard];
+            case cardConstants.CARDS_HASH_TABLE:
+                card = new cards.HashTableCard;
                 break;
-            case cardConstants[CARDS_BINARY_SEARCH_TREE]:
-                card = new card[BSTCard];
+            case cardConstants.CARDS_BINARY_SEARCH_TREE:
+                card = new cards.BSTCard;
                 break;
-            case cardConstants[CARDS_CLASS]:
-                card = new card[ClassCard];
+            case cardConstants.CARDS_CLASS:
+                card = new cards.ClassCard;
                 break;
-            case cardConstants[CARDS_CONDITIONAL]:
-                card = new card[ConditionalCard];
+            case cardConstants.CARDS_CONDITIONAL:
+                card = new cards.ConditionalCard;
                 break;
-            case cardConstants[CARDS_FOR_LOOP]:
-                card = new card[ForCard];
+            case cardConstants.CARDS_FOR_LOOP:
+                card = new cards.ForCard;
                 break;
-            case cardConstants[CARDS_WHILE_LOOP]:
-                card = new card[WhileCard];
+            case cardConstants.CARDS_WHILE_LOOP:
+                card = new cards.WhileCard;
                 break;
-            case cardConstants[CARDS_DO_WHILE_LOOP]:
-                card = new card[DoWhileCard];
+            case cardConstants.CARDS_DO_WHILE_LOOP:
+                card = new cards.DoWhileCard;
                 break;
-            case cardConstants[CARDS_HELPER_FUNCTION]:
-                card = new card[FunctionCard];
+            case cardConstants.CARDS_HELPER_FUNCTION:
+                card = new cards.FunctionCard;
                 break;
-            case cardConstants[CARDS_ARRAY]:
-                card = new card[ArrayCard];
+            case cardConstants.CARDS_ARRAY:
+                card = new cards.ArrayCard;
                 break;
-            case cardConstants[CARDS_LINKED_LIST]:
-                card = new card[LinkedListCard];
+            case cardConstants.CARDS_LINKED_LIST:
+                card = new cards.LinkedListCard;
                 break;
-            case cardConstants[CARDS_OBJECT]:
-                card = new card[ObjectCard];
+            case cardConstants.CARDS_OBJECT:
+                card = new cards.ObjectCard;
                 break;
-            case cardConstants[CARDS_QUEUE]:
-                card = new card[QueueCard];
+            case cardConstants.CARDS_QUEUE:
+                card = new cards.QueueCard;
                 break;
-            case cardConstants[CARDS_STACK]:
-                card = new card[StackCard];
+            case cardConstants.CARDS_STACK:
+                card = new cards.StackCard;
                 break;
-            case cardConstants[CARDS_SWITCH_CASE]:
-                card = new card[SwitchCard];
+            case cardConstants.CARDS_SWITCH_CASE:
+                card = new cards.SwitchCard;
                 break;
             default:
                 return false;
@@ -108,7 +108,7 @@ class RulesEnforcer {
         try {
             return card.isInstanceOf(diff)
         } catch (e) {
-            // TODO if syntax invalid while implementing consume card then automatically allow
+            // TODO if syntax invalid while implementing consume card then we automatically allow
             // instead we should be able to recognize if someone is at least 'trying' to implement
             // the right card -- pattern matching might do this
             return true;
