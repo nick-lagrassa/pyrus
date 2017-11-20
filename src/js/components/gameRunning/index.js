@@ -8,23 +8,38 @@ import InfoHeader from '../../containers/infoHeader';
 import Editor from '../../containers/editor';
 import Hand from '../hand';
 import Prompt from '../../containers/prompt';
-import limitEval from '../../util/limitEval';
 import { myTurn } from '../../../../game/util';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../../../game/constants/move';
 import { GAME_END_TURN } from '../../../../game/constants/game';
+import { COMMAND_RUN_CODE } from '../../../../app/constants/command';
 
 export default class GameRunning extends Component {
     constructor(props) {
         super(props);
         this.re = new RulesEnforcer();
-        this.bracketsRe = /^\[|\]$/g;
         this.state = {
             isWaitingForSubmit: false,
+            isWaitingForTestResults: false,
             isMoveValid: false,
             selectedMove: null,
             selectedCard: null,
-            testResults: null,
+            shouldDisplayTestResultsIndicator: false
         };
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        const { isWaitingForTestResults } = this.state;
+        const { prompt } = this.props;
+        if (isWaitingForTestResults && prompt._testRunTimestampMS !== nextProps.prompt._testRunTimestampMS) {
+            this.setState({ isWaitingForTestResults: false });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { isWaitingForTestResults } = this.state;
+        if (!isWaitingForTestResults && prevState.isWaitingForTestResults) {
+            this.setState({ shouldDisplayTestResultsIndicator: true });
+        }
     }
 
     shouldDisplayOverlay = () => {
@@ -59,34 +74,17 @@ export default class GameRunning extends Component {
     }
 
     handleRunCode = () => {
-        const { prompt } = this.props;
+        const { prompt, stream } = this.props;
+        stream.sendCommand({
+            type: COMMAND_RUN_CODE,
+            fn: `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
+            tests: prompt._tests
+        });
 
-        let results = [];
-        for (let i = 0; i < prompt._tests.length; i++) {
-            let test = prompt._tests[i];
-            const fn = `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})(${ JSON.stringify(test.input).replace(this.bracketsRe, '') })`;
-            limitEval(fn, (done, val) => {
-                if (!done) {
-                    results.push({
-                        passed: false,
-                        input: test.input,
-                        output: "Error: test timed out",
-                        expected: test.expected
-                    });
-                } else {
-                    results.push({
-                        passed: val === test.expected,
-                        input: test.input,
-                        output: val,
-                        expected: test.expected
-                    });
-                }
-
-                if (i === prompt._tests.length - 1) {
-                    this.setState({ testResults: results });
-                }
-            });
-        }
+        this.setState({ 
+            isWaitingForTestResults: true,
+            shouldDisplayTestResultsIndicator: false
+        });
     }
 
     handleWriteMoveClick = () => {
@@ -122,7 +120,7 @@ export default class GameRunning extends Component {
             });
 
             this.setState({
-                selectedMove: null,
+                selectedMove: null
             });
             return;
         }
@@ -156,9 +154,9 @@ export default class GameRunning extends Component {
                 stream.sendAction({
                     type: selectedMove,
                     move: new WriteMove(me.id, code)
-                })
+                });
                 break;
-            default: 
+            default:
                 return;
         }
 
@@ -198,43 +196,29 @@ export default class GameRunning extends Component {
 
     render() {
         const { me, game, gameId, stream, players } = this.props;
-        const {
-            testResults,
-            selectedMove,
-            isWaitingForSubmit,
+        const { 
+            selectedMove, 
+            selectedCard,
+            isWaitingForSubmit, 
             isMoveValid,
-            selectedCard 
+            isWaitingForTestResults,
+            shouldDisplayTestResultsIndicator
         } = this.state;
-        let numTestsPassed = testResults ? testResults.filter(result => result.passed).length : null;
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
                 <InfoHeader />
                 <div className="flex mw8 center mb6">
-                    <div className="w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll">
-                        <Prompt />
-                        { testResults &&
-                            <div className="pa3 br2 bg-pear-near-white">
-                                <p className="b">
-                                    { numTestsPassed === testResults.length ? '✅' : '⚠️'} { numTestsPassed } out of { testResults.length } tests passed!
-                                </p>
-                                { testResults.filter(result => !result.passed).map((result, i) => (
-                                    <div className="bg-pear-yellow mv2 pa3 br2" key={ i }>
-                                        <p className="code lh-copy mv0">
-                                            Input: { JSON.stringify(result.input).replace(this.bracketsRe, '') }
-                                        </p>
-                                        <p className="code lh-copy mv0">
-                                            Got: { JSON.stringify(result.output) }
-                                        </p>
-                                        <p className="code lh-copy mv0">
-                                            Expected: { JSON.stringify(result.expected) }
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
+                    <div
+                        className="w-50 pt3 ph3 pb6 overflow-scroll relative" 
+                        onScroll={ () => this.setState({ shouldDisplayTestResultsIndicator: false }) }
+                    >
+                        <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
+                        { shouldDisplayTestResultsIndicator &&
+                            <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">👇 New test results!</div>
                         }
                     </div>
-                    <div className={`w-50 pt3 ph3 pb6 aspect-ratio-object overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
+                    <div className={`w-50 pt3 ph3 pb6 overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
                         <Editor
                             className={ myTurn(me, game, players) ? '' : 'pointer-none' }
                             gameId={ gameId }
@@ -242,7 +226,7 @@ export default class GameRunning extends Component {
                             handleEditorChange={ this.handleEditorChange }
                         />
                     </div>
-                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column">
+                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-9">
                         { myTurn(me, game, players) && isWaitingForSubmit &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mv0">SUBMIT ACTION</p>
@@ -287,7 +271,7 @@ export default class GameRunning extends Component {
                             <p className="f6 silver mt4 mb0">RUN</p>
                             <input
                                 type="button"
-                                className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
+                                className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
                                 value="Run Code"
                                 onClick={ this.handleRunCode }
                             />

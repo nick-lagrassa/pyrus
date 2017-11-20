@@ -1,5 +1,6 @@
 import {
-    PROMPT_SET_PROMPT
+    PROMPT_SET_PROMPT,
+    PROMPT_SET_TEST_RESULTS
 } from '../../constants/prompt';
 import settings from '../../config/settings';
 
@@ -11,6 +12,12 @@ export default function board(state=initialState, action) {
             return {
                 ...action.prompt
             };
+        case PROMPT_SET_TEST_RESULTS:
+            return {
+                ...state,
+                _testResults: action.results,
+                _testRunTimestampMS: Date.now()
+            }
         default:
             return state;
     }

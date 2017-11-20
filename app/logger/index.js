@@ -5,7 +5,6 @@ import { createLogger, transports, format } from 'winston';
 export default class PearLogger {
     constructor(id) {
         this.file = path.join(__dirname, 'logs', `game-${ id }.log`);
-        const fd = fs.openSync(this.file, 'w');
         this.logger = createLogger({
             level: 'info',
             transports: [

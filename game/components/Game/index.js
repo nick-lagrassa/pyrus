@@ -4,7 +4,7 @@ import Board from '../Board';
 import settings from '../../config/settings';
 import { gameStart, spendMove, cycleToNextPlayer } from '../../actions/game';
 import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
-import { setPrompt } from '../../actions/prompt';
+import { setPromptTestResults, setPrompt } from '../../actions/prompt';
 import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
 import { activePlayerIndex } from '../../util';
 
@@ -37,6 +37,10 @@ class Game {
 
     get numMovesRemaining() {
         return this._store.getState().game.numMovesRemaining;
+    }
+
+    set testResults(results) {
+        this._store.dispatch(setPromptTestResults(results));
     }
 
     // String -> bool
