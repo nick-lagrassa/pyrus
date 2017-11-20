@@ -41,11 +41,11 @@ class RulesEnforcer {
             case MOVE_CONSUME:
                 diff = this.getEditorDifference(board.editor, move.code);
                 return this.playerHasCard(players, move) &&
-                        this.checkForSingleMove(diff) &&
+                        this.isSingleMove(diff) &&
                         this.isValidCodeForCard(move.card.type, diff);
             case MOVE_WRITE:
                 diff = this.getEditorDifference(board.editor, move.code);
-                return this.checkForSingleMove(diff) &&
+                return this.isSingleMove(diff) &&
                         this.isPrimitiveWrite(diff);
             default:
                 return false;
@@ -130,7 +130,7 @@ class RulesEnforcer {
         return changed;
     }
 
-    checkForSingleMove(code) {
+    isSingleMove(code) {
         try {
             const tree = util.getAST(code)
             return tree.body.length <= 1;
@@ -147,14 +147,14 @@ class RulesEnforcer {
             util.isForLoop,
             util.isWhileLoop,
             util.isDoWhileLoop,
-            util.isConditional,
+            util.isIfConditional,
             util.isTernaryConditional,
             util.isClass,
             util.isSwitch,
             util.isFunction
         ];
         const tree = util.getAST(code)
-        if (!this.checkForSingleMove(tree)) {
+        if (!this.isSingleMove(tree)) {
             return false;
         }
 

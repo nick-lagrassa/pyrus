@@ -58,7 +58,7 @@ export const isDoWhileLoop = tree => {
 }
 
 // TODO if user write_move else statement without if - espree will return an error
-export const isConditional = tree => {
+export const isIfConditional = tree => {
     try {
         return tree.body[0].type === 'IfStatement';
     } catch (e) {
