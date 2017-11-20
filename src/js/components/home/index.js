@@ -69,18 +69,12 @@ export default class Home extends Component {
                         <select 
                             className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset" 
                             onChange={ this.handleGameTitleChange }
+                            defaultValue=""
                         >
-                            <option 
-                                value="" 
-                                selected
-                                disabled
-                                hidden
-                            >
+                            <option value="" disabled hidden >
                                 Select Challenge
                             </option>
-                            <option
-                                value="validParenthesesGame"
-                            >
+                            <option value="validParenthesesGame" >
                                 Valid Parentheses
                             </option>
                         </select>
