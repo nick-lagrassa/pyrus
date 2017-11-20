@@ -6,24 +6,24 @@ export default class GameEnd extends Component {
         super(props);
     }
 
-    handleNextPromptSubmit = () => {
-
+    handleNextPromptClick = () => {
+        window.location = window.location.origin;
     }
 
     render() {
         return (
             <div className="mw6 center mt6">
                 <h1 className="tc f1 near-black">Submission Received!</h1>
-                <form 
+                <div
                     className="flex justify-center"
-                    onSubmit={ this.handleNextPromptSubmit }
                 >
                     <input
                         type="submit"
-                        className="input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer"
+                        className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer"
                         value="Next Challenge"
+                        onClick={ this.handleNextPromptClick }
                     />
-                </form>
+                </div>
             </div>
         );
     }
