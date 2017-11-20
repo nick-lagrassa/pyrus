@@ -86,25 +86,25 @@ export default class GameRunning extends Component {
         });
     }
 
-    handleDiscardMoveClick = () => {
+    handleWriteMoveClick = () => {
         this.setState({
-            selectedMove: MOVE_DISCARD
+            selectedMove: MOVE_WRITE,
+            isWaitingForSubmit: true,
+            isMoveValid: false
         });
     }
 
     handleConsumeMoveClick = () => {
         this.setState({
             selectedMove: MOVE_CONSUME,
-            isWaitingForSubmit: true,
+            isWaitingForSubmit: false,
             isMoveValid: false
         });
     }
 
-    handleWriteMoveClick = () => {
+    handleDiscardMoveClick = () => {
         this.setState({
-            selectedMove: MOVE_WRITE,
-            isWaitingForSubmit: true,
-            isMoveValid: false
+            selectedMove: MOVE_DISCARD
         });
     }
 
@@ -190,6 +190,7 @@ export default class GameRunning extends Component {
         const { me, game, gameId, stream, players } = this.props;
         const { 
             selectedMove, 
+            selectedCard,
             isWaitingForSubmit, 
             isMoveValid,
             isWaitingForTestResults,
@@ -293,6 +294,7 @@ export default class GameRunning extends Component {
                         <div className="flex-none relative">
                             <Hand
                                 cards={ this.getMyHand() }
+                                selectedCard={ selectedCard }
                                 handleCardClick={ this.shouldDisplayOverlay() ? this.handleCardClick : null }
                             />
                         </div>

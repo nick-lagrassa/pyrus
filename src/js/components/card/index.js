@@ -10,12 +10,12 @@ export default class Card extends Component {
     }
 
     render() {
-        const { card, handleCardClick, style } = this.props;
+        const { card, handleCardClick, style, shouldFloat } = this.props;
         const { isMouseOver } = this.state
 
         return (
             <div
-                className={`w5 min-h5 ba b--pear-light-gray br2 pa3 bg-white rise pointer flex-none absolute ${isMouseOver ? 'z-999' : 'z-99'} `}
+                className={`w5 min-h5 ba b--pear-light-gray br2 pa3 bg-white transition pointer flex-none absolute ${ isMouseOver || shouldFloat ? 'z-999 rise' : 'z-99' }`}
                 onClick={ handleCardClick ? () => handleCardClick(card) : () => {} }
                 onMouseOver={ () => this.setState({ isMouseOver: true }) }
                 onMouseLeave={ () => this.setState({ isMouseOver: false }) }
