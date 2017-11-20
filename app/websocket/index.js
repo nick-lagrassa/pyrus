@@ -114,7 +114,7 @@ export default class ServerStreamHandler {
                             const { error, stdout, stderr } = values[i];
                             if (error) {
                                 console.error(`exec error: ${ error }`);
-                                return;
+                                break;
                             }
 
                             if (stderr) {
@@ -124,6 +124,7 @@ export default class ServerStreamHandler {
                                     output: `Error: ${ stderr }`,
                                     expected: command.tests[i].expected
                                 });
+                                break;
                             }
 
                             if (stdout) {
@@ -136,6 +137,7 @@ export default class ServerStreamHandler {
                                     expected: command.tests[i].expected,
                                     console: result.console
                                 });
+                                break;
                             }
                         }
 
