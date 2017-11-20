@@ -6,23 +6,6 @@ import WriteMove from '../components/WriteMove';
 import TestCard from '../lib/cards/TestCard';
 import cards from '../lib/cards'
 
-const {
-    HashTableCard,
-    WhileCard,
-    FunctionCard,
-    ConditionalCard,
-    QueueCard,
-    BSTCard,
-    StackCard,
-    DoWhileCard,
-    ObjectCard,
-    ArrayCard,
-    LinkedListCard,
-    ForCard,
-    ClassCard,
-    SwitchCard
-} = cards;
-
 const nonPrimitiveCode = [
     'var i = { \'x\': 5 }',
     'var i = { }',
@@ -60,7 +43,7 @@ describe('isLegalMove', () => {
         test('returns string of added code only', () => {
             const boardEditor = 'class Editor {\n\n}';
             const newCode = 'class Editor {\n\tconstructor() {\n\t\tthis.hi = 5;\n\t}\n}';
-            expect(game._re.getEditorDifference(boardEditor, newCode)).toEqual('\tconstructor() {\n\t\tthis.hi = 5;\n\t}\n');
+            expect(game._re.getEditorDifference(boardEditor, newCode)).toEqual('\tconstructor() {\t\tthis.hi = 5;\n\t}\n');
         });
     });
 
@@ -95,8 +78,9 @@ describe('isLegalMove', () => {
             }
         });
 
-        test.only('is illegal', () => {
+        test('is illegal', () => {
             const objectCode = 'var i = { }';
+            const { ArrayCard } = cards;
             const badConsumeMove = new ConsumeMove(player.id, new ArrayCard(), objectCode);
             expect(game._re.isLegalMove(game._board, badConsumeMove)).toBe(false);
         });
@@ -105,7 +89,7 @@ describe('isLegalMove', () => {
     describe('Write Move', () => {
         test('is legal', () => {
             const code = 'var i = 5;';
-            const code2 = 'x = x.insertFunctin(arg);';
+            const code2 = 'x = x.insertFunction(arg);';
             const writeMove = new WriteMove(player, code);
             const writeMove2 = new WriteMove(player, code2);
             expect(game._re.isLegalMove(game._board, writeMove)).toBe(true);

@@ -6,7 +6,7 @@ class Card {
     }
 
     isInstanceOf(code) {
-		throw new TypeError("instance of is an abstract class");
+        throw new Error("isInstanceOf is an abstract method");
     }
 }
 

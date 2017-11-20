@@ -1,50 +1,9 @@
 import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from '../../constants/move';
 import cards from '../../lib/cards'
-import { CARDS_HASH_TABLE,
-         CARDS_BINARY_SEARCH_TREE,
-         CARDS_CLASS,
-         CARDS_CONDITIONAL,
-         CARDS_DO_WHILE_LOOP,
-         CARDS_WHILE_LOOP,
-         CARDS_FOR_LOOP,
-         CARDS_HELPER_FUNCTION,
-         CARDS_ARRAY,
-         CARDS_LINKED_LIST,
-         CARDS_OBJECT,
-         CARDS_QUEUE,
-         CARDS_STACK,
-         CARDS_SWITCH_CASE
-       } from '../../constants/cards';
-import { isArray,
-         isObject,
-         isForLoop,
-         isWhileLoop,
-         isDoWhileLoop,
-         isConditional,
-         isTernaryConditional,
-         isClass,
-         isSwitch,
-         isFunction
-        } from '../../util';
+import * as util from '../../util';
 import * as JsDiff from 'diff';
 import espree from 'espree';
-
-const {
-    HashTableCard,
-    WhileCard,
-    FunctionCard,
-    QueueCard,
-    BSTCard,
-    StackCard,
-    DoWhileCard,
-    ConditionalCard,
-    ObjectCard,
-    ArrayCard,
-    LinkedListCard,
-    ForCard,
-    ClassCard,
-    SwitchCard
-} = cards;
+import * as cardConstants from '../../constants/cards'
 
 class RulesEnforcer {
     // Returns whether a given move is legal to perform
@@ -101,47 +60,47 @@ class RulesEnforcer {
     isValidCodeForCard(cardType, diff) {
         let card;
         switch(cardType) {
-            case CARDS_HASH_TABLE:
-                card = new HashTableCard();
+            case cardConstants[CARDS_HASH_TABLE]:
+                card = new card[HashTableCard];
                 break;
-            case CARDS_BINARY_SEARCH_TREE:
-                card = new BSTCard();
+            case cardConstants[CARDS_BINARY_SEARCH_TREE]:
+                card = new card[BSTCard];
                 break;
-            case CARDS_CLASS:
-                card = new ClassCard();
+            case cardConstants[CARDS_CLASS]:
+                card = new card[ClassCard];
                 break;
-            case CARDS_CONDITIONAL:
-                card = new ConditionalCard();
+            case cardConstants[CARDS_CONDITIONAL]:
+                card = new card[ConditionalCard];
                 break;
-            case CARDS_FOR_LOOP:
-                card = new ForCard();
+            case cardConstants[CARDS_FOR_LOOP]:
+                card = new card[ForCard];
                 break;
-            case CARDS_WHILE_LOOP:
-                card = new WhileCard();
+            case cardConstants[CARDS_WHILE_LOOP]:
+                card = new card[WhileCard];
                 break;
-            case CARDS_DO_WHILE_LOOP:
-                card = new DoWhileCard();
+            case cardConstants[CARDS_DO_WHILE_LOOP]:
+                card = new card[DoWhileCard];
                 break;
-            case CARDS_HELPER_FUNCTION:
-                card = new FunctionCard();
+            case cardConstants[CARDS_HELPER_FUNCTION]:
+                card = new card[FunctionCard];
                 break;
-            case CARDS_ARRAY:
-                card = new ArrayCard();
+            case cardConstants[CARDS_ARRAY]:
+                card = new card[ArrayCard];
                 break;
-            case CARDS_LINKED_LIST:
-                card = new LinkedListCard();
+            case cardConstants[CARDS_LINKED_LIST]:
+                card = new card[LinkedListCard];
                 break;
-            case CARDS_OBJECT:
-                card = new ObjectCard();
+            case cardConstants[CARDS_OBJECT]:
+                card = new card[ObjectCard];
                 break;
-            case CARDS_QUEUE:
-                card = new QueueCard();
+            case cardConstants[CARDS_QUEUE]:
+                card = new card[QueueCard];
                 break;
-            case CARDS_STACK:
-                card = new StackCard();
+            case cardConstants[CARDS_STACK]:
+                card = new card[StackCard];
                 break;
-            case CARDS_SWITCH_CASE:
-                card = new SwitchCard();
+            case cardConstants[CARDS_SWITCH_CASE]:
+                card = new card[SwitchCard];
                 break;
             default:
                 return false;
@@ -172,16 +131,19 @@ class RulesEnforcer {
 
     isPrimitiveWrite(code) {
         const patterns = [
-            isArray,
-            isObject,
-            isLoop,
-            isConditional,
-            isTernaryConditional,
-            isClass,
-            isSwitch,
-            isFunction
+            util.isArray,
+            util.isObject,
+            util.isForLoop,
+            util.isWhileLoop,
+            util.isDoWhileLoop,
+            util.isConditional,
+            util.isTernaryConditional,
+            util.isClass,
+            util.isSwitch,
+            util.isFunction
         ];
         const tree = espree.parse(code, { ecmaVersion: 6 });
+
         if (tree.body.length > 1) {
             return false;
         }
