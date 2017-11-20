@@ -2,7 +2,7 @@ import { WS_ACTION, WS_COMMAND } from '../../app/constants/ws';
 import { COMMAND_RUN_CODE } from '../../app/constants/command';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
 import { ME_SET_INFO } from '../../src/js/constants/me';
-import { GAME_START, GAME_END_TURN } from '../../game/constants/game';
+import { GAME_START, GAME_END, GAME_END_TURN } from '../../game/constants/game';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../game/constants/move';
 import DiscardMove from '../../game/components/DiscardMove';
 import WriteMove from '../../game/components/WriteMove';
@@ -65,7 +65,7 @@ export default class ServerStreamHandler {
             sender: 'SERVER',
             playerId: this.playerId,
             data
-        })
+        });
         this.socket.send(data);
     }
 
@@ -89,6 +89,9 @@ export default class ServerStreamHandler {
                 if (this.playerId === this.game.activePlayer.id) {
                     this.game.endTurn();
                 }
+                break;
+            case GAME_END:
+                this.game.end();
                 break;
             case MOVE_DISCARD:
             case MOVE_WRITE:

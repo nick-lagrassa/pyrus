@@ -7,7 +7,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            gameTitle: 'validParenthesesGame',
+            gameTitle: '',
             gameId: '',
             gameReady: false
         };
@@ -16,6 +16,11 @@ export default class Home extends Component {
     handleGameTitleFormSubmit = e => {
         e.preventDefault();
         const { gameTitle } = this.state;
+
+        if (!gameTitle) {
+            return;
+        }
+
         newGame(gameTitle)
             .then(({ gameId }) => {
                 this.setState({
@@ -36,7 +41,7 @@ export default class Home extends Component {
 
     handleGameTitleChange = e => {
         this.setState({
-            gameTitle: e.taget.value
+            gameTitle: e.target.value
         });
     }
 
@@ -50,9 +55,7 @@ export default class Home extends Component {
         const { gameTitle, gameId, gameReady } = this.state;
 
         if (gameReady) {
-            return (
-                <Redirect to={`/game/${ gameId }`}/>
-            );
+            return <Redirect to={`/game/${ gameId }`}/>;
         }
 
         return (
@@ -63,13 +66,18 @@ export default class Home extends Component {
                         className="flex w-100 justify-between"
                         onSubmit={ this.handleGameTitleFormSubmit }
                     >
-                        <input
-                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3"
-                            type="text"
-                            name="gameTitle"
-                            value={ gameTitle }
+                        <select 
+                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset lh-copy"
                             onChange={ this.handleGameTitleChange }
-                        />
+                            defaultValue=""
+                        >
+                            <option value="" disabled hidden >
+                                Select Challenge ⬇️
+                            </option>
+                            <option value="validParenthesesGame" >
+                                Valid Parentheses
+                            </option>
+                        </select>
                         <input
                             className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
                             type="submit"

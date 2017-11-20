@@ -1,5 +1,6 @@
 import {
     GAME_START,
+    GAME_END,
     GAME_SPEND_MOVE,
     GAME_CYCLE_TO_NEXT_PLAYER
 } from '../../constants/game';
@@ -14,4 +15,8 @@ export const spendMove = () => ({
 
 export const cycleToNextPlayer = () => ({
     type: GAME_CYCLE_TO_NEXT_PLAYER
+});
+
+export const gameEnd = () => ({
+    type: GAME_END
 });

@@ -2,7 +2,7 @@ import RulesEnforcer from '../RulesEnforcer';
 import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
 import settings from '../../config/settings';
-import { gameStart, spendMove, cycleToNextPlayer } from '../../actions/game';
+import { gameStart, spendMove, cycleToNextPlayer, gameEnd } from '../../actions/game';
 import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
 import { setPromptTestResults, setPrompt } from '../../actions/prompt';
 import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
@@ -108,6 +108,11 @@ class Game {
         const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
         this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
         this._store.dispatch(cycleToNextPlayer());
+    }
+
+    // End the game loop
+    end() {
+        this._store.dispatch(gameEnd());
     }
 }
 
