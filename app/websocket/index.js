@@ -120,19 +120,14 @@ export default class ServerStreamHandler {
                             if (error) {
                                 console.error(`exec error: ${ error }`);
                                 break;
-                            }
-
-                            if (stderr) {
+                            } else if (stderr) {
                                 results.push({
                                     passed: false,
                                     input: formattedInputs[i],
                                     output: `Error: ${ stderr }`,
                                     expected: command.tests[i].expected
                                 });
-                                break;
-                            }
-
-                            if (stdout) {
+                            } else if (stdout) {
                                 const result = JSON.parse(stdout);
                                 results.push({
                                     // TODO: implement custom checks for equality
@@ -142,7 +137,6 @@ export default class ServerStreamHandler {
                                     expected: command.tests[i].expected,
                                     console: result.console
                                 });
-                                break;
                             }
                         }
 
