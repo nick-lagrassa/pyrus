@@ -5,7 +5,7 @@ import settings from '../../../../game/config/settings';
 import { PLAYERS_REGISTER_PLAYER } from '../../../../game/constants/players';
 import { GAME_START } from '../../../../game/constants/game';
 
-export default class gameInit extends Component {
+export default class GameInit extends Component {
     constructor(props) {
         super(props);
         this.state = {

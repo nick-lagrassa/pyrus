@@ -10,7 +10,7 @@ import Hand from '../hand';
 import Prompt from '../../containers/prompt';
 import { myTurn } from '../../../../game/util';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../../../game/constants/move';
-import { GAME_END_TURN } from '../../../../game/constants/game';
+import { GAME_END_TURN, GAME_END } from '../../../../game/constants/game';
 import { COMMAND_RUN_CODE } from '../../../../app/constants/command';
 
 export default class GameRunning extends Component {
@@ -23,6 +23,7 @@ export default class GameRunning extends Component {
             isMoveValid: false,
             selectedMove: null,
             selectedCard: null,
+            shouldDisplaySubmitModal: false,
             shouldDisplayTestResultsIndicator: false
         };
     }
@@ -73,7 +74,7 @@ export default class GameRunning extends Component {
         return this.getMe().hand;
     }
 
-    handleRunCode = () => {
+    handleRunCodeClick = () => {
         const { prompt, stream } = this.props;
         stream.sendCommand({
             type: COMMAND_RUN_CODE,
@@ -84,6 +85,19 @@ export default class GameRunning extends Component {
         this.setState({ 
             isWaitingForTestResults: true,
             shouldDisplayTestResultsIndicator: false
+        });
+    }
+
+    handleSubmitCodeClick = () => {
+        this.setState({
+            shouldDisplaySubmitModal: true
+        });
+    }
+
+    handleConfirmSubmitCodeClick = () => {
+        const { stream } = this.props;
+        stream.sendAction({
+            type: GAME_END
         });
     }
 
@@ -202,11 +216,34 @@ export default class GameRunning extends Component {
             isWaitingForSubmit, 
             isMoveValid,
             isWaitingForTestResults,
-            shouldDisplayTestResultsIndicator
+            shouldDisplaySubmitModal,
+            shouldDisplayTestResultsIndicator,
         } = this.state;
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
+                { shouldDisplaySubmitModal &&
+                    <div className="absolute absolute--fill z-9999">
+                        <div className="absolute absolute--fill bg-near-black o-60"></div>
+                        <div className="mw6 mt6 bg-pear-near-white br2 pa4 relative center">
+                            <h2 className="mv0">You won't be able to make changes after submitting. Are you sure you want to proceed?</h2>
+                            <div className="flex justify-around mt3">
+                                <input
+                                    type="button"
+                                    className="db w4 input-reset ba bg-red b--red pa3 br2 near-white pointer"
+                                    value="Yes"
+                                    onClick={ this.handleConfirmSubmitCodeClick }
+                                />
+                                <input
+                                    type="button"
+                                    className="db w4 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer mr2"
+                                    value="No"
+                                    onClick={ () => this.setState({ shouldDisplaySubmitModal: false }) }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                }
                 <InfoHeader />
                 <div className="flex mw8 center mb6">
                     <div
@@ -273,7 +310,13 @@ export default class GameRunning extends Component {
                                 type="button"
                                 className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
                                 value="Run Code"
-                                onClick={ this.handleRunCode }
+                                onClick={ this.handleRunCodeClick }
+                            />
+                            <input
+                                type="button"
+                                className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1`}
+                                value="Submit Code"
+                                onClick={ this.handleSubmitCodeClick }
                             />
                         </div>
                         { myTurn(me, game, players) &&

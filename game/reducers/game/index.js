@@ -1,7 +1,9 @@
 import {
     GAME_STATUS_INIT,
     GAME_START,
+    GAME_END,
     GAME_STATUS_RUNNING,
+    GAME_STATUS_END,
     GAME_SPEND_MOVE,
     GAME_CYCLE_TO_NEXT_PLAYER
 } from '../../constants/game';
@@ -32,6 +34,11 @@ export default function game(state=initialState, action) {
                 turnCount: state.turnCount + 1,
                 numMovesRemaining: settings.NUM_PLAYER_MOVES_PER_TURN
             };
+        case GAME_END:
+            return {
+                ...state,
+                status: GAME_STATUS_END
+            }
         default:
             return state;
     }
