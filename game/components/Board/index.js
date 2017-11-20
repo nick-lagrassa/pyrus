@@ -1,5 +1,4 @@
 import Deck from '../Deck';
-import DiscardPile from '../DiscardPile';
 
 class Board {
     // Prompt -> Board
@@ -8,7 +7,6 @@ class Board {
         this._store = store;
         this._editor = '';
         this._deck = new Deck(this._prompt.cardSet, this._store);
-        this._discardPile = new DiscardPile();
     }
 
     get deck() {

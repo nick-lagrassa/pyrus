@@ -1,2 +1,3 @@
 export const DECK_POP = 'DECK_POP';
-export const INITIALIZE_DECK = 'INITIALIZE_DECK';
+export const DECK_INITIALIZE = 'DECK_INITIALIZE';
+export const DECK_SHUFFLE = 'DECK_SHUFFLE';

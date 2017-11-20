@@ -7,3 +7,4 @@ export const GAME_STATUS_END = 'GAME_STATUS_END';
 export const GAME_SPEND_MOVE = 'GAME_SPEND_MOVE';
 export const GAME_CYCLE_TO_NEXT_PLAYER = 'GAME_CYCLE_TO_NEXT_PLAYER';
 export const GAME_END_TURN = 'GAME_END_TURN';
+export const GAME_RESET = 'GAME_RESET';
