@@ -50,9 +50,7 @@ export default class Home extends Component {
         const { gameTitle, gameId, gameReady } = this.state;
 
         if (gameReady) {
-            return (
-                <Redirect to={`/game/${ gameId }`}/>
-            );
+            return <Redirect to={`/game/${ gameId }`}/>;
         }
 
         return (
@@ -63,13 +61,21 @@ export default class Home extends Component {
                         className="flex w-100 justify-between"
                         onSubmit={ this.handleGameTitleFormSubmit }
                     >
-                        <input
-                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3"
-                            type="text"
-                            name="gameTitle"
-                            value={ gameTitle }
-                            onChange={ this.handleGameTitleChange }
-                        />
+                        <select className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset" >
+                            <option 
+                                value="" 
+                                selected
+                                disabled
+                                hidden
+                            >
+                                Select Challenge
+                            </option>
+                            <option
+                                value="validParenthesesGame"
+                            >
+                                Valid Parentheses
+                            </option>
+                        </select>
                         <input
                             className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
                             type="submit"
