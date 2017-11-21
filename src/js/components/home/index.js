@@ -66,7 +66,7 @@ export default class Home extends Component {
                         className="flex w-100 justify-between"
                         onSubmit={ this.handleGameTitleFormSubmit }
                     >
-                        <select 
+                        <select
                             className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset lh-copy"
                             onChange={ this.handleGameTitleChange }
                             defaultValue=""
@@ -76,6 +76,9 @@ export default class Home extends Component {
                             </option>
                             <option value="validParenthesesGame" >
                                 Valid Parentheses
+                            </option>
+                            <option value="averagePassingScoreGame" >
+                                Average Passing Score
                             </option>
                         </select>
                         <input
@@ -104,7 +107,7 @@ export default class Home extends Component {
                             value="Join an existing game"
                         />
                     </form>
-                </div>      
+                </div>
             </div>
         );
     }
