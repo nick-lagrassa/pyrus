@@ -80,6 +80,9 @@ export default class Home extends Component {
                             <option value="averagePassingScoreGame" >
                                 Average Passing Score
                             </option>
+                            <option value="arrayTwoSumGame" >
+                                Array Two Sum
+                            </option>
                         </select>
                         <input
                             className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"

@@ -132,6 +132,12 @@ export default class ServerStreamHandler {
                                 });
                             } else if (stdout) {
                                 const result = JSON.parse(stdout);
+                                console.log(command.tests[i].expected);
+                                console.log(result.value);
+                                console.log(typeof command.tests[i].expected);
+                                console.log(typeof result.value);
+                                console.log(result.value === command.tests[i].expected);
+                                console.log('end of this test')
                                 results.push({
                                     // TODO: implement custom checks for equality
                                     passed: result.value === command.tests[i].expected,
