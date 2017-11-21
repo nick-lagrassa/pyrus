@@ -1,5 +1,6 @@
 import Card from '../../components/Card';
 import { CARDS_HASH_TABLE } from '../../constants/cards.js';
+import { isObject, getAST } from '../../util';
 
 class HashTableCard extends Card {
     constructor() {
@@ -16,6 +17,11 @@ hash["bar"] = "baz";
 hash["bar"]; // -> "baz"
 hash.keys(); // -> ["foo", "bar"];
         `;
+    }
+
+    isInstanceOf(code) {
+        const tree = getAST(code);
+        return isObject(tree);
     }
 }
 

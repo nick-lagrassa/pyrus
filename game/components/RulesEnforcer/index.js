@@ -1,17 +1,8 @@
 import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from '../../constants/move';
+import cards from '../../lib/cards'
+import * as util from '../../util';
 import * as JsDiff from 'diff';
-import espree from 'espree';
-
-const ARRAY_PATTERN           = new RegExp('(\\[|\\])');
-const OBJECT_PATTERN          = new RegExp('(\\{|\\})');
-const FOR_PATTERN             = new RegExp('for(\\s|\\()');
-const WHILE_PATTERN           = new RegExp('while(\\s{0,1}|\\()');
-const DO_WHILE_PATTERN        = new RegExp('do(\\s{0,1}|\\()');
-const IF_PATTERN              = new RegExp('if(\\s|\\()');
-const ELSE_PATTERN            = new RegExp('else(\\s{0,1}|\\()');
-const TERNARY_PATTERN         = new RegExp('\\?.*:');
-const CLASS_PATTERN           = new RegExp('class\\s');
-const SWITCH_CASE_PATTERN     = new RegExp('(switch|case.*:|default)');
+import * as cardConstants from '../../constants/cards'
 
 class RulesEnforcer {
     // Returns whether a given move is legal to perform
@@ -43,14 +34,19 @@ class RulesEnforcer {
     }
 
     _checkMove(board, move, deck, players) {
+        let diff;
         switch(move.type) {
             case MOVE_DISCARD:
                 return deck.cards.length > 0 && this.playerHasCard(players, move);
             case MOVE_CONSUME:
-                return this.playerHasCard(players, move);
+                diff = this.getEditorDifference(board.editor, move.code);
+                return this.playerHasCard(players, move) &&
+                        this.isSingleMove(diff) &&
+                        this.isValidCodeForCard(move.card.type, diff);
             case MOVE_WRITE:
-                const diff = this.getEditorDifference(board.editor, move.code);
-                return this.isPrimitiveWrite(diff);
+                diff = this.getEditorDifference(board.editor, move.code);
+                return this.isSingleMove(diff) &&
+                        this.isPrimitiveWrite(diff);
             default:
                 return false;
         }
@@ -62,112 +58,113 @@ class RulesEnforcer {
         return player && player.hand.filter(card => card.type === move.card.type).length > 0;
     }
 
+    isValidCodeForCard(cardType, diff) {
+        let card;
+        switch(cardType) {
+            case cardConstants.CARDS_HASH_TABLE:
+                card = new cards.HashTableCard;
+                break;
+            case cardConstants.CARDS_BINARY_SEARCH_TREE:
+                card = new cards.BSTCard;
+                break;
+            case cardConstants.CARDS_CLASS:
+                card = new cards.ClassCard;
+                break;
+            case cardConstants.CARDS_CONDITIONAL:
+                card = new cards.ConditionalCard;
+                break;
+            case cardConstants.CARDS_FOR_LOOP:
+                card = new cards.ForCard;
+                break;
+            case cardConstants.CARDS_WHILE_LOOP:
+                card = new cards.WhileCard;
+                break;
+            case cardConstants.CARDS_DO_WHILE_LOOP:
+                card = new cards.DoWhileCard;
+                break;
+            case cardConstants.CARDS_HELPER_FUNCTION:
+                card = new cards.FunctionCard;
+                break;
+            case cardConstants.CARDS_ARRAY:
+                card = new cards.ArrayCard;
+                break;
+            case cardConstants.CARDS_LINKED_LIST:
+                card = new cards.LinkedListCard;
+                break;
+            case cardConstants.CARDS_OBJECT:
+                card = new cards.ObjectCard;
+                break;
+            case cardConstants.CARDS_QUEUE:
+                card = new cards.QueueCard;
+                break;
+            case cardConstants.CARDS_STACK:
+                card = new cards.StackCard;
+                break;
+            case cardConstants.CARDS_SWITCH_CASE:
+                card = new cards.SwitchCard;
+                break;
+            default:
+                return false;
+        }
+        try {
+            return card.isInstanceOf(diff)
+        } catch (e) {
+            // TODO if syntax invalid while implementing consume card then we automatically allow
+            // instead we should be able to recognize if someone is at least 'trying' to implement
+            // the right card -- pattern matching might do this
+            return true;
+        }
+    }
     // gets diff on board editor and new editor string, returns only the string of the
     // code that has been added
     // string, string -> string
     getEditorDifference(oldCode, newCode) {
-        const diff = JsDiff.diffLines(oldCode, newCode);
+        const diff = JsDiff.diffLines(oldCode, newCode, { newlineIsToken: true });
         let addedCode = diff.filter(line => { return line.added === true });
 
         let changed = '';
-        addedCode.filter(line => { return changed += line.value });
+        for(let line of addedCode) {
+            changed += line.value
+        }
 
         return changed;
     }
 
-    isArray(tree) {
-        return tree.body[0].declarations[0].init.type === 'ArrayExpression';
-    }
-
-    isObject(tree) {
-        return tree.body[0].declarations[0].init.type === 'ObjectExpression';
-    }
-
-    isLoop(tree) {
-        const loops = ['ForStatement', 'ForInStatement', 'ForOfStatement', 'WhileStatement', 'DoWhileStatement'];
-        return loops.includes(tree.body[0].type);
-    }
-
-    // TODO if user write_move else statement without if - espree will return an error
-    isConditional(tree) {
-        const conditionals = ['IfStatement'];
-        if (conditionals.includes(tree.body[0].type)) {
+    isSingleMove(code) {
+        try {
+            const tree = util.getAST(code)
+            return tree.body.length <= 1;
+        } catch (e) {
             return true;
         }
-        return false;
-    }
 
-    isTernaryConditional(tree) {
-        let conditional;
-        try {
-            conditional = tree.body[0].declaractions[0].init.type;
-        } catch (e) {
-            try {
-                conditional = tree.body[0].expression.type;
-            } catch (e){
-                return false;
-            }
-        }
-        return conditional === "ConditionalExpression";
-    }
-
-    isClass(tree) {
-        return tree.body[0].type === 'ClassDeclaration';
-    }
-
-    isSwitch(tree) {
-        return tree.body[0].type === 'SwitchStatement';
-    }
-
-    // Use abstract syntax tree of pattern string to identify if string is function declaration
-    // string -> boolean
-    isFunction(tree) {
-        let ast = tree.body[0];
-        switch(ast.type) {
-            case 'FunctionDeclaration':
-                return true;
-            case 'VariableDeclaration':
-                const expression = ast.declarations[0].init;
-                if (expression.type.includes('FunctionExpression')) {
-                    return true;
-                } else if (expression.type === 'CallExpression' || expression.type === 'NewExpression') {
-                    return expression.callee.type.includes('FunctionExpression');
-                }
-            case 'ClassDeclaration':
-                return !!ast.body.body.filter(node => node.type.includes("Method"));
-            case 'ExpressionStatement':
-                return ast.expression.right.type.includes('FunctionExpression');
-            default:
-                return false;
-        }
     }
 
     isPrimitiveWrite(code) {
         const patterns = [
-            this.isArray,
-            this.isObject,
-            this.isLoop,
-            this.isConditional,
-            this.isTernaryConditional,
-            this.isClass,
-            this.isSwitch,
-            this.isFunction
+            util.isArray,
+            util.isObject,
+            util.isForLoop,
+            util.isWhileLoop,
+            util.isDoWhileLoop,
+            util.isIfConditional,
+            util.isTernaryConditional,
+            util.isClass,
+            util.isSwitch,
+            util.isFunction
         ];
-        const tree = espree.parse(code, { ecmaVersion: 6 });
-        if (tree.body.length > 1) {
+        const tree = util.getAST(code)
+        if (!this.isSingleMove(tree)) {
             return false;
         }
+
         for (let i = 0; i < patterns.length; i++) {
             try {
                 if(patterns[i](tree)) {
                     return false;
                 }
             } catch (e) {
-                if (e instanceof ReferenceError) {
-                    // TODO what should this be
-                    console.log(e);
-                    return false;
-                }
+                continue;
             }
         }
         return true;

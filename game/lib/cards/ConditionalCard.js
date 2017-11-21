@@ -1,12 +1,13 @@
 import Card from '../../components/Card';
 import { CARDS_CONDITIONAL } from '../../constants/cards.js';
+import { isIfConditional, isTernaryConditional, getAST } from '../../util';
 
 class ConditionalCard extends Card {
     constructor() {
         super();
         this.type = CARDS_CONDITIONAL;
         this.title = 'Conditional';
-        this.implementation = 
+        this.implementation =
 `if (cond) {
 
 } else if (otherCond) {
@@ -15,6 +16,11 @@ class ConditionalCard extends Card {
 
 }`;
         this.example = '';
+    }
+
+    isInstanceOf(code) {
+        const tree = getAST(code);
+        return isIfConditional(tree) || isTernaryConditional(tree);
     }
 }
 

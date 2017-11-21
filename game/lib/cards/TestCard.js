@@ -8,6 +8,10 @@ class TestCard extends Card {
         this.implementation = '';
         this.example = '';
     }
+
+    isInstanceOf(code) {
+        return false;
+    }
 }
 
 export default TestCard;

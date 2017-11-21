@@ -1,5 +1,6 @@
 import Card from '../../components/Card';
 import { CARDS_ARRAY } from '../../constants/cards.js';
+import { isArray, getAST } from '../../util';
 
 class ArrayCard extends Card {
     constructor() {
@@ -14,6 +15,11 @@ arr[0]; // -> 1
 arr.pop(); // -> 1
 arr; // -> []
         `;
+    }
+
+    isInstanceOf(code) {
+        const tree = getAST(code);
+        return isArray(tree);
     }
 }
 

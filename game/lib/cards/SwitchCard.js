@@ -1,5 +1,6 @@
 import Card from '../../components/Card';
 import { CARDS_SWITCH_CASE } from '../../constants/cards.js';
+import { isSwitch, getAST } from '../../util';
 
 class SwitchCard extends Card {
     constructor() {
@@ -15,6 +16,11 @@ switch(day) {
     default:
 }`;
         this.example = '';
+    }
+
+    isInstanceOf(code) {
+        const tree = getAST(code);
+        return isSwitch(tree);
     }
 }
 

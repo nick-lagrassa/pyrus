@@ -82,7 +82,7 @@ export default class GameRunning extends Component {
             tests: prompt._tests
         });
 
-        this.setState({ 
+        this.setState({
             isWaitingForTestResults: true,
             shouldDisplayTestResultsIndicator: false
         });
@@ -210,10 +210,10 @@ export default class GameRunning extends Component {
 
     render() {
         const { me, game, gameId, stream, players } = this.props;
-        const { 
-            selectedMove, 
+        const {
+            selectedMove,
             selectedCard,
-            isWaitingForSubmit, 
+            isWaitingForSubmit,
             isMoveValid,
             isWaitingForTestResults,
             shouldDisplaySubmitModal,
@@ -247,7 +247,7 @@ export default class GameRunning extends Component {
                 <InfoHeader />
                 <div className="flex mw8 center mb6">
                     <div
-                        className="w-50 pt3 ph3 pb6 overflow-scroll relative" 
+                        className="w-50 pt3 ph3 pb6 overflow-scroll relative"
                         onScroll={ () => this.setState({ shouldDisplayTestResultsIndicator: false }) }
                     >
                         <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
@@ -364,7 +364,7 @@ export default class GameRunning extends Component {
                         </div>
                     </div>
                 </div>
-            </div>   
+            </div>
         );
     }
 }
