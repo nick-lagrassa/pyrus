@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import Editor from '../../components/editor';
 
 const mapStateToProps = (state, ownProps) => ({
-    prompt: state.prompt
+    prompt: state.prompt,
+    board: state.board
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({

@@ -5,7 +5,8 @@ import {
     GAME_STATUS_RUNNING,
     GAME_STATUS_END,
     GAME_SPEND_MOVE,
-    GAME_CYCLE_TO_NEXT_PLAYER
+    GAME_CYCLE_TO_NEXT_PLAYER,
+    GAME_RESET
 } from '../../constants/game';
 import settings from '../../config/settings'
 
@@ -38,7 +39,13 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 status: GAME_STATUS_END
-            }
+            };
+        case GAME_RESET: 
+            return {
+                ...state,
+                ...initialState,
+                status: GAME_STATUS_RUNNING,
+            };
         default:
             return state;
     }

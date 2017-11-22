@@ -1,10 +1,10 @@
-import {
-    BOARD_UPDATE_EDITOR
-} from '../../constants/board';
+import { BOARD_UPDATE_EDITOR } from '../../constants/board';
+import { GAME_RESET } from '../../constants/game';
 import settings from '../../config/settings';
 
 const initialState = {
-    editor: ''
+    editor: '',
+    lastResetTimestampMS: 0
 };
 
 export default function board(state=initialState, action) {
@@ -13,6 +13,11 @@ export default function board(state=initialState, action) {
             return {
                 ...state,
                 editor: action.editor
+            };
+        case GAME_RESET:
+            return {
+                editor: '',
+                lastResetTimestampMS: Date.now()
             };
         default:
             return state;

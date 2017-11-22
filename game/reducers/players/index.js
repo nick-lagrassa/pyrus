@@ -10,6 +10,9 @@ import {
     MOVE_DISCARD,
     MOVE_WRITE,
 } from '../../constants/move';
+import {
+    GAME_RESET
+} from '../../constants/game';
 
 const initialState = [];
 
@@ -68,6 +71,12 @@ export default function player(state=initialState, action) {
         case PLAYERS_REMOVE_PLAYER:
             index = indexOfPlayer(newState, action.id);
             newState.splice(index, 1);
+            return newState;
+        case GAME_RESET:
+            for (let i = 0; i < newState.length; i++) {
+                newState[i].hand = [];
+            }
+
             return newState;
         default:
             return state;

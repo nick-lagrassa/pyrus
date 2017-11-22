@@ -1,24 +1,44 @@
-import {
-    DECK_POP,
-    INITIALIZE_DECK
-} from '../../constants/deck';
+import { DECK_POP, DECK_INITIALIZE, DECK_SHUFFLE } from '../../constants/deck';
+import { GAME_RESET } from '../../constants/game';
+import shuffle from 'fisher-yates';
 
 const initialState = {
-    cards: []
+    cards: [],
+    discard: []
 };
 
 export default function deck(state=initialState, action) {
     switch (action.type) {
-        case INITIALIZE_DECK:
+        case DECK_INITIALIZE:
             return {
                 ...state,
                 cards: action.cards
             };
             break;
         case DECK_POP:
+            const newCards = state.cards.slice();
+            const newDiscard = state.discard.slice();
+            for (let i = 0; i < Math.min(action.num, newCards.length); i++) {
+                newDiscard.push(newCards.shift());
+            }
+
             return {
                 ...state,
-                cards: state.cards.slice(action.num)
+                cards: newCards,
+                discard: newDiscard
+            };
+            break;
+        case DECK_SHUFFLE:
+            return {
+                ...state,
+                cards: shuffle(state.cards.slice())
+            };
+            break;
+        case GAME_RESET:
+            return {
+                ...state,
+                cards: state.discard.slice(),
+                discard: []
             };
             break;
         default:

@@ -24,7 +24,8 @@ export default class GameRunning extends Component {
             selectedMove: null,
             selectedCard: null,
             shouldDisplaySubmitModal: false,
-            shouldDisplayTestResultsIndicator: false
+            shouldDisplayTestResultsIndicator: false,
+            shouldDisplaySelectMoveIndicator: false
         };
     }
 
@@ -208,6 +209,12 @@ export default class GameRunning extends Component {
         this.setState({ isMoveValid: this.re.isLegalMove(board, move, deck, players) });
     }
 
+    handleEditorMouseOver = () => {
+        const { me, game, players } = this.props;
+        const { selectedMove } = this.state;
+        this.setState({ shouldDisplaySelectMoveIndicator: myTurn(me, game, players) && !selectedMove });
+    }
+
     render() {
         const { me, game, gameId, stream, players } = this.props;
         const {
@@ -218,7 +225,10 @@ export default class GameRunning extends Component {
             isWaitingForTestResults,
             shouldDisplaySubmitModal,
             shouldDisplayTestResultsIndicator,
+            shouldDisplaySelectMoveIndicator
         } = this.state;
+
+        const isEditorEnabled = myTurn(me, game, players) && selectedMove;
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
@@ -247,7 +257,7 @@ export default class GameRunning extends Component {
                 <InfoHeader />
                 <div className="flex mw8 center mb6">
                     <div
-                        className="w-50 pt3 ph3 pb6 overflow-scroll relative"
+                        className="w-50 pt3 ph3 pb7 overflow-scroll relative"
                         onScroll={ () => this.setState({ shouldDisplayTestResultsIndicator: false }) }
                     >
                         <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
@@ -255,15 +265,22 @@ export default class GameRunning extends Component {
                             <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">👇 New test results!</div>
                         }
                     </div>
-                    <div className={`w-50 pt3 ph3 pb6 overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
+                    <div 
+                        className={`w-50 pt3 ph3 pb7 overflow-scroll relative ${ isEditorEnabled ? '' : 'not-allowed' }`}
+                        onMouseEnter={ this.handleEditorMouseOver }
+                        onMouseLeave={ () => this.setState({ shouldDisplaySelectMoveIndicator: false }) }
+                    >
                         <Editor
-                            className={ myTurn(me, game, players) ? '' : 'pointer-none' }
                             gameId={ gameId }
                             getEditor={ editor => this.editorElement = editor }
                             handleEditorChange={ this.handleEditorChange }
+                            enabled={ isEditorEnabled }
                         />
+                        { shouldDisplaySelectMoveIndicator &&
+                            <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">You need to select an action first!</div>
+                        }
                     </div>
-                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-9">
+                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
                         { myTurn(me, game, players) && isWaitingForSubmit &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mv0">SUBMIT ACTION</p>
@@ -332,7 +349,7 @@ export default class GameRunning extends Component {
                         }
                     </div>
                 </div>
-                <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-999' : 'o-0 z-0 dn' }`}></div>
+                <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-9999' : 'o-0 z-0 dn' }`}></div>
                 <div>
                     <div className="absolute bottom-5 w-50 left-0 z-9 ph2 flex flex-column self-end">
                         <p className="silver f6 mv2 pa2 br2 dib bg-pear-near-white self-end ba b--pear-light-gray">{ `${ this.getPartner().name }'s hand` }</p>
@@ -343,7 +360,7 @@ export default class GameRunning extends Component {
                             />
                         </div>
                     </div>
-                    <div className="absolute bottom-5 w-50 right-0 z-999 ph2 flex flex-column">
+                    <div className={`absolute bottom-5 w-50 right-0 ph2 flex flex-column ${ this.shouldDisplayOverlay() ? 'z-9999' : 'z-99'}`}>
                         <div className="flex justify-between">
                             <p className="pear-near-white f6 mv2 pa2 br2 dib bg-pear-blue self-start ba b--pear-blue">Your hand</p>
                             { this.shouldDisplayOverlay() &&

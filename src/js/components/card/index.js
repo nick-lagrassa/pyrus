@@ -13,6 +13,10 @@ export default class Card extends Component {
         const { card, handleCardClick, style, shouldFloat } = this.props;
         const { isMouseOver } = this.state
 
+        if (!card) {
+            return null;
+        }
+
         return (
             <div
                 className={`w5 min-h5 ba b--pear-light-gray br2 pa3 bg-white transition pointer flex-none absolute ${ isMouseOver || shouldFloat ? 'z-999 rise' : 'z-99' }`}

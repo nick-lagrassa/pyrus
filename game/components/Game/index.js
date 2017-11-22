@@ -2,7 +2,7 @@ import RulesEnforcer from '../RulesEnforcer';
 import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
 import settings from '../../config/settings';
-import { gameStart, spendMove, cycleToNextPlayer, gameEnd } from '../../actions/game';
+import { gameStart, spendMove, cycleToNextPlayer, gameEnd, gameReset } from '../../actions/game';
 import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
 import { setPromptTestResults, setPrompt } from '../../actions/prompt';
 import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
@@ -106,13 +106,28 @@ class Game {
     // skip the current player's turn
     endTurn() {
         const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
-        this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
-        this._store.dispatch(cycleToNextPlayer());
+        if (cards.length > 0) {
+            this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
+            this._store.dispatch(cycleToNextPlayer());
+        } else {
+            this.reset();
+        }
     }
 
     // End the game loop
     end() {
         this._store.dispatch(gameEnd());
+    }
+
+    // Reset game state
+    reset() {
+        this._store.dispatch(gameReset());
+        this._board._deck.shuffle();
+        for (let i = 0; i < this._board.players.length; i++) {
+            const player = this._board.players[i];
+            const hand = this._board._deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
+            this._store.dispatch(setPlayerHand(hand, player.id));
+        }
     }
 }
 
