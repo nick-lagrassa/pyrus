@@ -77,10 +77,10 @@ class ValidParenthesesPrompt extends Prompt {
                 input: ['{[]{{()}}}}}}}'],
                 expected: false
             }
-        ]
+        ];
 
         this._testResults = [];
-        this._testRunTimestampMS = Date.now()
+        this._testRunTimestampMS = Date.now();
     }
 }
 

@@ -14,6 +14,13 @@ export default class Editor extends Component {
         this.firebaseRef = firebase.database().ref('firepads').child(props.gameId);
     }
 
+    componentWillUpdate(nextProps, nextState) {
+        const { board } = this.props;
+        if (board.lastResetTimestampMS !== nextProps.board.lastResetTimestampMS) {
+            this.codeMirror.setValue('');
+        }
+    }
+
     componentDidMount() {
         const { getEditor, handleEditorChange } = this.props;
 

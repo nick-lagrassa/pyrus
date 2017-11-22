@@ -247,7 +247,7 @@ export default class GameRunning extends Component {
                 <InfoHeader />
                 <div className="flex mw8 center mb6">
                     <div
-                        className="w-50 pt3 ph3 pb6 overflow-scroll relative"
+                        className="w-50 pt3 ph3 pb7 overflow-scroll relative"
                         onScroll={ () => this.setState({ shouldDisplayTestResultsIndicator: false }) }
                     >
                         <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
@@ -255,12 +255,13 @@ export default class GameRunning extends Component {
                             <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">👇 New test results!</div>
                         }
                     </div>
-                    <div className={`w-50 pt3 ph3 pb6 overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
+                    <div className={`w-50 pt3 ph3 pb7 overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
                         <Editor
                             className={ myTurn(me, game, players) ? '' : 'pointer-none' }
                             gameId={ gameId }
                             getEditor={ editor => this.editorElement = editor }
                             handleEditorChange={ this.handleEditorChange }
+                            enabled={ myTurn(me, game, players) }
                         />
                     </div>
                     <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
