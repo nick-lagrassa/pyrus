@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { WS_ACTION, WS_COMMAND } from '../../app/constants/ws';
 import { COMMAND_RUN_CODE } from '../../app/constants/command';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
@@ -132,15 +133,9 @@ export default class ServerStreamHandler {
                                 });
                             } else if (stdout) {
                                 const result = JSON.parse(stdout);
-                                console.log(command.tests[i].expected);
-                                console.log(result.value);
-                                console.log(typeof command.tests[i].expected);
-                                console.log(typeof result.value);
-                                console.log(result.value === command.tests[i].expected);
-                                console.log('end of this test')
                                 results.push({
                                     // TODO: implement custom checks for equality
-                                    passed: result.value === command.tests[i].expected,
+                                    passed: _.isEqual(result.value, command.tests[i].expected),
                                     input: formattedInputs[i],
                                     output: result.value,
                                     expected: command.tests[i].expected,
