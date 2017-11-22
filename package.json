@@ -37,6 +37,7 @@
     "fisher-yates": "^1.0.3",
     "jest": "^21.2.1",
     "json-loader": "^0.5.7",
+    "lodash": "^4.17.4",
     "parallelshell": "^3.0.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

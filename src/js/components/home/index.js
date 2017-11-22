@@ -66,13 +66,31 @@ export default class Home extends Component {
                         className="flex w-100 justify-between"
                         onSubmit={ this.handleGameTitleFormSubmit }
                     >
-                        <select 
+                        <select
                             className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset lh-copy"
                             onChange={ this.handleGameTitleChange }
                             defaultValue=""
                         >
                             <option value="" disabled hidden >
                                 Select Challenge ⬇️
+                            </option>
+                            <option value="averagePassingScoreGame" >
+                                Average Passing Score
+                            </option>
+                            <option value="arrayTwoSumGame" >
+                                Array Two Sum
+                            </option>
+                            <option value="arraySequenceMatchGame" >
+                                Array Sequence Match
+                            </option>
+                            <option value="mergeArraysGame" >
+                                Merge Arrays
+                            </option>
+                            <option value="linearInGame" >
+                                Linear In
+                            </option>
+                            <option value="canBalanceGame" >
+                                Can Balance
                             </option>
                             <option value="validParenthesesGame" >
                                 Valid Parentheses
@@ -104,7 +122,7 @@ export default class Home extends Component {
                             value="Join an existing game"
                         />
                     </form>
-                </div>      
+                </div>
             </div>
         );
     }

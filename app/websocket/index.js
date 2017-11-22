@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { WS_ACTION, WS_COMMAND } from '../../app/constants/ws';
 import { COMMAND_RUN_CODE } from '../../app/constants/command';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
@@ -134,7 +135,7 @@ export default class ServerStreamHandler {
                                 const result = JSON.parse(stdout);
                                 results.push({
                                     // TODO: implement custom checks for equality
-                                    passed: result.value === command.tests[i].expected,
+                                    passed: _.isEqual(result.value, command.tests[i].expected),
                                     input: formattedInputs[i],
                                     output: result.value,
                                     expected: command.tests[i].expected,
