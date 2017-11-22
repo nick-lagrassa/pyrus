@@ -263,7 +263,7 @@ export default class GameRunning extends Component {
                             handleEditorChange={ this.handleEditorChange }
                         />
                     </div>
-                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-9">
+                    <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
                         { myTurn(me, game, players) && isWaitingForSubmit &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mv0">SUBMIT ACTION</p>
@@ -332,7 +332,7 @@ export default class GameRunning extends Component {
                         }
                     </div>
                 </div>
-                <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-999' : 'o-0 z-0 dn' }`}></div>
+                <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-9999' : 'o-0 z-0 dn' }`}></div>
                 <div>
                     <div className="absolute bottom-5 w-50 left-0 z-9 ph2 flex flex-column self-end">
                         <p className="silver f6 mv2 pa2 br2 dib bg-pear-near-white self-end ba b--pear-light-gray">{ `${ this.getPartner().name }'s hand` }</p>
@@ -343,7 +343,7 @@ export default class GameRunning extends Component {
                             />
                         </div>
                     </div>
-                    <div className="absolute bottom-5 w-50 right-0 z-999 ph2 flex flex-column">
+                    <div className={`absolute bottom-5 w-50 right-0 ph2 flex flex-column ${ this.shouldDisplayOverlay() ? 'z-9999' : 'z-99'}`}>
                         <div className="flex justify-between">
                             <p className="pear-near-white f6 mv2 pa2 br2 dib bg-pear-blue self-start ba b--pear-blue">Your hand</p>
                             { this.shouldDisplayOverlay() &&
