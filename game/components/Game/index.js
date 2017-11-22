@@ -67,11 +67,7 @@ class Game {
         for (let i = 0; i < this._board.players.length; i++) {
             const player = this._board.players[i];
             const hand = this._board._deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
-            if (hand.length > 0) {
-                this._store.dispatch(setPlayerHand(hand, player.id));
-            } else {
-                this.reset();
-            }
+            this._store.dispatch(setPlayerHand(hand, player.id));
         }
     }
 

@@ -229,7 +229,6 @@ export default class GameRunning extends Component {
         } = this.state;
 
         const isEditorEnabled = myTurn(me, game, players) && selectedMove;
-        console.log(shouldDisplaySelectMoveIndicator);
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">

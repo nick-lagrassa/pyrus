@@ -43,7 +43,8 @@ export default function game(state=initialState, action) {
         case GAME_RESET: 
             return {
                 ...state,
-                status: GAME_STATUS_RUNNING
+                ...initialState,
+                status: GAME_STATUS_RUNNING,
             };
         default:
             return state;
