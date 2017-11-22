@@ -24,7 +24,8 @@ export default class GameRunning extends Component {
             selectedMove: null,
             selectedCard: null,
             shouldDisplaySubmitModal: false,
-            shouldDisplayTestResultsIndicator: false
+            shouldDisplayTestResultsIndicator: false,
+            shouldDisplaySelectMoveIndicator: false
         };
     }
 
@@ -208,6 +209,12 @@ export default class GameRunning extends Component {
         this.setState({ isMoveValid: this.re.isLegalMove(board, move, deck, players) });
     }
 
+    handleEditorMouseOver = () => {
+        const { me, game, players } = this.props;
+        const { selectedMove } = this.state;
+        this.setState({ shouldDisplaySelectMoveIndicator: myTurn(me, game, players) && !selectedMove });
+    }
+
     render() {
         const { me, game, gameId, stream, players } = this.props;
         const {
@@ -218,7 +225,11 @@ export default class GameRunning extends Component {
             isWaitingForTestResults,
             shouldDisplaySubmitModal,
             shouldDisplayTestResultsIndicator,
+            shouldDisplaySelectMoveIndicator
         } = this.state;
+
+        const isEditorEnabled = myTurn(me, game, players) && selectedMove;
+        console.log(shouldDisplaySelectMoveIndicator);
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
@@ -255,14 +266,20 @@ export default class GameRunning extends Component {
                             <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">👇 New test results!</div>
                         }
                     </div>
-                    <div className={`w-50 pt3 ph3 pb7 overflow-scroll ${ myTurn(me, game, players) ? '' : 'not-allowed' }`}>
+                    <div 
+                        className={`w-50 pt3 ph3 pb7 overflow-scroll relative ${ isEditorEnabled ? '' : 'not-allowed' }`}
+                        onMouseEnter={ this.handleEditorMouseOver }
+                        onMouseLeave={ () => this.setState({ shouldDisplaySelectMoveIndicator: false }) }
+                    >
                         <Editor
-                            className={ myTurn(me, game, players) ? '' : 'pointer-none' }
                             gameId={ gameId }
                             getEditor={ editor => this.editorElement = editor }
                             handleEditorChange={ this.handleEditorChange }
-                            enabled={ myTurn(me, game, players) }
+                            enabled={ isEditorEnabled }
                         />
+                        { shouldDisplaySelectMoveIndicator &&
+                            <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">You need to select an action first!</div>
+                        }
                     </div>
                     <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
                         { myTurn(me, game, players) && isWaitingForSubmit &&
