@@ -50,7 +50,7 @@ export default class GameInit extends Component {
 
         let form;
         if (players.length >= settings.MAX_PLAYERS_PER_GAME) {
-            form = <p className="tc">The game has reached capacity. You can't sign up right now.</p>;
+            form = <p className="tc">The challenge has reached capacity. You can't sign up right now.</p>;
         } else {
             form = (
                 <form
@@ -66,7 +66,7 @@ export default class GameInit extends Component {
                     />
                     <input
                         className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
-                        value="Join Game"
+                        value="Join Challenge"
                         type="submit"
                     />
                 </form>
@@ -91,7 +91,7 @@ export default class GameInit extends Component {
                         className="w4 h4 bg-pear-near-white b--pear-light-gray br2 ma2 ba flex justify-center items-center"
                         key={ i }
                     >
-                        <p className="pear-light-gray tc">Waiting for player...</p>
+                        <p className="pear-light-gray tc">Waiting for partner...</p>
                     </div>
                 );
             }
@@ -99,10 +99,10 @@ export default class GameInit extends Component {
 
         return (
             <div className="mw6 center mt6">
-                <h1 className="tc f1 near-black">New Game</h1>
+                <h1 className="tc f1 near-black">New Challenge</h1>
                 <div className="mb4">
                     <p className="tc">
-                        {`${ players.length }/${ settings.MAX_PLAYERS_PER_GAME } Players Registered`}
+                        {`${ players.length }/${ settings.MAX_PLAYERS_PER_GAME } Partners Registered`}
                     </p>
                     <div className="flex justify-center">
                         { lobby }
@@ -117,7 +117,7 @@ export default class GameInit extends Component {
                         <input
                             type="submit"
                             className="input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer"
-                            value="Start Game"
+                            value="Start Challenge"
                         />
                     </form>
                 }

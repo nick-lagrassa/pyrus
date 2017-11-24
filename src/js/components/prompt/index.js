@@ -19,7 +19,7 @@ export default class Prompt extends Component {
                 <p className="silver">Task</p>
                 <p className="lh-copy">{ prompt._info.description }</p>
                 <p className="silver">Examples</p>
-                <pre className="lh-copy">{ prompt._info.examples }</pre>
+                <pre className="lh-copy overflow-x-scroll">{ prompt._info.examples }</pre>
                 <div>
                     { isWaitingForTestResults &&
                         <div className="bg-pear-yellow mv pa3 br2">

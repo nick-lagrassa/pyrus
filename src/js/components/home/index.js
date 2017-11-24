@@ -99,7 +99,7 @@ export default class Home extends Component {
                         <input
                             className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
                             type="submit"
-                            value="Start new game"
+                            value="Start new challenge"
                         />
                     </form>
                 </div>
@@ -114,12 +114,12 @@ export default class Home extends Component {
                             name="gameId"
                             value={ gameId }
                             onChange={ this.handleGameIdChange }
-                            placeholder="Game ID"
+                            placeholder="Challenge ID"
                         />
                         <input
                             className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
                             type="submit"
-                            value="Join an existing game"
+                            value="Join an existing challenge"
                         />
                     </form>
                 </div>
