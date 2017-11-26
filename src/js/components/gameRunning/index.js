@@ -84,7 +84,8 @@ export default class GameRunning extends Component {
     handleConfirmSubmitCodeClick = () => {
         const { stream } = this.props;
         stream.sendAction({
-            type: GAME_END
+            type: GAME_END,
+            code: this.editorElement.doc.getValue()
         });
     }
 
