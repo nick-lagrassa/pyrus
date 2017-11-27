@@ -21,7 +21,6 @@ class LinearInPrompt extends Prompt {
             new cards.ObjectCard,
             new cards.ArrayCard,
             new cards.ArrayCard,
-            new cards.LinkedListCard,
             new cards.ForCard,
             new cards.SwitchCard
         ];

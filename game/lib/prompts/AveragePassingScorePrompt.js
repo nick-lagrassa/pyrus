@@ -12,7 +12,6 @@ class AveragePassingScorePrompt extends Prompt {
             new cards.WhileCard,
             new cards.WhileCard,
             new cards.FunctionCard,
-            new cards.BSTCard,
             new cards.StackCard,
             new cards.DoWhileCard,
             new cards.ConditionalCard,
@@ -24,7 +23,6 @@ class AveragePassingScorePrompt extends Prompt {
             new cards.ArrayCard,
             new cards.ArrayCard,
             new cards.ArrayCard,
-            new cards.LinkedListCard,
             new cards.ForCard,
             new cards.SwitchCard
         ];

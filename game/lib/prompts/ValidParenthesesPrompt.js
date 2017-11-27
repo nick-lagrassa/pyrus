@@ -31,7 +31,6 @@ class ValidParenthesesPrompt extends Prompt {
             new WhileCard(),
             new FunctionCard(),
             new QueueCard(),
-            new BSTCard(),
             new StackCard(),
             new DoWhileCard(),
             new ConditionalCard(),
@@ -42,9 +41,7 @@ class ValidParenthesesPrompt extends Prompt {
             new ArrayCard(),
             new ArrayCard(),
             new ArrayCard(),
-            new LinkedListCard(),
             new ForCard(),
-            new ClassCard(),
             new SwitchCard()
         ];
 
