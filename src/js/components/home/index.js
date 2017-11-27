@@ -103,26 +103,6 @@ export default class Home extends Component {
                         />
                     </form>
                 </div>
-                <div>
-                    <form
-                        className="flex w-100 justify-between"
-                        onSubmit={ this.handleGameIdFormSubmit }
-                    >
-                        <input
-                            className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3"
-                            type="text"
-                            name="gameId"
-                            value={ gameId }
-                            onChange={ this.handleGameIdChange }
-                            placeholder="Challenge ID"
-                        />
-                        <input
-                            className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
-                            type="submit"
-                            value="Join an existing challenge"
-                        />
-                    </form>
-                </div>
             </div>
         );
     }
