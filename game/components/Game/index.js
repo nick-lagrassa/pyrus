@@ -23,20 +23,12 @@ class Game {
         return this._store.getState().game.status;
     }
 
-    get turnCount() {
-        return this._store.getState().game.turnCount;
-    }
-
     get activePlayerIndex() {
         return activePlayerIndex(this.turnCount, this._board.players.length);
     }
 
     get activePlayer() {
         return this._board.players[this.activePlayerIndex];
-    }
-
-    get numMovesRemaining() {
-        return this._store.getState().game.numMovesRemaining;
     }
 
     set testResults(results) {
@@ -64,70 +56,11 @@ class Game {
         }
 
         this._store.dispatch(gameStart());
-        for (let i = 0; i < this._board.players.length; i++) {
-            const player = this._board.players[i];
-            const hand = this._board._deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
-            this._store.dispatch(setPlayerHand(hand, player.id));
-        }
-    }
-
-    // Take an move and move through one step of the move loop, returns whether
-    // the move was allowed
-    // Move -> bool
-    receiveMove(move) {
-        if (this.status !== GAME_STATUS_RUNNING) {
-            return false;
-        }
-
-        if (this.activePlayer.id !== move.playerId) {
-            return false;
-        }
-
-        if (this._re.isLegalMove(this._board, move)) {
-            this._me.executeMove(this._board, move);
-            this._store.dispatch(spendMove());
-
-            if (this.numMovesRemaining <= 0) {
-                this.endTurn();
-            }
-
-            return true;
-        }
-        
-        return false;
-    }
-
-    // Remove player from game component
-    // Int ->
-    removePlayer(playerId) {
-        this._store.dispatch(removePlayer(playerId));
-    }
-
-    // skip the current player's turn
-    endTurn() {
-        const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
-        if (cards.length > 0) {
-            this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
-            this._store.dispatch(cycleToNextPlayer());
-        } else {
-            this.reset();
-        }
     }
 
     // End the game loop
     end() {
         this._store.dispatch(gameEnd());
-    }
-
-    // Reset game state
-    reset() {
-        this._store.dispatch(gameReset());
-        this._board._deck.shuffle();
-        for (let i = 0; i < this._board.players.length; i++) {
-            const player = this._board.players[i];
-            const hand = this._board._deck.draw(settings.NUM_CARDS_DRAWN_AT_GAME_START);
-            this._store.dispatch(setPlayerHand(hand, player.id));
-        }
     }
 }
 
