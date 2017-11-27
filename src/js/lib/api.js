@@ -11,7 +11,7 @@ export const newGame = async (game) => {
 
 export const getGame = async (gameId) => {
     return new Promise(resolve => {
-        request(`${ settings.APP_BACKEND }/game/${ gameId }`)
+        request(`${ settings.APP_BACKEND }/challenge/${ gameId }`)
             .then(body => resolve(JSON.parse(body)))
             .catch(err => {});
     });

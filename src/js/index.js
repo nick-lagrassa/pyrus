@@ -9,7 +9,7 @@ const App = () => (
     <BrowserRouter>
         <div>
             <Route exact path="/" component={ Home } />
-            <Route path="/game/:gameId" component={ GameProvider } />
+            <Route path="/challenge/:gameId" component={ GameProvider } />
         </div>
     </BrowserRouter>
 )

@@ -54,7 +54,7 @@ app.get('/new/:gameTitle', (req, res) => {
     }
 });
 
-app.get('/game/:gameId', (req, res) => {
+app.get('/challenge/:gameId', (req, res) => {
     const { gameId } = req.params;
 
     if (gameId in activeGames) {

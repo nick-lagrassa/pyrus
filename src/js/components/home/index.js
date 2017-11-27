@@ -55,7 +55,7 @@ export default class Home extends Component {
         const { gameTitle, gameId, gameReady } = this.state;
 
         if (gameReady) {
-            return <Redirect to={`/game/${ gameId }`}/>;
+            return <Redirect to={`/challenge/${ gameId }`}/>;
         }
 
         return (
