@@ -15,7 +15,13 @@ class ConditionalCard extends Card {
 } else {
 
 }`;
-        this.example = '';
+        this.example = 
+`if (true) {
+    console.log('true');
+} else {
+    console.log('false');
+} // -> prints 'true'
+`;
     }
 
     isInstanceOf(code) {

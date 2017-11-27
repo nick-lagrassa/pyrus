@@ -11,7 +11,13 @@ class WhileCard extends Card {
 `while (cond) {
 
 }`;
-        this.example = '';
+        this.example = 
+`
+var i = 0;
+while (i < 3) {
+    console.log(i);
+    i++;
+} // -> prints 0, 1, 2`;
     }
 
     isInstanceOf(code) {

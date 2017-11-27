@@ -11,7 +11,12 @@ class DoWhileCard extends Card {
 `do {
 
 } while (cond);`;
-        this.example = 'var hash = { "foo": "bar" };';
+        this.example = 
+`var i = 0;
+do {
+    console.log(i);
+    i++;
+} while (i < 3); // -> prints 0, 1, 2`;
     }
 
     isInstanceOf(code) {

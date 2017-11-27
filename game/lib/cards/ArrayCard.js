@@ -8,13 +8,12 @@ class ArrayCard extends Card {
         this.type = CARDS_ARRAY;
         this.title = 'Array';
         this.implementation = 'var array = [];';
-        this.example = `
-arr.length; // -> 0
+        this.example = 
+`arr.length; // -> 0
 arr.push(1);
 arr[0]; // -> 1
 arr.pop(); // -> 1
-arr; // -> []
-        `;
+arr; // -> []`;
     }
 
     isInstanceOf(code) {

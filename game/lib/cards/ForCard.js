@@ -11,7 +11,10 @@ class ForCard extends Card {
 `for (var i = 0; i < 3; i++) {
 
 }`;
-        this.example = '';
+        this.example = 
+`for (var i = 0; i < 3; i++) {
+    console.log(i);
+} // -> prints 0, 1, 2`;
     }
 
     isInstanceOf(code) {
