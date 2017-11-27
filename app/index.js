@@ -8,9 +8,17 @@ import crypto from 'crypto';
 import ws from 'ws';
 import ServerStreamHandler from './websocket';
 import PearLogger from './logger';
+import dotenv from 'dotenv';
+import ip from 'ip';
+
+dotenv.config();
+
+if (process.argv.length === 3 && process.argv[2] === '--env.study') {
+    process.env.APP_BACKEND = ip.address();
+}
 
 const app = express();
-const port = process.env.GAME_PORT || 4000;
+const port = process.env.APP_BACKEND_PORT || 4000;
 app.use(bodyParser.json());
 
 const server = http.createServer(app);
@@ -23,8 +31,8 @@ app.use((req, res, next) => {
     next();
 });
 
-server.listen(port, () => {
-    console.log(`Game server listening on port ${ port }`);
+server.listen(port, process.env.APP_BACKEND, () => {
+    console.log(`Game server running at ${ process.env.APP_BACKEND }:${ port }`);
 });
 
 const WebSocketServer = ws.Server;

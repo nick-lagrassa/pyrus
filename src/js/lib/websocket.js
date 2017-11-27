@@ -1,11 +1,10 @@
-import settings from '../config/settings';
 import { WS_ACTION, WS_COMMAND } from '../../../app/constants/ws';
 
 export default class ClientStreamHandler {
     constructor(store, gameId) {
         this.store = store;
         this.gameId = gameId;
-        this.socket = new WebSocket(`${ settings.WS_APP_BACKEND }/${ this.gameId }`);
+        this.socket = new WebSocket(`ws://${ process.env.APP_BACKEND }:${ process.env.APP_BACKEND_PORT }/${ this.gameId }`);
 
         this.socket.addEventListener('message', message => {
             const data = JSON.parse(message.data);

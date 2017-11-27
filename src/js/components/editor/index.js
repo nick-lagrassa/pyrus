@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import settings from '../../config/settings';
 import * as firebase from 'firebase';
 import Firepad from 'firepad';
 
@@ -7,9 +6,9 @@ export default class Editor extends Component {
     constructor(props) {
         super(props);
         this.app = firebase.initializeApp({
-            apiKey: settings.FIREBASE_API_KEY,
-            databaseURL: settings.FIREBASE_DATABASE_URL,
-            authDomain: settings.FIREBASE_AUTH_DOMAIN
+            apiKey: process.env.FIREBASE_API_KEY,
+            databaseURL: process.env.FIREBASE_DATABASE_URL,
+            authDomain: process.env.FIREBASE_AUTH_DOMAIN
         });
         this.firebaseRef = firebase.database().ref('firepads').child(props.gameId);
     }

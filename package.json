@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
+    "start": "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
     "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
     "dev": "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
-    "test": "jest"
+    "test": "jest",
+    "start:study": "webpack --env.study && parallelshell 'babel-node server.js --env.study' 'babel-node app/index.js --env.study'"
   },
   "bin": {
     "safeEval": "./bin/safeEval.js"
@@ -31,11 +32,14 @@
     "body-parser": "^1.18.2",
     "commander": "^2.11.0",
     "diff": "^3.4.0",
+    "dotenv": "^4.0.0",
+    "dotenv-webpack": "^1.5.4",
     "espree": "^3.5.2",
     "express": "^4.16.2",
     "firebase": "^4.6.0",
     "firepad": "^1.4.0",
     "fisher-yates": "^1.0.3",
+    "ip": "^1.1.5",
     "jest": "^21.2.1",
     "json-loader": "^0.5.7",
     "lodash": "^4.17.4",
