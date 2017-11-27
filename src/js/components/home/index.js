@@ -60,7 +60,7 @@ export default class Home extends Component {
 
         return (
             <div className="mw6 center mt6">
-                <h1 className="tc f1 near-black">Pear</h1>
+                <h1 className="tc f1 near-black">Collaborative Programming</h1>
                 <div>
                     <form
                         className="flex w-100 justify-between"

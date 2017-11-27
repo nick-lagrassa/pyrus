@@ -283,7 +283,7 @@ export default class GameRunning extends Component {
                     </div>
                     <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
                         { myTurn(me, game, players) && isWaitingForSubmit &&
-                            <div className="flex flex-column">
+                            <div className="flex flex-column mb4">
                                 <p className="f6 silver mv0">SUBMIT ACTION</p>
                                 <input
                                     type="button"
@@ -300,7 +300,7 @@ export default class GameRunning extends Component {
                             </div>
                         }
                         { myTurn(me, game, players) && !isWaitingForSubmit &&
-                            <div className="flex flex-column">
+                            <div className="flex flex-column mb4">
                                 <p className="f6 silver mv0">ACTIONS</p>
                                 <input
                                     type="button"
@@ -322,8 +322,8 @@ export default class GameRunning extends Component {
                                 />
                             </div>
                         }
-                        <div className="flex flex-column">
-                            <p className="f6 silver mt4 mb0">RUN</p>
+                        <div className="flex flex-column mb4">
+                            <p className="f6 silver mb0">RUN</p>
                             <input
                                 type="button"
                                 className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
@@ -339,7 +339,7 @@ export default class GameRunning extends Component {
                         </div>
                         { myTurn(me, game, players) &&
                             <div className="flex flex-column">
-                                <p className="f6 silver mt4 mb0">END TURN</p>
+                                <p className="f6 silver mb0">END TURN</p>
                                 <input
                                     type="button"
                                     className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
