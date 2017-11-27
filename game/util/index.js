@@ -13,7 +13,17 @@ export const myTurn = (me, game, players) => {
 }
 
 export const getAST = code => {
-    return espree.parse(code, { ecmaVersion: 6 });
+    const tree = espree.parse(code, { ecmaVersion: 6 });
+    // TODO: fix this extremely hacky way of testing for console logs
+    tree.body = tree.body.filter(node => (
+        !(node.type === 'ExpressionStatement' && 
+            node.expression &&
+            node.expression.callee &&
+            node.expression.callee.type === 'MemberExpression' && 
+            node.expression.callee.object &&
+            node.expression.callee.object.name === 'console')
+    ));
+    return tree;
 }
 
 export const isArray = tree => {

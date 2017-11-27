@@ -106,8 +106,9 @@ class RulesEnforcer {
             default:
                 return false;
         }
+        
         try {
-            return card.isInstanceOf(diff)
+            return card.isInstanceOf(diff);
         } catch (e) {
             // TODO if syntax invalid while implementing consume card then we automatically allow
             // instead we should be able to recognize if someone is at least 'trying' to implement
@@ -115,29 +116,31 @@ class RulesEnforcer {
             return true;
         }
     }
+    
     // gets diff on board editor and new editor string, returns only the string of the
     // code that has been added
     // string, string -> string
     getEditorDifference(oldCode, newCode) {
         const diff = JsDiff.diffLines(oldCode, newCode, { newlineIsToken: true });
-        let addedCode = diff.filter(line => { return line.added === true });
+        let addedCode = diff.filter(line => line.added === true );
 
         let changed = '';
         for(let line of addedCode) {
-            changed += line.value
+            changed += line.value;
         }
 
         return changed;
     }
 
     isSingleMove(code) {
+        let tree;
         try {
-            const tree = util.getAST(code)
-            return tree.body.length <= 1;
+            tree = util.getAST(code);
         } catch (e) {
             return true;
         }
 
+        return tree.body.length <= 1;
     }
 
     isPrimitiveWrite(code) {
@@ -153,14 +156,15 @@ class RulesEnforcer {
             util.isSwitch,
             util.isFunction
         ];
-        const tree = util.getAST(code)
+        
+        const tree = util.getAST(code);
         if (!this.isSingleMove(tree)) {
             return false;
         }
 
         for (let i = 0; i < patterns.length; i++) {
             try {
-                if(patterns[i](tree)) {
+                if (patterns[i](tree)) {
                     return false;
                 }
             } catch (e) {

@@ -18,8 +18,9 @@ const nonPrimitiveCode = [
     'class LinkedList\t {}',
     // 'else {}',
     // 'else if {}',
-    'switch(action){}']
-    // 'case Move:']
+    'switch(action){}',
+    // 'case Move:'
+];
 
 const functionCode = [
     'helperFunction = () => {}',
@@ -28,7 +29,8 @@ const functionCode = [
     'var c = (function() {})',
     'var helperFunction = function foo() {}',
     'var c = (function() { return true })',
-    'var foo = new function() {}']
+    'var foo = new function() {}'
+];
 
 describe('isLegalMove', () => {
     let game, player;
