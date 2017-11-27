@@ -8,7 +8,7 @@ import InfoHeader from '../../containers/infoHeader';
 import Editor from '../../containers/editor';
 import Hand from '../hand';
 import Prompt from '../../containers/prompt';
-import { myTurn } from '../../../../game/util';
+import { myTurn, getActivePlayer } from '../../../../game/util';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../../../game/constants/move';
 import { GAME_END_TURN, GAME_END } from '../../../../game/constants/game';
 import { COMMAND_RUN_CODE } from '../../../../app/constants/command';
@@ -191,17 +191,18 @@ export default class GameRunning extends Component {
     }
 
     handleEditorChange = () => {
-        const { me, board, players, deck } = this.props;
+        const { game, board, players, deck } = this.props;
         const { isMoveValid, selectedMove, selectedCard } = this.state;
+        const activePlayer = getActivePlayer(game, players);
 
         let code = this.editorElement.doc.getValue();
         let move;
         switch (selectedMove) {
             case MOVE_WRITE:
-                move = new WriteMove(me.id, code);
+                move = new WriteMove(activePlayer.id, code);
                 break;
             case MOVE_CONSUME:
-                move = new ConsumeMove(me.id, selectedCard, code);
+                move = new ConsumeMove(activePlayer.id, selectedCard, code);
                 break;
             default:
                 return;
@@ -256,9 +257,9 @@ export default class GameRunning extends Component {
                     </div>
                 }
                 <InfoHeader />
-                <div className="flex mw8 center mb6">
+                <div className="flex mw8 center">
                     <div
-                        className="w-50 pt3 ph3 pb7 overflow-scroll relative"
+                        className="w-50 pt3 ph3 mb7 overflow-scroll relative"
                         onScroll={ () => this.setState({ shouldDisplayTestResultsIndicator: false }) }
                     >
                         <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
@@ -323,13 +324,15 @@ export default class GameRunning extends Component {
                             </div>
                         }
                         <div className="flex flex-column mb4">
-                            <p className="f6 silver mb0">RUN</p>
-                            <input
-                                type="button"
-                                className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
-                                value="Run Code"
-                                onClick={ this.handleRunCodeClick }
-                            />
+                            <p className="f6 silver mb0">RUN AND SUBMIT</p>
+                            { myTurn(me, game, players) &&
+                                <input
+                                    type="button"
+                                    className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
+                                    value="Run Code"
+                                    onClick={ this.handleRunCodeClick }
+                                />
+                            }
                             <input
                                 type="button"
                                 className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1`}
