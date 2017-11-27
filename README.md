@@ -2,19 +2,21 @@
 ```
 git clone git@github.com:NUDelta/pear.git
 cd pear
+git pull
 npm install
 npm link
 ```
 
-## running
+## running a study
 
 ### pear
 ```
-npm start
+git checkout study-treatment
+npm start:study
 ```
 
 ### control (pair programming)
 ```
-git checkout revert-65-revert-59-control-group
-npm start
+git checkout study-control
+npm start:study
 ```
