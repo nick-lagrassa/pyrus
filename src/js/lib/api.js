@@ -1,9 +1,8 @@
-import settings from '../config/settings';
 import request from 'request-promise-native';
 
 export const newGame = async (game) => {
     return new Promise(resolve => {
-        request(`${ settings.APP_BACKEND }/new/${ game }`)
+        request(`http://${ process.env.APP_BACKEND }:${ process.env.APP_BACKEND_PORT }/new/${ game }`)
             .then(body => resolve(JSON.parse(body)))
             .catch(err => {});
     });
@@ -11,7 +10,7 @@ export const newGame = async (game) => {
 
 export const getGame = async (gameId) => {
     return new Promise(resolve => {
-        request(`${ settings.APP_BACKEND }/challenge/${ gameId }`)
+        request(`http://${ process.env.APP_BACKEND }:${ process.env.APP_BACKEND_PORT }/challenge/${ gameId }`)
             .then(body => resolve(JSON.parse(body)))
             .catch(err => {});
     });
