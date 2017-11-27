@@ -279,7 +279,7 @@ export default class GameRunning extends Component {
                             enabled={ isEditorEnabled }
                         />
                         { shouldDisplaySelectMoveIndicator &&
-                            <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">You need to select an action first!</div>
+                            <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2 z-999">You need to select an action first!</div>
                         }
                     </div>
                     <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
