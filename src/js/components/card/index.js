@@ -9,6 +9,11 @@ export default class Card extends Component {
         };
     }
 
+    componentDidMount() {
+        const { getCard } = this.props;
+        getCard(this.cardElement);
+    }
+
     render() {
         const { card, handleCardClick, style, shouldFloat } = this.props;
         const { isMouseOver } = this.state
@@ -24,6 +29,7 @@ export default class Card extends Component {
                 onMouseOver={ () => this.setState({ isMouseOver: true }) }
                 onMouseLeave={ () => this.setState({ isMouseOver: false }) }
                 style={ style }
+                ref={ e => this.cardElement = e }
             >
                 <p className="f3 mt0">{ card.title }</p>
                 <p className="f6 mv0 silver">Syntax</p>
