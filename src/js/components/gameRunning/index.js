@@ -9,7 +9,7 @@ import Editor from '../../containers/editor';
 import Hand from '../hand';
 import Prompt from '../../containers/prompt';
 import { myTurn, getActivePlayer } from '../../../../game/util';
-import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../../../game/constants/move';
+import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE, MOVE_CANCEL } from '../../../../game/constants/move';
 import { GAME_END_TURN, GAME_END } from '../../../../game/constants/game';
 import { COMMAND_RUN_CODE } from '../../../../app/constants/command';
 
@@ -21,6 +21,7 @@ export default class GameRunning extends Component {
             isWaitingForSubmit: false,
             isWaitingForTestResults: false,
             isMoveValid: false,
+            isMoveCancelled: null,
             selectedMove: null,
             selectedCard: null,
             shouldDisplaySubmitModal: false,
@@ -149,6 +150,7 @@ export default class GameRunning extends Component {
 
     handleCancelAction = () => {
         this.setState({
+            isMoveCancelled: true,
             selectedMove: null,
             isWaitingForSubmit: false,
             selectedCard: null
@@ -217,6 +219,12 @@ export default class GameRunning extends Component {
         this.setState({ shouldDisplaySelectMoveIndicator: myTurn(me, game, players) && !selectedMove });
     }
 
+    resetIsMoveCancelled = () => {
+        this.setState({
+            isMoveCancelled: null
+        });
+    }
+
     render() {
         const { me, game, gameId, stream, players } = this.props;
         const {
@@ -224,6 +232,7 @@ export default class GameRunning extends Component {
             selectedCard,
             isWaitingForSubmit,
             isMoveValid,
+            isMoveCancelled,
             isWaitingForTestResults,
             shouldDisplaySubmitModal,
             shouldDisplayTestResultsIndicator,
@@ -274,8 +283,10 @@ export default class GameRunning extends Component {
                     >
                         <Editor
                             gameId={ gameId }
+                            isMoveCancelled={ isMoveCancelled }
                             getEditor={ editor => this.editorElement = editor }
                             handleEditorChange={ this.handleEditorChange }
+                            resetIsMoveCancelled={ this.resetIsMoveCancelled }
                             enabled={ isEditorEnabled }
                         />
                         { shouldDisplaySelectMoveIndicator &&
