@@ -86,26 +86,11 @@ export default class Home extends Component {
                             <option value="" disabled >
                                 Select Challenge ⬇️
                             </option>
-                            <option value="averagePassingScoreGame" >
-                                Average Passing Score
-                            </option>
                             <option value="arrayTwoSumGame" >
-                                Array Two Sum
+                                Example Prompt
                             </option>
-                            <option value="mergeArraysGame" >
-                                Merge Arrays
-                            </option>
-                            <option value="linearInGame" >
-                                Linear In
-                            </option>
-                            <option value="canBalanceGame" >
-                                Can Balance
-                            </option>
-                            <option value="arraySequenceMatchGame" >
-                                Array Sequence Match
-                            </option>
-                            <option value="validParenthesesGame" >
-                                Valid Parentheses
+                            <option value="averagePassingScoreGame" >
+                                Another Example
                             </option>
                         </select>
                         <input

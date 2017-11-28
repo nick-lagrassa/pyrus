@@ -41,7 +41,7 @@ class Deck {
     }
 
     shuffle() {
-        this._store.dispatch(shuffleDeck());
+        // this._store.dispatch(shuffleDeck());
     }
 
     // -> boolean

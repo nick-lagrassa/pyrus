@@ -9,9 +9,4 @@ import validParenthesesGame from './validParenthesesGame';
 export {
     averagePassingScoreGame,
     arrayTwoSumGame,
-    arraySequenceMatchGame,
-    mergeArraysGame,
-    linearInGame,
-    canBalanceGame,
-    validParenthesesGame,
 };
