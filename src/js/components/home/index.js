@@ -71,7 +71,7 @@ export default class Home extends Component {
                             onChange={ this.handleGameTitleChange }
                             defaultValue=""
                         >
-                            <option value="" disabled hidden >
+                            <option value="" disabled >
                                 Select Challenge ⬇️
                             </option>
                             <option value="averagePassingScoreGame" >
