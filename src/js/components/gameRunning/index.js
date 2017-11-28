@@ -149,12 +149,6 @@ export default class GameRunning extends Component {
     }
 
     handleCancelAction = () => {
-        const { stream } = this.props;
-
-        stream.sendAction({
-            type: MOVE_CANCEL
-        });
-
         this.setState({
             isMoveCancelled: true,
             selectedMove: null,

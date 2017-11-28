@@ -15,7 +15,8 @@ export default class Editor extends Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        const { board, isMoveCancelled, resetIsMoveCancelled } = this.props;
+        const { board, resetIsMoveCancelled } = this.props;
+        const { isMoveCancelled } = nextProps;
         if (board.lastResetTimestampMS !== nextProps.board.lastResetTimestampMS) {
             this.codeMirror.setValue('');
         }
