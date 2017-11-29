@@ -1,6 +1,9 @@
 import Card from '../../components/Card';
 import { CARDS_DO_WHILE_LOOP } from '../../constants/cards.js';
-import { isDoWhileLoop, getAST } from '../../util';
+import {
+    isDoWhileLoop,
+    isEmptyLoopBlock,
+    getAST } from '../../util';
 
 class DoWhileCard extends Card {
     constructor() {
@@ -21,7 +24,10 @@ do {
 
     isInstanceOf(code) {
         const tree = getAST(code);
-        return isDoWhileLoop(tree);
+        if (isDoWhileLoop(tree)) {
+            return isEmptyLoopBlock(tree.body[0]);
+        }
+        return false;
     }
 }
 

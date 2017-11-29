@@ -1,6 +1,9 @@
 import Card from '../../components/Card';
 import { CARDS_FOR_LOOP } from '../../constants/cards.js';
-import { isForLoop, getAST } from '../../util';
+import {
+    isForLoop,
+    isEmptyLoopBlock,
+    getAST } from '../../util';
 
 class ForCard extends Card {
     constructor() {
@@ -19,7 +22,10 @@ class ForCard extends Card {
 
     isInstanceOf(code) {
         const tree = getAST(code);
-        return isForLoop(tree);
+        if (isForLoop(tree)) {
+            return isEmptyLoopBlock(tree.body[0]);
+        }
+        return false;
     }
 }
 

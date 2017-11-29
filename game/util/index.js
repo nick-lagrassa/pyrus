@@ -152,19 +152,25 @@ export const isStack = tree => {
 
 // Given AST of only the IF statement object
 // AST Obj -> bool
-export const isEmptyIfBlock = tree => {
-    if(tree.hasOwnProperty('body')) {
+export const isEmptyIfBlock = ifAST => {
+    if(ifAST.hasOwnProperty('body')) {
         if(tree.body.length > 0) {
             return false;
         }
     }
-    if(tree.hasOwnProperty('consequent')) {
-        if (tree.consequent.body.length > 0) {
+    if(ifAST.hasOwnProperty('consequent')) {
+        if (ifAST.consequent.body.length > 0) {
             return false;
         }
     }
-    if(tree.hasOwnProperty('alternate')) {
-        return isEmptyIfBlock(tree.alternate);
+    if(ifAST.hasOwnProperty('alternate')) {
+        return isEmptyIfBlock(ifAST.alternate);
     }
     return true;
+}
+
+// Given AST of only the WHILE statement object
+// AST Obj -> bool
+export const isEmptyLoopBlock = loopAST => {
+    return loopAST.body.body.length === 0;
 }
