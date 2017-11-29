@@ -1,6 +1,12 @@
 import Card from '../../components/Card';
 import { CARDS_CONDITIONAL } from '../../constants/cards.js';
-import { isIfConditional, isTernaryConditional, getAST } from '../../util';
+import
+    {
+        isIfConditional,
+        isTernaryConditional,
+        isEmptyIfBlock,
+        getAST
+    } from '../../util';
 
 class ConditionalCard extends Card {
     constructor() {
@@ -24,9 +30,16 @@ class ConditionalCard extends Card {
 `;
     }
 
+    // Check if IF statement and empty IF block or if
+    // ternary statement
+    // string -> bool
     isInstanceOf(code) {
         const tree = getAST(code);
-        return isIfConditional(tree) || isTernaryConditional(tree);
+        if(isIfConditional(tree)) {
+            return isEmptyIfBlock(tree.body[0]);
+        } else {
+            return isTernaryConditional(tree);
+        }
     }
 }
 

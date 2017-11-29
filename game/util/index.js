@@ -149,3 +149,22 @@ export const isQueue = tree => {
 export const isStack = tree => {
 	return isArray(tree);
 }
+
+// Given AST of only the IF statement object
+// AST Obj -> bool
+export const isEmptyIfBlock = tree => {
+    if(tree.hasOwnProperty('body')) {
+        if(tree.body.length > 0) {
+            return false;
+        }
+    }
+    if(tree.hasOwnProperty('consequent')) {
+        if (tree.consequent.body.length > 0) {
+            return false;
+        }
+    }
+    if(tree.hasOwnProperty('alternate')) {
+        return isEmptyIfBlock(tree.alternate);
+    }
+    return true;
+}
