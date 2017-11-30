@@ -174,3 +174,26 @@ export const isEmptyIfBlock = ifAST => {
 export const isEmptyLoopBlock = loopAST => {
     return loopAST.body.body.length === 0;
 }
+
+// TODO: return statement causes error in AST and is a workaround
+// for a user implementing a switch case to add code to body
+// Given AST of only the SWITCH statement object
+// check that each case only holds at most a break statement
+// AST Obj -> bool
+export const isEmptySwitchBlock = switchAST => {
+    if(switchAST.cases.length === 0) {
+        return true;
+    } else {
+        const branchingStatements = ['BreakStatement', 'ReturnStatement'];
+        for(let caseObj of switchAST.cases) {
+            if(caseObj.consequent.length > 1) {
+                return false;
+            } else if (caseObj.consequent.length === 1) {
+                if(!branchingStatements.includes(caseObj.consequent[0].type)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
