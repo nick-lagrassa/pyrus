@@ -17,7 +17,7 @@ export default class GameRunning extends Component {
     constructor(props) {
         super(props);
         this.re = new RulesEnforcer();
-        this.state = {
+        this.initialState = {
             isWaitingForSubmit: false,
             isWaitingForTestResults: false,
             isMoveValid: false,
@@ -27,14 +27,19 @@ export default class GameRunning extends Component {
             shouldDisplaySubmitModal: false,
             shouldDisplayTestResultsIndicator: false,
             shouldDisplaySelectMoveIndicator: false
-        };
+        }
+        this.state = this.initialState;
     }
 
     componentWillUpdate(nextProps, nextState) {
         const { isWaitingForTestResults } = this.state;
-        const { prompt } = this.props;
+        const { prompt, game } = this.props;
         if (isWaitingForTestResults && prompt._testRunTimestampMS !== nextProps.prompt._testRunTimestampMS) {
             this.setState({ isWaitingForTestResults: false });
+        }
+
+        if (nextProps.game.gameResetTimestampMS !== game.gameResetTimestampMS) {
+            this.setState({ ...this.initialState });
         }
     }
 

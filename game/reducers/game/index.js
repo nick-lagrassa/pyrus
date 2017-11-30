@@ -14,7 +14,8 @@ const initialState = {
     status: GAME_STATUS_INIT,
     turnCount: 0,
     numMovesRemaining: settings.NUM_PLAYER_MOVES_PER_TURN,
-    err: null
+    err: null,
+    gameResetTimestampMS: Date.now()
 };
 
 export default function game(state=initialState, action) {
@@ -45,6 +46,7 @@ export default function game(state=initialState, action) {
                 ...state,
                 ...initialState,
                 status: GAME_STATUS_RUNNING,
+                gameResetTimestampMS: Date.now()
             };
         default:
             return state;
