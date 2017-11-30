@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { getGame } from '../../lib/api';
 import configureStore from '../../store/configureStore';
 import Game from '../../containers/game';
+import Spectator from '../../containers/spectator';
 import ClientStreamHandler from '../../lib/websocket';
 
 export default class GameProvider extends Component {
@@ -31,7 +32,8 @@ export default class GameProvider extends Component {
     }
 
     render() {
-        const { gameId } = this.props.match.params;
+        const { params, path } = this.props.match;
+        const { gameId } = params;
         const { initialState, err, ready } = this.state;
 
         if (!ready) {
@@ -52,10 +54,14 @@ export default class GameProvider extends Component {
 
         return (
             <Provider store={ store }>
-                <Game
-                    gameId={ gameId }
-                    stream={ stream }
-                />
+                { path.indexOf('spectator') > -1 ?
+                    <Spectator gameId={ gameId } />
+                    :
+                    <Game
+                        gameId={ gameId }
+                        stream={ stream }
+                    />
+                }
             </Provider>
         );
     }

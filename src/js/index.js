@@ -10,6 +10,7 @@ const App = () => (
         <div>
             <Route exact path="/" component={ Home } />
             <Route path="/challenge/:gameId" component={ GameProvider } />
+            <Route path="/spectator/:gameId" component={ GameProvider } />
         </div>
     </BrowserRouter>
 )
