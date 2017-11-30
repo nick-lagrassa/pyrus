@@ -22,10 +22,7 @@ class ForCard extends Card {
 
     isInstanceOf(code) {
         const tree = getAST(code);
-        if (isForLoop(tree)) {
-            return isEmptyLoopBlock(tree.body[0]);
-        }
-        return false;
+        return isForLoop(tree) && isEmptyLoopBlock(tree.body[0]);
     }
 }
 

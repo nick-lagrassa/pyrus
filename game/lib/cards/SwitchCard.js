@@ -35,10 +35,7 @@ switch(day) {
 
     isInstanceOf(code) {
         const tree = getAST(code);
-        if(isSwitch(tree)) {
-            return isEmptySwitchBlock(tree.body[0]);
-        }
-        return false;
+        return isSwitch(tree) && isEmptySwitchBlock(tree.body[0]);
     }
 }
 

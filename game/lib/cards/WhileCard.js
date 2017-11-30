@@ -25,10 +25,7 @@ while (i < 3) {
 
     isInstanceOf(code) {
         const tree = getAST(code);
-        if (isWhileLoop(tree)) {
-            return isEmptyLoopBlock(tree.body[0]);
-        }
-        return false;
+        return isWhileLoop(tree) && isEmptyLoopBlock(tree.body[0]);
     }
 }
 

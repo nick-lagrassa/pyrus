@@ -24,10 +24,7 @@ do {
 
     isInstanceOf(code) {
         const tree = getAST(code);
-        if (isDoWhileLoop(tree)) {
-            return isEmptyLoopBlock(tree.body[0]);
-        }
-        return false;
+        return isDoWhileLoop(tree) && isEmptyLoopBlock(tree.body[0]);
     }
 }
 
