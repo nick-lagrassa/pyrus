@@ -80,9 +80,6 @@ export default class Home extends Component {
                             <option value="arrayTwoSumGame" >
                                 Array Two Sum
                             </option>
-                            <option value="arraySequenceMatchGame" >
-                                Array Sequence Match
-                            </option>
                             <option value="mergeArraysGame" >
                                 Merge Arrays
                             </option>
@@ -91,6 +88,9 @@ export default class Home extends Component {
                             </option>
                             <option value="canBalanceGame" >
                                 Can Balance
+                            </option>
+                            <option value="arraySequenceMatchGame" >
+                                Array Sequence Match
                             </option>
                             <option value="validParenthesesGame" >
                                 Valid Parentheses

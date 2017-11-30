@@ -22,6 +22,8 @@ class ArrayTwoSumPrompt extends Prompt {
             new cards.ArrayCard,
             new cards.ArrayCard,
             new cards.ForCard,
+            new cards.ForCard,
+            new cards.ForCard,
             new cards.SwitchCard
         ];
 

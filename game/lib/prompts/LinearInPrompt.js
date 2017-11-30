@@ -42,7 +42,7 @@ class LinearInPrompt extends Prompt {
                 input: [[14,18],[14,18]],
                 expected: true
             }, {
-                input: [[3,5],[2,3,4,5]],
+                input: [[3,5],[2,3,4]],
                 expected: false
             }, {
                 input: [[-3,8,9,11],[-3,2,3,4,5,8,9,10,11,12]],
