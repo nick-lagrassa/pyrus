@@ -9,7 +9,8 @@ export default class Home extends Component {
         this.state = {
             gameTitle: '',
             gameId: '',
-            gameReady: false
+            gameReady: false,
+            shouldDisplaySpectatorViewInput: false,
         };
     }
 
@@ -51,10 +52,21 @@ export default class Home extends Component {
         });
     }
 
+    handleKeyDown = e => {
+        if (e.keyCode === 27) {
+            const { shouldDisplaySpectatorViewInput } = this.state;
+            this.setState({ shouldDisplaySpectatorViewInput: !shouldDisplaySpectatorViewInput });
+        }
+    }
+
     render() {
-        const { gameTitle, gameId, gameReady } = this.state;
+        const { gameTitle, gameId, gameReady, shouldDisplaySpectatorViewInput } = this.state;
 
         if (gameReady) {
+            if (shouldDisplaySpectatorViewInput) {
+                return <Redirect to={`/spectator/${ gameId }`}/>;
+            }
+
             return <Redirect to={`/challenge/${ gameId }`}/>;
         }
 
@@ -114,12 +126,13 @@ export default class Home extends Component {
                             name="gameId"
                             value={ gameId }
                             onChange={ this.handleGameIdChange }
+                            onKeyDown={ this.handleKeyDown }
                             placeholder="Challenge ID"
                         />
                         <input
-                            className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
+                            className={`input-reset ba ${ shouldDisplaySpectatorViewInput ? 'bg-pear-green b--pear-green' : 'bg-pear-blue b--pear-blue' } pa3 br2 br--right white pointer`}
                             type="submit"
-                            value="Join an existing challenge"
+                            value={ shouldDisplaySpectatorViewInput ? 'Enter spectator view' : 'Join an existing challenge'}
                         />
                     </form>
                 </div>
