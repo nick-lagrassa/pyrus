@@ -12,6 +12,8 @@ class CanBalancePrompt extends Prompt {
             new cards.HashTableCard,
             new cards.WhileCard,
             new cards.FunctionCard,
+            new cards.FunctionCard,
+            new cards.FunctionCard,
             new cards.StackCard,
             new cards.DoWhileCard,
             new cards.ConditionalCard,
@@ -21,6 +23,7 @@ class CanBalancePrompt extends Prompt {
             new cards.ObjectCard,
             new cards.ArrayCard,
             new cards.ArrayCard,
+            new cards.ForCard,
             new cards.ForCard,
             new cards.SwitchCard
         ];
