@@ -1,6 +1,9 @@
 import Card from '../../components/Card';
 import { CARDS_WHILE_LOOP } from '../../constants/cards.js';
-import { isWhileLoop, getAST } from '../../util';
+import {
+    isWhileLoop,
+    isEmptyLoopBlock,
+    getAST } from '../../util';
 
 class WhileCard extends Card {
     constructor() {
@@ -22,7 +25,7 @@ while (i < 3) {
 
     isInstanceOf(code) {
         const tree = getAST(code);
-        return isWhileLoop(tree);
+        return isWhileLoop(tree) && isEmptyLoopBlock(tree.body[0]);
     }
 }
 
