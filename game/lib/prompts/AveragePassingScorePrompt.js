@@ -30,7 +30,7 @@ class AveragePassingScorePrompt extends Prompt {
         this._info = {
             title: 'Average Passing Score',
             description: 'Given a list of scores, return the average among the passing scores. A passing score is any score greater than or equal to 70. If the list is empty or does not include any passing scores return 0. Note: all numbers in javascripts are floats.',
-            examples: 'Given: `[60,70,80,90]`\nReturn: 80\n\nGiven: `[15,33,84,55,90,100]`\nReturn: 91.33333333333333'
+            examples: 'Given: [60,70,80,90]\nReturn: 80\n\nGiven: [15,33,84,55,90,100]\nReturn: 91.33333333333333'
         };
 
         this._tests = [
