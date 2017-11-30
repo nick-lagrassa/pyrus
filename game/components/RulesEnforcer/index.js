@@ -106,7 +106,7 @@ class RulesEnforcer {
             default:
                 return false;
         }
-        
+
         try {
             return card.isInstanceOf(diff);
         } catch (e) {
@@ -116,12 +116,12 @@ class RulesEnforcer {
             return true;
         }
     }
-    
+
     // gets diff on board editor and new editor string, returns only the string of the
     // code that has been added
     // string, string -> string
     getEditorDifference(oldCode, newCode) {
-        const diff = JsDiff.diffLines(oldCode, newCode, { newlineIsToken: true });
+        const diff = JsDiff.diffLines(oldCode, newCode, { ignoreWhitespace: true, newlineIsToken: true });
         let addedCode = diff.filter(line => line.added === true );
 
         let changed = '';
@@ -156,7 +156,7 @@ class RulesEnforcer {
             util.isSwitch,
             util.isFunction
         ];
-        
+
         const tree = util.getAST(code);
         if (!this.isSingleMove(tree)) {
             return false;
