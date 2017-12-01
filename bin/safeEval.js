@@ -2,8 +2,11 @@
 var VM2 = require('vm2');
 var safeEncode = require('../app/util/safeEncode');
 var trimBrackets = require('../app/util/trimBrackets');
+Number.isNaN = require('is-nan');
+
 var TIMEOUT_MS = 500;
 var vm = new VM2.VM({ timeout: TIMEOUT_MS });
+
 
 function safeEval(code) {
     var script;
@@ -20,7 +23,7 @@ function safeEval(code) {
 
         // because JSON can't encode NaN or Infinity values, we have to serialize
         // them ourselves
-        if (isNaN(value)) {
+        if (Number.isNaN(value)) {
             value = 'NaN';
         }
 
