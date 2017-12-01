@@ -105,7 +105,7 @@ class RulesEnforcer {
         try {
             return card.isInstanceOf(diff);
         } catch (e) {
-            return false;
+            return true;
         }
     }
 
@@ -135,7 +135,7 @@ class RulesEnforcer {
         try {
             tree = util.getAST(code);
         } catch (e) {
-            return false;
+            return true;
         }
 
         return tree.body.length <= 1;
@@ -159,7 +159,7 @@ class RulesEnforcer {
         try {
             tree = util.getAST(code);
         } catch (e) {
-            return false;
+            return true;
         }
         
         for (let i = 0; i < patterns.length; i++) {
