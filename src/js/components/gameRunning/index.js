@@ -348,14 +348,12 @@ export default class GameRunning extends Component {
                         }
                         <div className="flex flex-column mb4">
                             <p className="f6 silver mb0">RUN AND SUBMIT</p>
-                            { myTurn(me, game, players) &&
-                                <input
-                                    type="button"
-                                    className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1 ${ isMoveValid ? '' : 'pointer-none o-30' }`}
-                                    value="Run Code"
-                                    onClick={ this.handleRunCodeClick }
-                                />
-                            }
+                            <input
+                                type="button"
+                                className="db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1"
+                                value="Run Code"
+                                onClick={ this.handleRunCodeClick }
+                            />
                             <input
                                 type="button"
                                 className={`db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1`}
