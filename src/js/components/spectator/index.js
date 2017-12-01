@@ -4,6 +4,7 @@ import InfoHeader from '../../containers/infoHeader';
 import Editor from '../../containers/editor';
 import Hand from '../hand';
 import Prompt from '../../containers/prompt';
+import { GAME_STATUS_RUNNING } from '../../../../game/constants/game'
 
 export default class GameRunning extends Component {
     constructor(props) {

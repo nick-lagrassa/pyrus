@@ -198,7 +198,7 @@ export default class GameRunning extends Component {
     }
 
     handleEditorChange = () => {
-        const { game, board, players, deck } = this.props;
+        const { game, board, players, deck, prompt } = this.props;
         const { isMoveValid, selectedMove, selectedCard } = this.state;
         const activePlayer = getActivePlayer(game, players);
 

@@ -13,10 +13,20 @@ function safeEval(code) {
         process.stderr.write(e.message);
         return;
     }
-    
 
     try {
         var value = vm.run(script);
+
+        // because JSON can't encode NaN or Infinity values, we have to serialize
+        // them ourselves
+        if (isNaN(value)) {
+            value = 'NaN';
+        }
+
+        if (value === Infinity) {
+            value = 'Infinity';
+        }
+
         var logs = [];
 
         // this is a huge hack: basically the issue is that VM2 doesn't allow you
@@ -29,7 +39,7 @@ function safeEval(code) {
             sandbox: {},
         });
 
-        nodevm.on('console.log', function(log) {
+        nodevm.on('console.log', function(...log) {
             logs.push(JSON.stringify(log));
         });
 
