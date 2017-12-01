@@ -11,12 +11,11 @@ npm link
 
 ### pear
 ```
-git checkout study-treatment
-npm start:study
+npm start:local
 ```
 
 ### control (pair programming)
 ```
-git checkout study-control
-npm start:study
+git checkout revert-65-revert-59-control-group
+npm start:local
 ```
