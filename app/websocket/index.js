@@ -8,11 +8,10 @@ import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE } from '../../game/constants/mov
 import DiscardMove from '../../game/components/DiscardMove';
 import WriteMove from '../../game/components/WriteMove';
 import { encode, decode } from '../util/safeEncode';
+import trimBrackets from '../util/trimBrackets';
 
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-
-const bracketsRe = /^\[|\]$/g;
 
 export default class ServerStreamHandler {
     constructor(socket, game, playerId, logger) {
@@ -111,7 +110,7 @@ export default class ServerStreamHandler {
                 let formattedInputs = [];
                 for (let i = 0; i < command.tests.length; i++) {
                     const test = command.tests[i];
-                    let formattedInput = JSON.stringify(test.input).replace(bracketsRe, '');
+                    let formattedInput = trimBrackets(JSON.stringify(test.input));
                     formattedInputs.push(formattedInput);
                     tests.push(exec(`safeEval '(${ encode(command.fn) })(${encode( formattedInput )})'`));
                 }

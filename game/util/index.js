@@ -23,6 +23,7 @@ export const getAST = code => {
             node.expression.callee.object &&
             node.expression.callee.object.name === 'console')
     ));
+
     return tree;
 }
 

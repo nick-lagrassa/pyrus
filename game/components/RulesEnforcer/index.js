@@ -115,8 +115,7 @@ class RulesEnforcer {
     getEditorDifference(oldCode, newCode) {
         // this regex only works under the assumption that whitespace is trimmed
         const returnRe = /[;|\s]*?(return\s*\S*);?|^(return\s*\S*);?/;
-        const diff = JsDiff.diffLines(oldCode, newCode, {
-            ignoreWhitespace: true, 
+        const diff = JsDiff.diffLines(oldCode.replace(/^\s*/gm, ''), newCode.replace(/^\s*/gm, ''), { 
             newlineIsToken: true 
         });
         let addedCode = diff.filter(line => line.added === true );

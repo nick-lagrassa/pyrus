@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var VM2 = require('vm2');
 var safeEncode = require('../app/util/safeEncode');
+var trimBrackets = require('../app/util/trimBrackets');
 var TIMEOUT_MS = 500;
 var vm = new VM2.VM({ timeout: TIMEOUT_MS });
 
@@ -40,7 +41,7 @@ function safeEval(code) {
         });
 
         nodevm.on('console.log', function(...log) {
-            logs.push(JSON.stringify(log));
+            logs.push(trimBrackets(JSON.stringify(log)));
         });
 
         nodevm.run(code);
