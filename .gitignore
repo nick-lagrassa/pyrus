@@ -7,4 +7,4 @@ public/tachyons.css
 src/js/config/settings.js
 app/logger/logs/*.log
 .vscode/
-.env
+.env*

@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
+    "start": "updateEnv && npm run launch",
+    "start:local": "updateEnv --local && npm run launch",
+    "launch": "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
     "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
     "dev": "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
     "test": "jest"
   },
   "bin": {
-    "safeEval": "./bin/safeEval.js"
+    "safeEval": "./bin/safeEval.js",
+    "updateEnv": "./bin/updateEnv.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,9 @@
     "body-parser": "^1.18.2",
     "commander": "^2.11.0",
     "diff": "^3.4.0",
+    "dotenv": "^4.0.0",
+    "dotenv-webpack": "^1.5.4",
+    "envfile": "^2.1.1",
     "espree": "^3.5.2",
     "express": "^4.16.2",
     "firebase": "^4.6.0",

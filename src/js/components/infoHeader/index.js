@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import settings from '../../../../game/config/settings';
 import { activePlayerIndex, getActivePlayer, myTurn } from '../../../../game/util';
 
 export default class InfoHeader extends Component {
