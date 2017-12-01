@@ -25,10 +25,6 @@ class RulesEnforcer {
         try {
             return this._checkMove(...checkMoveArgs);
         } catch (e) {
-            // NOTE: this is probably not the best way to do this. We want users to
-            // be able to submit syntactically incorrect code, but we DON'T want to
-            // return true if an error is thrown due to some dumb mistake we made.
-            // For now, we're just treating all errors as legal moves.
             return true;
         }
     }
@@ -41,12 +37,11 @@ class RulesEnforcer {
             case MOVE_CONSUME:
                 diff = this.getEditorDifference(board.editor, move.code);
                 return this.playerHasCard(players, move) &&
-                        this.isSingleMove(diff) &&
-                        this.isValidCodeForCard(move.card.type, diff);
+                    this.isSingleMove(diff) &&
+                    this.isValidCodeForCard(move.card.type, diff);
             case MOVE_WRITE:
                 diff = this.getEditorDifference(board.editor, move.code);
-                return this.isSingleMove(diff) &&
-                        this.isPrimitiveWrite(diff);
+                return this.isSingleMove(diff) && this.isPrimitiveWrite(diff);
             default:
                 return false;
         }
@@ -110,9 +105,6 @@ class RulesEnforcer {
         try {
             return card.isInstanceOf(diff);
         } catch (e) {
-            // TODO if syntax invalid while implementing consume card then we automatically allow
-            // instead we should be able to recognize if someone is at least 'trying' to implement
-            // the right card -- pattern matching might do this
             return true;
         }
     }
@@ -121,12 +113,18 @@ class RulesEnforcer {
     // code that has been added
     // string, string -> string
     getEditorDifference(oldCode, newCode) {
-        const diff = JsDiff.diffLines(oldCode, newCode, { ignoreWhitespace: true, newlineIsToken: true });
+        // this regex only works under the assumption that whitespace is trimmed
+        const returnRe = /[;|\s]*?(return\s*\S*);?|^(return\s*\S*);?/;
+        const diff = JsDiff.diffLines(oldCode.replace(/^\s*/gm, ''), newCode.replace(/^\s*/gm, ''), { 
+            newlineIsToken: true 
+        });
         let addedCode = diff.filter(line => line.added === true );
 
         let changed = '';
         for(let line of addedCode) {
-            changed += line.value;
+            // remove return statements because they throw an error since we don't wrap
+            // our diff inside a function
+            changed += line.value.replace(returnRe, '');
         }
 
         return changed;
@@ -157,11 +155,13 @@ class RulesEnforcer {
             util.isFunction
         ];
 
-        const tree = util.getAST(code);
-        if (!this.isSingleMove(tree)) {
-            return false;
+        let tree;
+        try {
+            tree = util.getAST(code);
+        } catch (e) {
+            return true;
         }
-
+        
         for (let i = 0; i < patterns.length; i++) {
             try {
                 if (patterns[i](tree)) {

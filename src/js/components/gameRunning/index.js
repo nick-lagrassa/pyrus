@@ -27,7 +27,7 @@ export default class GameRunning extends Component {
             shouldDisplaySubmitModal: false,
             shouldDisplayTestResultsIndicator: false,
             shouldDisplaySelectMoveIndicator: false
-        }
+        };
         this.state = this.initialState;
     }
 
@@ -192,13 +192,20 @@ export default class GameRunning extends Component {
 
     handleEndTurnClick = () => {
         const { stream } = this.props;
+        const { isWaitingForTestResults, shouldDisplayTestResultsIndicator } = this.state;
         stream.sendAction({
             type: GAME_END_TURN
+        });
+
+        this.setState({
+            ...this.initialState,
+            isWaitingForTestResults,
+            shouldDisplayTestResultsIndicator
         });
     }
 
     handleEditorChange = () => {
-        const { game, board, players, deck } = this.props;
+        const { game, board, players, deck, prompt } = this.props;
         const { isMoveValid, selectedMove, selectedCard } = this.state;
         const activePlayer = getActivePlayer(game, players);
 
@@ -356,7 +363,7 @@ export default class GameRunning extends Component {
                                 onClick={ this.handleSubmitCodeClick }
                             />
                         </div>
-                        { myTurn(me, game, players) &&
+                        { myTurn(me, game, players) && !selectedMove &&
                             <div className="flex flex-column">
                                 <p className="f6 silver mb0">END TURN</p>
                                 <input

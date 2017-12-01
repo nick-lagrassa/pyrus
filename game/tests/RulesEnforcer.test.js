@@ -45,7 +45,7 @@ describe('isLegalMove', () => {
         test('returns string of added code only', () => {
             const boardEditor = 'class Editor {\n\n}';
             const newCode = 'class Editor {\n\tconstructor() {\n\t\tthis.hi = 5;\n\t}\n}';
-            expect(game._re.getEditorDifference(boardEditor, newCode)).toEqual('constructor() {this.hi = 5;}');
+            expect(game._re.getEditorDifference(boardEditor, newCode)).toEqual('constructor() {\nthis.hi = 5;\n\n}');
         });
     });
 
