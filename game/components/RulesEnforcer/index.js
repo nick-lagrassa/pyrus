@@ -25,7 +25,7 @@ class RulesEnforcer {
         try {
             return this._checkMove(...checkMoveArgs);
         } catch (e) {
-            return false;
+            return true;
         }
     }
 
