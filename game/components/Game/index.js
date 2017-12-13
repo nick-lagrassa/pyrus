@@ -20,6 +20,10 @@ class Game {
         this._store.dispatch(setPrompt(prompt));
     }
 
+    get state() {
+        return this._store.getState();
+    }
+
     get status() {
         return this._store.getState().game.status;
     }

@@ -63,7 +63,7 @@ app.get('/challenge/:gameId', (req, res) => {
 
     if (gameId in activeGames) {
         const game = activeGames[gameId];
-        res.json(game._store.getState());
+        res.json(game.state);
     } else {
         res.status(404).send(`Oops! Looks like your game ID is invalid. Try again.`);
     }
