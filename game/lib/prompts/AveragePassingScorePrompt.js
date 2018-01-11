@@ -60,7 +60,7 @@ class AveragePassingScorePrompt extends Prompt {
         ]
 
         this._testResults = [];
-        this._testRunTimestampMS = Date.now()
+        this._testRunTimestampMS = Date.now();
     }
 }
 
