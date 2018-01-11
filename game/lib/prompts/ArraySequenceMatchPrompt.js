@@ -6,6 +6,7 @@ class ArraySequenceMatchPrompt extends Prompt {
         super();
         this._name = 'Array Sequence Match';
         this._signature = 'function arraySequenceMatch(ls, sequence)';
+        this._constructor = 'ArraySequenceMatchPrompt';
 
         this._cardSet = [
             new cards.HashTableCard,

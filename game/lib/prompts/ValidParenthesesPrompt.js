@@ -1,48 +1,32 @@
 import Prompt from '../../components/Prompt';
 import cards from '../cards';
 
-const {
-    HashTableCard,
-    WhileCard,
-    FunctionCard,
-    QueueCard,
-    BSTCard,
-    StackCard,
-    DoWhileCard,
-    ConditionalCard,
-    ObjectCard,
-    ArrayCard,
-    LinkedListCard,
-    ForCard,
-    ClassCard,
-    SwitchCard
-} = cards;
-
 class ValidParenthesesPrompt extends Prompt {
     constructor() {
         super();
         this._name = 'Valid Parentheses';
         this._signature = 'function validParentheses(str)';
+        this._constructor = 'MergeArraysPrompt';
 
         this._cardSet = [
-            new HashTableCard(),
-            new HashTableCard(),
-            new WhileCard(),
-            new WhileCard(),
-            new FunctionCard(),
-            new QueueCard(),
-            new StackCard(),
-            new DoWhileCard(),
-            new ConditionalCard(),
-            new ConditionalCard(),
-            new ConditionalCard(),
-            new ObjectCard(),
-            new ObjectCard(),
-            new ArrayCard(),
-            new ArrayCard(),
-            new ArrayCard(),
-            new ForCard(),
-            new SwitchCard()
+            new cards.HashTableCard(),
+            new cards.HashTableCard(),
+            new cards.WhileCard(),
+            new cards.WhileCard(),
+            new cards.FunctionCard(),
+            new cards.QueueCard(),
+            new cards.StackCard(),
+            new cards.DoWhileCard(),
+            new cards.ConditionalCard(),
+            new cards.ConditionalCard(),
+            new cards.ConditionalCard(),
+            new cards.ObjectCard(),
+            new cards.ObjectCard(),
+            new cards.ArrayCard(),
+            new cards.ArrayCard(),
+            new cards.ArrayCard(),
+            new cards.ForCard(),
+            new cards.SwitchCard()
         ];
 
         this._info = {

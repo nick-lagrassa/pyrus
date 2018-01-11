@@ -86,7 +86,7 @@ export default class GameRunning extends Component {
         stream.sendCommand({
             type: COMMAND_RUN_CODE,
             fn: `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
-            tests: prompt._tests
+            constructor: prompt._constructor
         });
 
         this.setState({

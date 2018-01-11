@@ -6,6 +6,7 @@ class ArrayTwoSumPrompt extends Prompt {
         super();
         this._name = 'Array Two Sum';
         this._signature = 'function arrayTwoSum(nums, target)';
+        this._constructor = 'ArrayTwoSumPrompt';
 
         this._cardSet = [
             new cards.HashTableCard,
