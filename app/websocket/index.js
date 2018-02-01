@@ -130,7 +130,7 @@ export default class ServerStreamHandler {
                                     passed: false,
                                     input: formattedInputs[i],
                                     output: `Error: ${ stderr }`,
-                                    expected: prokmpt.tests[i].expected
+                                    expected: prompt.tests[i].expected
                                 });
                             } else if (stdout) {
                                 const result = JSON.parse(stdout);
