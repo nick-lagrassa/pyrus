@@ -1,5 +1,5 @@
 import {
-    GAME_STATUS_INIT, 
+    GAME_STATUS_INIT,
     GAME_STATUS_RUNNING
 } from '../constants/game';
 import settings from '../config/settings';
@@ -38,7 +38,7 @@ test('ValidParenthesesGame runs correctly', () => {
         let oldDeckSize = game._board.deck.cards.length;
         game.receiveMove(discardMove);
 
-        // this conditional needs to be kept in until we figure out how we want to handle 
+        // this conditional needs to be kept in until we figure out how we want to handle
         // players discarding cards until they reach settings.MAX_CARDS_PER_HAND
         if (i < settings.NUM_PLAYER_MOVES_PER_TURN - 1) {
             expect(game._board.players[0].hand).toHaveLength(settings.NUM_CARDS_DRAWN_AT_GAME_START);
@@ -50,5 +50,5 @@ test('ValidParenthesesGame runs correctly', () => {
     }
 
     expect(game.activePlayerIndex).toBe(1);
-    expect(game.numMovesRemaining).toBe(4);
+    expect(game.numMovesRemaining).toBe(6);
 });
