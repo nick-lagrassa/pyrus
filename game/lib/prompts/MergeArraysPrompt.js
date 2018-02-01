@@ -6,6 +6,7 @@ class MergeArraysPrompt extends Prompt {
         super();
         this._name = 'Merge Arrays';
         this._signature = 'function mergeArrays(arr1, arr2)';
+        this._constructor = 'MergeArraysPrompt';
 
         this._cardSet = [
             new cards.HashTableCard,

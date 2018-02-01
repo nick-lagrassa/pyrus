@@ -6,6 +6,7 @@ class CanBalancePrompt extends Prompt {
         super();
         this._name = 'Can Balance';
         this._signature = 'function canBalance(arr)';
+        this._constructor = 'CanBalancePrompt';
 
         this._cardSet = [
             new cards.HashTableCard,

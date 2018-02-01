@@ -6,6 +6,7 @@ class LinearInPrompt extends Prompt {
         super();
         this._name = 'Linear In';
         this._signature = 'function linearIn(inner, outer)';
+        this._constructor = 'LinearInPrompt';
 
         this._cardSet = [
             new cards.HashTableCard,

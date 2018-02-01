@@ -1,4 +1,6 @@
-class Prompt {
+import _ from 'lodash';
+
+export default class Prompt {
     // The Prompt class is abstract and should only ever be implemented
     // -> Prompt
     constructor() {
@@ -47,13 +49,7 @@ class Prompt {
     // challenge matches our test case
     // Object, Object -> boolean
     equivalent(got, expected) {
-        return got === expected;
-    }
-
-    // run the given inputs on the current implementation of the function
-    // Object -> Object
-    run(input) {
-        return this._fn(input);
+        return _.isEqual(got, expected);
     }
 
     // format the input for better printing
@@ -67,38 +63,4 @@ class Prompt {
     formatOutput(output) {
         return JSON.stringify(output);
     }
-
-    // runs all test cases for this challenge
-    // -> {
-    //        pass: Integer, 
-    //        total: Integer, 
-    //        errors: List[{ input: Object, expected: Object, got: Object }]
-    //    }
-    runTests() {
-        let results = {
-            pass: 0,
-            total: 0,
-            errors: []
-        };
-
-        for (let t of this.tests) {
-            // make a new copy of the input because some implementations might
-            // modify memory in-place
-            let result = this.run(JSON.parse(JSON.stringify(t.input)));
-            if (!this.equivalent(result, t.expected)) {
-                results.errors.push({
-                    input: this.formatInput(t.input),
-                    expected: this.formatOutput(t.expected),
-                    got: JSON.stringify(result)
-                });
-            } else {
-                results.pass++;
-            }
-            results.total++;
-        }
-
-        return results;
-    }
 }
-
-export default Prompt;

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { WS_ACTION, WS_COMMAND } from '../../app/constants/ws';
 import { COMMAND_RUN_CODE } from '../../app/constants/command';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
@@ -9,6 +8,7 @@ import DiscardMove from '../../game/components/DiscardMove';
 import WriteMove from '../../game/components/WriteMove';
 import { encode, decode } from '../util/safeEncode';
 import trimBrackets from '../util/trimBrackets';
+import * as prompts from '../../game/lib/prompts';
 
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
@@ -108,11 +108,13 @@ export default class ServerStreamHandler {
             case COMMAND_RUN_CODE:
                 let tests = [];
                 let formattedInputs = [];
-                for (let i = 0; i < command.tests.length; i++) {
-                    const test = command.tests[i];
+                let prompt = new prompts[command.constructor]();
+
+                for (let i = 0; i < prompt.tests.length; i++) {
+                    const test = prompt.tests[i];
                     let formattedInput = trimBrackets(JSON.stringify(test.input));
                     formattedInputs.push(formattedInput);
-                    tests.push(exec(`safeEval '(${ encode(command.fn) })(${encode( formattedInput )})'`));
+                    tests.push(exec(`safeEval '(${ encode(command.fn) })(${ encode(formattedInput) })'`));
                 }
 
                 Promise.all(tests)
@@ -128,16 +130,16 @@ export default class ServerStreamHandler {
                                     passed: false,
                                     input: formattedInputs[i],
                                     output: `Error: ${ stderr }`,
-                                    expected: command.tests[i].expected
+                                    expected: prokmpt.tests[i].expected
                                 });
                             } else if (stdout) {
                                 const result = JSON.parse(stdout);
                                 results.push({
                                     // TODO: implement custom checks for equality
-                                    passed: _.isEqual(result.value, command.tests[i].expected),
+                                    passed: prompt.equivalent(result.value, prompt.tests[i].expected),
                                     input: formattedInputs[i],
                                     output: result.value,
-                                    expected: command.tests[i].expected,
+                                    expected: prompt.tests[i].expected,
                                     console: result.console
                                 });
                             }
