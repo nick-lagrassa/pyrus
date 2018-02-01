@@ -1,15 +1,16 @@
-import makeGame from '../lib/games/validParenthesesGame';
 import {
     GAME_STATUS_INIT, 
     GAME_STATUS_RUNNING
 } from '../constants/game';
 import settings from '../config/settings';
+import Game from '../components/Game';
+import ValidParenthesesPrompt from '../lib/prompts/ValidParenthesesPrompt';
 import ConsumeMove from '../components/ConsumeMove';
 import DiscardMove from '../components/DiscardMove';
 import WriteMove from '../components/WriteMove';
 
 test('ValidParenthesesGame runs correctly', () => {
-    const game = makeGame();
+    const game = new Game(new ValidParenthesesPrompt(), null);
     expect(game.status).toBe(GAME_STATUS_INIT);
     expect(game._board.players).toHaveLength(0);
 

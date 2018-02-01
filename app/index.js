@@ -2,7 +2,8 @@ import http from 'http';
 import express from 'express';
 import url from 'url';
 import settings from './config/settings';
-import * as gamesLibrary from '../game/lib/games';
+import Game from '../game/components/Game';
+import * as promptsLibrary from '../game/lib/prompts';
 import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import ws from 'ws';
@@ -41,19 +42,19 @@ wss.on('connection', (socket, req) => {
     activeStreams[id][playerId] = stream;
 });
 
-app.get('/new/:gameTitle', (req, res) => {
-    const gameTitle = req.params.gameTitle || settings.DEFAULT_GAME;
+app.get('/new/:promptTitle', (req, res) => {
+    const promptTitle = req.params.promptTitle;
     const uid = (req.headers['x-forwarded-for'] || req.connection.remoteAddress) + Date.now();
 
-    if (gameTitle in gamesLibrary) {
+
+    if (promptTitle in promptsLibrary) {
         const hash = crypto.createHash('md5');
         const gameId = hash.update(uid).digest('hex');
         activeStreams[gameId] = {};
-        const newGame = gamesLibrary[gameTitle](gameId, activeStreams[gameId]);
-        activeGames[gameId] = newGame;
+        activeGames[gameId] = new Game(new promptsLibrary[promptTitle](), activeStreams[gameId]);
         res.json({ gameId });
     } else {
-        res.status(404).send(`We don't have a game called ${ gameTitle }! Try again.`);
+        res.status(404).send(`We don't have a prompt called ${ promptTitle }! Try again.`);
     }
 });
 
@@ -62,7 +63,7 @@ app.get('/challenge/:gameId', (req, res) => {
 
     if (gameId in activeGames) {
         const game = activeGames[gameId];
-        res.json(game._store.getState());
+        res.json(game.state);
     } else {
         res.status(404).send(`Oops! Looks like your game ID is invalid. Try again.`);
     }

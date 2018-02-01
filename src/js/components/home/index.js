@@ -7,22 +7,22 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            gameTitle: '',
+            promptTitle: '',
             gameId: '',
             gameReady: false,
             shouldDisplaySpectatorViewInput: false,
         };
     }
 
-    handleGameTitleFormSubmit = e => {
+    handlePromptTitleFormSubmit = e => {
         e.preventDefault();
-        const { gameTitle } = this.state;
+        const { promptTitle } = this.state;
 
-        if (!gameTitle) {
+        if (!promptTitle) {
             return;
         }
 
-        newGame(gameTitle)
+        newGame(promptTitle)
             .then(({ gameId }) => {
                 this.setState({
                     gameId,
@@ -40,9 +40,9 @@ export default class Home extends Component {
         });
     }
 
-    handleGameTitleChange = e => {
+    handlePromptTitleChange = e => {
         this.setState({
-            gameTitle: e.target.value
+            promptTitle: e.target.value
         });
     }
 
@@ -60,7 +60,7 @@ export default class Home extends Component {
     }
 
     render() {
-        const { gameTitle, gameId, gameReady, shouldDisplaySpectatorViewInput } = this.state;
+        const { promptTitle, gameId, gameReady, shouldDisplaySpectatorViewInput } = this.state;
 
         if (gameReady) {
             if (shouldDisplaySpectatorViewInput) {
@@ -76,35 +76,35 @@ export default class Home extends Component {
                 <div>
                     <form
                         className="flex w-100 justify-between"
-                        onSubmit={ this.handleGameTitleFormSubmit }
+                        onSubmit={ this.handlePromptTitleFormSubmit }
                     >
                         <select
                             className="flex-auto ba br2 br--left b--pear-light-gray bg-pear-near-white pl3 input-reset lh-copy"
-                            onChange={ this.handleGameTitleChange }
+                            onChange={ this.handlePromptTitleChange }
                             defaultValue=""
                         >
                             <option value="" disabled >
                                 Select Challenge ⬇️
                             </option>
-                            <option value="averagePassingScoreGame" >
+                            <option value="AveragePassingScorePrompt" >
                                 Average Passing Score
                             </option>
-                            <option value="arrayTwoSumGame" >
+                            <option value="ArrayTwoSumPrompt" >
                                 Array Two Sum
                             </option>
-                            <option value="mergeArraysGame" >
+                            <option value="MergeArraysPrompt" >
                                 Merge Arrays
                             </option>
-                            <option value="linearInGame" >
+                            <option value="LinearInPrompt" >
                                 Linear In
                             </option>
-                            <option value="canBalanceGame" >
+                            <option value="CanBalancePrompt" >
                                 Can Balance
                             </option>
-                            <option value="arraySequenceMatchGame" >
+                            <option value="ArraySequenceMatchPrompt" >
                                 Array Sequence Match
                             </option>
-                            <option value="validParenthesesGame" >
+                            <option value="ValidParenthesesPrompt" >
                                 Valid Parentheses
                             </option>
                         </select>

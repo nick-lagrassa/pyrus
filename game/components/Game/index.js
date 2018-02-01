@@ -1,6 +1,7 @@
 import RulesEnforcer from '../RulesEnforcer';
 import MoveExecutor from '../MoveExecutor';
 import Board from '../Board';
+import configureStore from '../../store/configureStore';
 import settings from '../../config/settings';
 import { gameStart, spendMove, cycleToNextPlayer, gameEnd, gameReset } from '../../actions/game';
 import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
@@ -10,13 +11,17 @@ import { activePlayerIndex } from '../../util';
 
 class Game {
     // Prompt, Store -> Game
-    constructor(prompt, store) {
-        this._store = store;
-        this._re = new RulesEnforcer(store);
-        this._me = new MoveExecutor(store);
-        this._board = new Board(prompt, store);
+    constructor(prompt, streams) {
+        this._store = configureStore(streams);
+        this._re = new RulesEnforcer(this._store);
+        this._me = new MoveExecutor(this._store);
+        this._board = new Board(prompt, this._store);
 
         this._store.dispatch(setPrompt(prompt));
+    }
+
+    get state() {
+        return this._store.getState();
     }
 
     get status() {
