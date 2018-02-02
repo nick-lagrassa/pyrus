@@ -24,8 +24,10 @@ export default function deck(state=initialState, action) {
 
             return {
                 ...state,
-                cards: newCards,
-                discard: newDiscard
+                cards: [
+                    ...newCards,
+                    ...newDiscard
+                ]
             };
             break;
         case DECK_SHUFFLE:

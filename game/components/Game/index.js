@@ -111,12 +111,8 @@ class Game {
     // skip the current player's turn
     endTurn() {
         const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
-        if (cards.length > 0) {
-            this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
-            this._store.dispatch(cycleToNextPlayer());
-        } else {
-            this.reset();
-        }
+        this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
+        this._store.dispatch(cycleToNextPlayer());
     }
 
     // End the game loop
