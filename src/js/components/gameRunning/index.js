@@ -288,7 +288,7 @@ export default class GameRunning extends Component {
                             <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">👇 New test results!</div>
                         }
                     </div>
-                    <div 
+                    <div
                         className={`w-50 pt3 ph3 pb7 overflow-scroll relative ${ isEditorEnabled ? '' : 'not-allowed' }`}
                         onMouseEnter={ this.handleEditorMouseOver }
                         onMouseLeave={ () => this.setState({ shouldDisplaySelectMoveIndicator: false }) }
@@ -332,18 +332,6 @@ export default class GameRunning extends Component {
                                     value="Write Code"
                                     onClick={ this.handleWriteMoveClick }
                                 />
-                                <input
-                                    type="button"
-                                    className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer slide-left-1"
-                                    value="Consume Card"
-                                    onClick={ this.handleConsumeMoveClick }
-                                />
-                                <input
-                                    type="button"
-                                    className="db mv1 input-reset ba bg-pear-yellow b--pear-yellow pa3 br2 near-black pointer slide-left-1"
-                                    value="Discard Card"
-                                    onClick={ this.handleDiscardMoveClick }
-                                />
                             </div>
                         }
                         <div className="flex flex-column mb4">
@@ -375,45 +363,6 @@ export default class GameRunning extends Component {
                     </div>
                 </div>
                 <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-9999' : 'o-0 z-0 dn' }`}></div>
-                <div>
-                    <div 
-                        className="absolute bottom-5 w-50 left-0 z-9 ph2 flex flex-column self-end"
-                        ref={ e => this.partnersHandContainerElement = e }
-                    >
-                        <p className="silver f6 mv2 pa2 br2 dib bg-pear-near-white self-end ba b--pear-light-gray">{ `${ this.getPartner().name }'s hand` }</p>
-                        <div className="flex-none relative">
-                            <Hand
-                                cards={ this.getPartnersHand() }
-                                inverse
-                                handContainer={ this.partnersHandContainerElement }
-                            />
-                        </div>
-                    </div>
-                    <div 
-                        className={`absolute bottom-5 w-50 right-0 ph2 flex flex-column ${ this.shouldDisplayOverlay() ? 'z-9999' : 'z-99'}`}
-                        ref={ e => this.myHandContainerElement = e }
-                    >
-                        <div className="flex justify-between">
-                            <p className="pear-near-white f6 mv2 pa2 br2 dib bg-pear-blue self-start ba b--pear-blue">Your hand</p>
-                            { this.shouldDisplayOverlay() &&
-                                <input
-                                    type="button"
-                                    className="db mv1 input-reset ba bg-red b--red pa3 br2 near-white pointer"
-                                    value="Cancel Action"
-                                    onClick={ this.handleCancelAction }
-                                />
-                            }
-                        </div>
-                        <div className="flex-none relative">
-                            <Hand
-                                cards={ this.getMyHand() }
-                                selectedCard={ selectedCard }
-                                handleCardClick={ this.shouldDisplayOverlay() ? this.handleCardClick : null }
-                                handContainer={ this.myHandContainerElement }
-                            />
-                        </div>
-                    </div>
-                </div>
             </div>
         );
     }

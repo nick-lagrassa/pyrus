@@ -41,8 +41,7 @@ class Game {
     }
 
     get actionsRemaining() {
-        console.log('in getter');
-        return this._store.getState().actionsRemaining;
+        return this._store.getState().game.actionsRemaining;
     }
 
     get numMovesRemaining() {
@@ -116,7 +115,6 @@ class Game {
     // skip the current player's turn
     endTurn() {
         const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
-        console.log(this.actionsRemaining);
         if (this.actionsRemaining > 0) {
             this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
             this._store.dispatch(cycleToNextPlayer());

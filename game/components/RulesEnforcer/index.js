@@ -41,7 +41,7 @@ class RulesEnforcer {
                     this.isValidCodeForCard(move.card.type, diff);
             case MOVE_WRITE:
                 diff = this.getEditorDifference(board.editor, move.code);
-                return this.isSingleMove(diff) && this.isPrimitiveWrite(diff);
+                return this.isSingleMove(diff);
             default:
                 return false;
         }
@@ -115,8 +115,8 @@ class RulesEnforcer {
     getEditorDifference(oldCode, newCode) {
         // this regex only works under the assumption that whitespace is trimmed
         const returnRe = /[;|\s]*?(return\s*\S*);?|^(return\s*\S*);?/;
-        const diff = JsDiff.diffLines(oldCode.replace(/^\s*/gm, ''), newCode.replace(/^\s*/gm, ''), { 
-            newlineIsToken: true 
+        const diff = JsDiff.diffLines(oldCode.replace(/^\s*/gm, ''), newCode.replace(/^\s*/gm, ''), {
+            newlineIsToken: true
         });
         let addedCode = diff.filter(line => line.added === true );
 
@@ -161,7 +161,7 @@ class RulesEnforcer {
         } catch (e) {
             return true;
         }
-        
+
         for (let i = 0; i < patterns.length; i++) {
             try {
                 if (patterns[i](tree)) {

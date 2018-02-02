@@ -43,7 +43,7 @@ export default function game(state=initialState, action) {
                 ...state,
                 status: GAME_STATUS_END
             };
-        case GAME_RESET: 
+        case GAME_RESET:
             return {
                 ...state,
                 ...initialState,
