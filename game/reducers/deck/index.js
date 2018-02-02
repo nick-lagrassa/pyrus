@@ -18,7 +18,8 @@ export default function deck(state=initialState, action) {
         case DECK_POP:
             const newCards = state.cards.slice();
             const newDiscard = state.discard.slice();
-            for (let i = 0; i < Math.min(action.num, newCards.length); i++) {
+            const draw = Math.min(action.num, newCards.length)
+            for (let i = 0; i < draw; i++) {
                 newDiscard.push(newCards.shift());
             }
 
