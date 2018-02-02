@@ -280,7 +280,7 @@ export default class GameRunning extends Component {
                 <InfoHeader />
                 <div className="flex mw8 center">
                     <div
-                        className="w-50 pt3 ph3 mb7 overflow-scroll relative"
+                        className="w-50 pt3 ph3 overflow-scroll relative"
                         onScroll={ () => this.setState({ shouldDisplayTestResultsIndicator: false }) }
                     >
                         <Prompt isWaitingForTestResults={ isWaitingForTestResults } />
