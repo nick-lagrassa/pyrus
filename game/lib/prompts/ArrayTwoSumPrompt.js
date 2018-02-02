@@ -12,20 +12,14 @@ class ArrayTwoSumPrompt extends Prompt {
             new cards.HashTableCard,
             new cards.HashTableCard,
             new cards.WhileCard,
-            new cards.FunctionCard,
             new cards.StackCard,
-            new cards.DoWhileCard,
-            new cards.ConditionalCard,
             new cards.ConditionalCard,
             new cards.ConditionalCard,
             new cards.ObjectCard,
             new cards.ObjectCard,
             new cards.ArrayCard,
-            new cards.ArrayCard,
             new cards.ForCard,
             new cards.ForCard,
-            new cards.ForCard,
-            new cards.SwitchCard
         ];
 
         this._info = {
