@@ -14,6 +14,7 @@ const initialState = {
     status: GAME_STATUS_INIT,
     turnCount: 0,
     numMovesRemaining: settings.NUM_PLAYER_MOVES_PER_TURN,
+    actionsRemaining: settings.GAME_ACTION_LIMIT,
     err: null,
     gameResetTimestampMS: Date.now()
 };
@@ -28,7 +29,8 @@ export default function game(state=initialState, action) {
         case GAME_SPEND_MOVE:
             return {
                 ...state,
-                numMovesRemaining: state.numMovesRemaining - 1
+                numMovesRemaining: state.numMovesRemaining - 1,
+                actionsRemaining: state.actionsRemaining - 1,
             };
         case GAME_CYCLE_TO_NEXT_PLAYER:
             return {

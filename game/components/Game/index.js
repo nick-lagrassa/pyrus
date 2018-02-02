@@ -40,6 +40,11 @@ class Game {
         return this._board.players[this.activePlayerIndex];
     }
 
+    get actionsRemaining() {
+        console.log('in getter');
+        return this._store.getState().actionsRemaining;
+    }
+
     get numMovesRemaining() {
         return this._store.getState().game.numMovesRemaining;
     }
@@ -98,7 +103,7 @@ class Game {
 
             return true;
         }
-        
+
         return false;
     }
 
@@ -111,7 +116,8 @@ class Game {
     // skip the current player's turn
     endTurn() {
         const cards = this._board._deck.draw(settings.NUM_CARDS_DRAWN_PER_TURN);
-        if (cards.length > 0) {
+        console.log(this.actionsRemaining);
+        if (this.actionsRemaining > 0) {
             this._store.dispatch(givePlayerCards(cards, this.activePlayer.id));
             this._store.dispatch(cycleToNextPlayer());
         } else {

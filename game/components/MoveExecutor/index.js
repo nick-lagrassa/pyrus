@@ -36,7 +36,7 @@ class MoveExecutor {
                 this._store.dispatch(updateEditor(move.code));
                 break;
         }
-    }    
+    }
 }
 
 export default MoveExecutor;
