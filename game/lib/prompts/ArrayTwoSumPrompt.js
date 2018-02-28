@@ -34,11 +34,15 @@ class ArrayTwoSumPrompt extends Prompt {
             examples: 'Given nums = [7, 2, 11, 15], target = 9\nBecause nums[0] + nums[1] = 7 + 2 = 9, return [0, 1]',
         };
 
-        this._tests = [
+        this._exampleTests = [
             {
                 input: [[2,4,11,1,0,33],37],
                 expected: [1,5]
-            }, {
+            }
+        ];
+
+        this._tests = [
+            {
                 input: [[1,4,0,-1,3,19,2], 0],
                 expected: [0,3]
             }, {
@@ -57,8 +61,9 @@ class ArrayTwoSumPrompt extends Prompt {
                 input: [[67,68,69,70,71,72,73,74,85,85], 170],
                 expected: [8,9]
             }
-        ]
+        ];
 
+        this._exampleTestResults = [];
         this._testResults = [];
         this._testRunTimestampMS = Date.now()
     }

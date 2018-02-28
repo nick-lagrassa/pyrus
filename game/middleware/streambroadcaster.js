@@ -11,8 +11,8 @@ export default class StreamBroadcaster {
                     streams[playerId].sendAction(action);
                 }
             }
-    
+
             return next(action);
         }
-    } 
+    }
 }

@@ -32,11 +32,15 @@ class LinearInPrompt extends Prompt {
             examples: 'Given inner = [3,5], outer = [2,3,4,5]\nReturn true' ,
         };
 
-        this._tests = [
+        this._exampleTests = [
             {
                 input: [[3,5],[2,3,4,5]],
                 expected: true
-            }, {
+            }
+        ];
+
+        this._tests = [
+            {
                 input: [[33,45,47,50],[33,45,46,47,58]],
                 expected: false
             }, {
@@ -55,7 +59,7 @@ class LinearInPrompt extends Prompt {
                 input: [[],[-10,10]],
                 expected: true
             }
-        ]
+        ];
 
         this._hidden_tests = [
             {
@@ -65,8 +69,9 @@ class LinearInPrompt extends Prompt {
                 input: [[1],[]],
                 expected: false
             }
-        ]
+        ];
 
+        this._exampleTestResults = [];
         this._testResults = [];
         this._testRunTimestampMS = Date.now()
     }

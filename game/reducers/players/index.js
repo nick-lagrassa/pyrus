@@ -28,7 +28,7 @@ function indexOfPlayer(players, id) {
     return null;
 }
 
-export default function player(state=initialState, action) {
+export default function players(state=initialState, action) {
     const newState = [...state];
     let index;
     switch (action.type) {

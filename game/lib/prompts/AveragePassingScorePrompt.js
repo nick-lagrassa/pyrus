@@ -34,11 +34,15 @@ class AveragePassingScorePrompt extends Prompt {
             examples: 'Given: [60,70,80,90]\nReturn: 80\n\nGiven: [15,33,84,55,90,100]\nReturn: 91.33333333333333'
         };
 
-        this._tests = [
+        this._exampleTests = [
             {
                 input: [[60,70,80,90]],
                 expected: 80
-            }, {
+            }
+        ];
+
+        this._tests = [
+            {
                 input: [[15,33,84,55,90,100]],
                 expected: 91.33333333333333
             }, {
@@ -57,8 +61,9 @@ class AveragePassingScorePrompt extends Prompt {
                 input: [[67,68,69,70,71,72,73,74,75,75]],
                 expected: 72.85714285714286
             }
-        ]
+        ];
 
+        this._exampleTestResults = [];
         this._testResults = [];
         this._testRunTimestampMS = Date.now();
     }

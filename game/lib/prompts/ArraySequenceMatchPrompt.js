@@ -32,11 +32,15 @@ class ArraySequenceMatchPrompt extends Prompt {
             examples: 'Given ls = [7, 1, 2, 3, 1, 5], target = "123"\nReturn true\n\nGiven ls = [1,7,3,5], target = "135"\nReturn false' ,
         };
 
-        this._tests = [
+        this._exampleTests = [
             {
                 input: [[7,1,2,3,1,5],"1231"],
                 expected: true
-            }, {
+            }
+        ];
+
+        this._tests = [
+            {
                 input: [[1,7,3,5],"135"],
                 expected: false
             }, {
@@ -55,7 +59,7 @@ class ArraySequenceMatchPrompt extends Prompt {
                 input: [[1,2,3,4,5,3,2,2,4,4], "1"],
                 expected: true
             }
-        ]
+        ];
 
         this._hidden_tests = [
             {
@@ -74,7 +78,9 @@ class ArraySequenceMatchPrompt extends Prompt {
                 input: [[1,2,4,2,5,3,2,5,3,5,6,5], "1242i5"],
                 expected: false
             }
-        ]
+        ];
+
+        this._exampleTestResults = [];
         this._testResults = [];
         this._testRunTimestampMS = Date.now()
     }

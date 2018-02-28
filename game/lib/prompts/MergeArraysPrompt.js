@@ -38,11 +38,15 @@ class MergeArraysPrompt extends Prompt {
             examples: 'Given arr1 = [1,2,3,5], arr2 = [2,3,4,5]\nReturn [1,2,2,3,3,4,5,5] ' ,
         };
 
-        this._tests = [
+        this._exampleTests = [
             {
                 input: [[1,2,3,5],[2,3,4,5]],
                 expected: [1,2,2,3,3,4,5,5]
-            }, {
+            }
+        ];
+
+        this._tests = [
+            {
                 input: [[-1,-1,0,2,3,5],[4,5]],
                 expected: [-1,-1,0,2,3,4,5,5]
             }, {
@@ -61,11 +65,9 @@ class MergeArraysPrompt extends Prompt {
                 input: [[3,4,5,6,10,166],[2,7,8,11,165,167]],
                 expected: [2,3,4,5,6,7,8,10,11,165,166,167]
             }
-        ]
+        ];
 
-        this._hidden_tests = [
-        ]
-
+        this._exampleTestResults = [];
         this._testResults = [];
         this._testRunTimestampMS = Date.now()
     }

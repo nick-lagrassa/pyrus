@@ -21,6 +21,12 @@ export default class Prompt {
         return this._signature;
     }
 
+    // returns example test cases
+    // -> List[{input: Object, expected: Object}]
+    get exampleTests() {
+        return this._exampleTests;
+    }
+
     // returns the test cases
     // -> List[{input: Object, expected: Object}]
     get tests() {

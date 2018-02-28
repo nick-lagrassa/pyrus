@@ -35,11 +35,15 @@ class CanBalancePrompt extends Prompt {
             examples: 'Given arr = [1,1,1,2,1]\nReturn true, because when split to [1,1,1] and [2,1],\n both sides sum up to 3.' ,
         };
 
-        this._tests = [
+        this._exampleTests = [
             {
                 input: [[1,1,1,2,1]],
                 expected: true
-            }, {
+            }
+        ];
+
+        this._tests = [
+            {
                 input: [[2,3,4,5]],
                 expected: false
             }, {
@@ -58,7 +62,7 @@ class CanBalancePrompt extends Prompt {
                 input: [[-10,3,5,20,8,10]],
                 expected: true
             }
-        ]
+        ];
 
         this._hidden_tests = [
             {
@@ -67,6 +71,7 @@ class CanBalancePrompt extends Prompt {
             }
         ]
 
+        this._exampleTestResults = [];
         this._testResults = [];
         this._testRunTimestampMS = Date.now()
     }

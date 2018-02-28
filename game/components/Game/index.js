@@ -5,7 +5,7 @@ import configureStore from '../../store/configureStore';
 import settings from '../../config/settings';
 import { gameStart, spendMove, cycleToNextPlayer, gameEnd, gameReset } from '../../actions/game';
 import { registerPlayer, setPlayerHand, givePlayerCards } from '../../actions/players';
-import { setPromptTestResults, setPrompt } from '../../actions/prompt';
+import { setPromptTestResults, setPrompt, setPromptExampleTestResults } from '../../actions/prompt';
 import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from '../../constants/game';
 import { activePlayerIndex } from '../../util';
 
@@ -42,6 +42,10 @@ class Game {
 
     get numMovesRemaining() {
         return this._store.getState().game.numMovesRemaining;
+    }
+
+    set exampleTestResults(results) {
+        this._store.dispatch(setPromptExampleTestResults(results));
     }
 
     set testResults(results) {
@@ -98,7 +102,7 @@ class Game {
 
             return true;
         }
-        
+
         return false;
     }
 

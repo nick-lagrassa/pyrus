@@ -19,7 +19,7 @@ export default class GameRunning extends Component {
     componentWillUpdate(nextProps, nextState) {
         const { isWaitingForTestResults } = this.state;
         const { prompt, game } = this.props;
-        if (isWaitingForTestResults && prompt._testRunTimestampMS !== nextProps.prompt._testRunTimestampMS) {
+        if (isWaitingForTestResults && (prompt._exampleTestResults.length === 0 || prompt._testResults.length === 0)) {
             this.setState({ isWaitingForTestResults: false });
         }
 
@@ -80,7 +80,7 @@ export default class GameRunning extends Component {
                     </div>
                 </div>
                 <div>
-                    <div 
+                    <div
                         className="absolute bottom-5 w-50 left-0 z-9 ph2 flex flex-column self-end"
                         ref={ e => this.partnersHandContainerElement = e }
                     >
@@ -93,7 +93,7 @@ export default class GameRunning extends Component {
                             />
                         </div>
                     </div>
-                    <div 
+                    <div
                         className={`absolute bottom-5 w-50 right-0 ph2 flex flex-column z-99'}`}
                         ref={ e => this.myHandContainerElement = e }
                     >

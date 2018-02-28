@@ -11,7 +11,7 @@ import Prompt from '../../containers/prompt';
 import { myTurn, getActivePlayer } from '../../../../game/util';
 import { MOVE_DISCARD, MOVE_CONSUME, MOVE_WRITE, MOVE_CANCEL } from '../../../../game/constants/move';
 import { GAME_END_TURN, GAME_END } from '../../../../game/constants/game';
-import { COMMAND_RUN_CODE } from '../../../../app/constants/command';
+import { COMMAND_RUN_CODE, COMMAND_SUBMIT_CODE } from '../../../../app/constants/command';
 
 export default class GameRunning extends Component {
     constructor(props) {
@@ -34,7 +34,7 @@ export default class GameRunning extends Component {
     componentWillUpdate(nextProps, nextState) {
         const { isWaitingForTestResults } = this.state;
         const { prompt, game } = this.props;
-        if (isWaitingForTestResults && prompt._testRunTimestampMS !== nextProps.prompt._testRunTimestampMS) {
+        if (isWaitingForTestResults && (prompt._exampleTestResults.length === 0 || prompt._testResults.length === 0)) {
             this.setState({ isWaitingForTestResults: false });
         }
 
@@ -96,8 +96,16 @@ export default class GameRunning extends Component {
     }
 
     handleSubmitCodeClick = () => {
+        const { prompt, stream } = this.props;
+        stream.sendCommand({
+            type: COMMAND_SUBMIT_CODE,
+            fn: `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
+            constructor: prompt._constructor
+        });
+
         this.setState({
-            shouldDisplaySubmitModal: true
+            isWaitingForTestResults: true,
+            shouldDisplayTestResultsIndicator: false
         });
     }
 
@@ -288,7 +296,7 @@ export default class GameRunning extends Component {
                             <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2">👇 New test results!</div>
                         }
                     </div>
-                    <div 
+                    <div
                         className={`w-50 pt3 ph3 pb7 overflow-scroll relative ${ isEditorEnabled ? '' : 'not-allowed' }`}
                         onMouseEnter={ this.handleEditorMouseOver }
                         onMouseLeave={ () => this.setState({ shouldDisplaySelectMoveIndicator: false }) }
@@ -376,7 +384,7 @@ export default class GameRunning extends Component {
                 </div>
                 <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-9999' : 'o-0 z-0 dn' }`}></div>
                 <div>
-                    <div 
+                    <div
                         className="absolute bottom-5 w-50 left-0 z-9 ph2 flex flex-column self-end"
                         ref={ e => this.partnersHandContainerElement = e }
                     >
@@ -389,7 +397,7 @@ export default class GameRunning extends Component {
                             />
                         </div>
                     </div>
-                    <div 
+                    <div
                         className={`absolute bottom-5 w-50 right-0 ph2 flex flex-column ${ this.shouldDisplayOverlay() ? 'z-9999' : 'z-99'}`}
                         ref={ e => this.myHandContainerElement = e }
                     >

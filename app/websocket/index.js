@@ -1,5 +1,5 @@
 import { WS_ACTION, WS_COMMAND } from '../../app/constants/ws';
-import { COMMAND_RUN_CODE } from '../../app/constants/command';
+import { COMMAND_RUN_CODE, COMMAND_SUBMIT_CODE } from '../../app/constants/command';
 import { PLAYERS_REGISTER_PLAYER } from '../../game/constants/players';
 import { ME_SET_INFO } from '../../src/js/constants/me';
 import { GAME_START, GAME_END, GAME_END_TURN } from '../../game/constants/game';
@@ -104,20 +104,26 @@ export default class ServerStreamHandler {
     }
 
     handleWSCommand(command) {
+        let tests;
+        let evals = [];
+        let formattedInputs = [];
+        let prompt = new prompts[command.constructor]();
+
+        this.game.exampleTestResults = [];
+        this.game.testResults = [];
+
         switch (command.type) {
             case COMMAND_RUN_CODE:
-                let tests = [];
-                let formattedInputs = [];
-                let prompt = new prompts[command.constructor]();
+                tests = prompt.exampleTests;
 
-                for (let i = 0; i < prompt.tests.length; i++) {
-                    const test = prompt.tests[i];
+                for (let i = 0; i < tests.length; i++) {
+                    const test = tests[i];
                     let formattedInput = trimBrackets(JSON.stringify(test.input));
                     formattedInputs.push(formattedInput);
-                    tests.push(exec(`safeEval '(${ encode(command.fn) })(${ encode(formattedInput) })'`));
+                    evals.push(exec(`safeEval '(${ encode(command.fn) })(${ encode(formattedInput) })'`));
                 }
 
-                Promise.all(tests)
+                Promise.all(evals)
                     .then(values => {
                         let results = [];
                         for (let i = 0; i < values.length; i++) {
@@ -130,17 +136,52 @@ export default class ServerStreamHandler {
                                     passed: false,
                                     input: formattedInputs[i],
                                     output: `Error: ${ stderr }`,
-                                    expected: prompt.tests[i].expected
+                                    expected: tests[i].expected
                                 });
                             } else if (stdout) {
                                 const result = JSON.parse(stdout);
                                 results.push({
-                                    // TODO: implement custom checks for equality
-                                    passed: prompt.equivalent(result.value, prompt.tests[i].expected),
+                                    passed: prompt.equivalent(result.value, tests[i].expected),
                                     input: formattedInputs[i],
                                     output: result.value,
-                                    expected: prompt.tests[i].expected,
+                                    expected: tests[i].expected,
                                     console: result.console
+                                });
+                            }
+                        }
+
+                        this.game.exampleTestResults = results;
+                    })
+                    .catch(reason => {
+                        console.error(reason);
+                    });
+                break;
+            case COMMAND_SUBMIT_CODE:
+                tests = prompt.tests;
+
+                for (let i = 0; i < tests.length; i++) {
+                    const test = tests[i];
+                    let formattedInput = trimBrackets(JSON.stringify(test.input));
+                    formattedInputs.push(formattedInput);
+                    evals.push(exec(`safeEval '(${ encode(command.fn) })(${ encode(formattedInput) })'`));
+                }
+
+                Promise.all(evals)
+                    .then(values => {
+                        let results = [];
+                        for (let i = 0; i < values.length; i++) {
+                            const { error, stdout, stderr } = values[i];
+                            if (error) {
+                                console.error(`exec error: ${ error }`);
+                                break;
+                            } else if (stderr) {
+                                results.push({
+                                    passed: false
+                                });
+                            } else if (stdout) {
+                                const result = JSON.parse(stdout);
+                                results.push({
+                                    passed: prompt.equivalent(result.value, tests[i].expected)
                                 });
                             }
                         }

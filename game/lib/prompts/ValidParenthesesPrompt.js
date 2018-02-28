@@ -35,11 +35,15 @@ class ValidParenthesesPrompt extends Prompt {
             examples: 'Given: `()`\nReturn: true\n\nGiven: `(]`\nReturn: false'
         };
 
-        this._tests = [
+        this._exampleTests = [
             {
                 input: ['()'],
                 expected: true
-            }, {
+            }
+        ];
+
+        this._tests = [
+            {
                 input: ['({[]})'],
                 expected: true
             }, {
@@ -60,6 +64,7 @@ class ValidParenthesesPrompt extends Prompt {
             }
         ];
 
+        this._exampleTestResults = [];
         this._testResults = [];
         this._testRunTimestampMS = Date.now();
     }
