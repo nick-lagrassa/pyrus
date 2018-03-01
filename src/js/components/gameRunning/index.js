@@ -34,7 +34,9 @@ export default class GameRunning extends Component {
     componentWillUpdate(nextProps, nextState) {
         const { isWaitingForTestResults } = this.state;
         const { prompt, game } = this.props;
-        if (isWaitingForTestResults && (prompt.exampleTestResults.length === 0 || prompt.testResults.length === 0)) {
+        const didGetNewTestResults = prompt.testResults.length === 0 && nextProps.prompt.testResults.length > 0;
+        const didGetNewExampleTestResults = prompt.exampleTestResults.length === 0 && nextProps.prompt.exampleTestResults.length > 0;
+        if (isWaitingForTestResults && (didGetNewExampleTestResults || didGetNewTestResults)) {
             this.setState({ isWaitingForTestResults: false });
         }
 
