@@ -24,7 +24,7 @@ export default class GameRunning extends Component {
             isMoveCancelled: null,
             selectedMove: null,
             selectedCard: null,
-            shouldDisplaySubmitModal: false,
+            shouldDisplayEndGameModal: false,
             shouldDisplayTestResultsIndicator: false,
             shouldDisplaySelectMoveIndicator: false
         };
@@ -109,14 +109,6 @@ export default class GameRunning extends Component {
         });
     }
 
-    handleConfirmSubmitCodeClick = () => {
-        const { stream } = this.props;
-        stream.sendAction({
-            type: GAME_END,
-            code: this.editorElement.doc.getValue()
-        });
-    }
-
     handleWriteMoveClick = () => {
         this.setState({
             selectedMove: MOVE_WRITE,
@@ -134,9 +126,7 @@ export default class GameRunning extends Component {
     }
 
     handleDiscardMoveClick = () => {
-        this.setState({
-            selectedMove: MOVE_DISCARD
-        });
+        this.setState({ selectedMove: MOVE_DISCARD });
     }
 
     handleCardClick = card => {
@@ -149,9 +139,7 @@ export default class GameRunning extends Component {
                 move: new DiscardMove(me.id, card)
             });
 
-            this.setState({
-                selectedMove: null
-            });
+            this.setState({ selectedMove: null });
             return;
         }
 
@@ -173,7 +161,7 @@ export default class GameRunning extends Component {
     handleSubmitActionClick = () => {
         const { stream, me } = this.props;
         const { selectedMove, isWaitingForSubmit, selectedCard } = this.state;
-        const code = this.editorElement.doc.getValue()
+        const code = this.editorElement.doc.getValue();
         switch (selectedMove) {
             case MOVE_CONSUME:
                 stream.sendAction({
@@ -201,6 +189,18 @@ export default class GameRunning extends Component {
     handleEndTurnClick = () => {
         const { stream } = this.props;
         stream.sendAction({ type: GAME_END_TURN });
+    }
+
+    handleEndGameClick = () => {
+        this.setState({ shouldDisplayEndGameModal: true });
+    }
+
+    handleConfirmEndGameClick = () => {
+        const { stream } = this.props;
+        stream.sendAction({
+            type: GAME_END,
+            code: this.editorElement.doc.getValue()
+        });
     }
 
     handleEditorChange = () => {
@@ -231,9 +231,7 @@ export default class GameRunning extends Component {
     }
 
     resetIsMoveCancelled = () => {
-        this.setState({
-            isMoveCancelled: null
-        });
+        this.setState({ isMoveCancelled: null });
     }
 
     render() {
@@ -245,7 +243,7 @@ export default class GameRunning extends Component {
             isMoveValid,
             isMoveCancelled,
             isWaitingForTestResults,
-            shouldDisplaySubmitModal,
+            shouldDisplayEndGameModal,
             shouldDisplayTestResultsIndicator,
             shouldDisplaySelectMoveIndicator
         } = this.state;
@@ -254,23 +252,23 @@ export default class GameRunning extends Component {
 
         return (
             <div className="flex flex-column vh-100 relative overflow-hidden">
-                { shouldDisplaySubmitModal &&
+                { shouldDisplayEndGameModal &&
                     <div className="absolute absolute--fill z-9999">
                         <div className="absolute absolute--fill bg-near-black o-60"></div>
                         <div className="mw6 mt6 bg-pear-near-white br2 pa4 relative center">
-                            <h2 className="mv0">You won't be able to make changes after submitting. Are you sure you want to proceed?</h2>
+                            <h2 className="mv0">You're about to submit your final solution and end this challenge. You won't be able to make changes after submitting. Are you sure you want to proceed?</h2>
                             <div className="flex justify-around mt3">
                                 <input
                                     type="button"
                                     className="db w4 input-reset ba bg-red b--red pa3 br2 near-white pointer"
                                     value="Yes"
-                                    onClick={ this.handleConfirmSubmitCodeClick }
+                                    onClick={ this.handleConfirmEndGameClick }
                                 />
                                 <input
                                     type="button"
                                     className="db w4 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer mr2"
                                     value="No"
-                                    onClick={ () => this.setState({ shouldDisplaySubmitModal: false }) }
+                                    onClick={ () => this.setState({ shouldDisplayEndGameModal: false }) }
                                 />
                             </div>
                         </div>
@@ -306,7 +304,7 @@ export default class GameRunning extends Component {
                     </div>
                     <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
                         { myTurn(me, game, players) && isWaitingForSubmit &&
-                            <div className="flex flex-column mb4">
+                            <div className="flex flex-column mb2">
                                 <p className="f6 silver mv0">SUBMIT ACTION</p>
                                 <input
                                     type="button"
@@ -323,7 +321,7 @@ export default class GameRunning extends Component {
                             </div>
                         }
                         { myTurn(me, game, players) && !isWaitingForSubmit &&
-                            <div className="flex flex-column mb4">
+                            <div className="flex flex-column mb2">
                                 <p className="f6 silver mv0">ACTIONS</p>
                                 <input
                                     type="button"
@@ -345,11 +343,11 @@ export default class GameRunning extends Component {
                                 />
                             </div>
                         }
-                        <div className="flex flex-column mb4">
-                            <p className="f6 silver mb0">RUN AND SUBMIT</p>
+                        <div className="flex flex-column mb2">
+                            <p className="f6 silver mb0">TEST CODE</p>
                             <input
                                 type="button"
-                                className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer slide-left-1"
+                                className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
                                 value="Run Code"
                                 onClick={ this.handleRunCodeClick }
                             />
@@ -371,6 +369,15 @@ export default class GameRunning extends Component {
                                 />
                             </div>
                         }
+                        <div className="flex flex-column mb2">
+                            <p className="f6 silver mb0">END GAME</p>
+                            <input
+                                type="button"
+                                className={`db mv1 input-reset ba bg-red b--red pa3 br2 white pointer slide-left-1`}
+                                value="End Game"
+                                onClick={ this.handleEndGameClick }
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className={`absolute absolute--fill bg-near-black ${ this.shouldDisplayOverlay() ? 'o-60 z-9999' : 'o-0 z-0 dn' }`}></div>
