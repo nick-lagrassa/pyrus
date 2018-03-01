@@ -4,11 +4,11 @@ import cards from '../cards';
 class LinearInPrompt extends Prompt {
     constructor() {
         super();
-        this._name = 'Linear In';
-        this._signature = 'function linearIn(inner, outer)';
-        this._constructor = 'LinearInPrompt';
+        this.name = 'Linear In';
+        this.signature = 'function linearIn(inner, outer)';
+        this.constructor = 'LinearInPrompt';
 
-        this._cardSet = [
+        this.cardSet = [
             new cards.HashTableCard,
             new cards.HashTableCard,
             new cards.WhileCard,
@@ -26,20 +26,20 @@ class LinearInPrompt extends Prompt {
             new cards.SwitchCard
         ];
 
-        this._info = {
+        this.info = {
             title: 'Linear In',
             description: 'Given two sorted arrays of integers, outer and inner, return true if all the numbers in inner appear in outer. The best solution makes only a single "linear" pass of both arrays, taking advantage of the fact that they are sorted',
             examples: 'Given inner = [3,5], outer = [2,3,4,5]\nReturn true' ,
         };
 
-        this._exampleTests = [
+        this.exampleTests = [
             {
                 input: [[3,5],[2,3,4,5]],
                 expected: true
             }
         ];
 
-        this._tests = [
+        this.tests = [
             {
                 input: [[33,45,47,50],[33,45,46,47,58]],
                 expected: false
@@ -61,7 +61,7 @@ class LinearInPrompt extends Prompt {
             }
         ];
 
-        this._hidden_tests = [
+        this.hiddenTests = [
             {
                 input: [[],[]],
                 expected: true
@@ -71,9 +71,8 @@ class LinearInPrompt extends Prompt {
             }
         ];
 
-        this._exampleTestResults = [];
-        this._testResults = [];
-        this._testRunTimestampMS = Date.now()
+        this.exampleTestResults = [];
+        this.testResults = [];
     }
 }
 

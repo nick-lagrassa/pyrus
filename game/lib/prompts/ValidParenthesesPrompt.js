@@ -4,11 +4,11 @@ import cards from '../cards';
 class ValidParenthesesPrompt extends Prompt {
     constructor() {
         super();
-        this._name = 'Valid Parentheses';
-        this._signature = 'function validParentheses(str)';
-        this._constructor = 'MergeArraysPrompt';
+        this.name = 'Valid Parentheses';
+        this.signature = 'function validParentheses(str)';
+        this.constructor = 'MergeArraysPrompt';
 
-        this._cardSet = [
+        this.cardSet = [
             new cards.HashTableCard(),
             new cards.HashTableCard(),
             new cards.WhileCard(),
@@ -29,20 +29,20 @@ class ValidParenthesesPrompt extends Prompt {
             new cards.SwitchCard()
         ];
 
-        this._info = {
+        this.info = {
             title: 'Valid Parentheses',
             description: 'Given a string containing some combination of the parentheses `()`, `[]`, `{}`, and the space character (\s), return whether that string contains a valid sequence of parens.',
             examples: 'Given: `()`\nReturn: true\n\nGiven: `(]`\nReturn: false'
         };
 
-        this._exampleTests = [
+        this.exampleTests = [
             {
                 input: ['()'],
                 expected: true
             }
         ];
 
-        this._tests = [
+        this.tests = [
             {
                 input: ['({[]})'],
                 expected: true
@@ -64,9 +64,8 @@ class ValidParenthesesPrompt extends Prompt {
             }
         ];
 
-        this._exampleTestResults = [];
-        this._testResults = [];
-        this._testRunTimestampMS = Date.now();
+        this.exampleTestResults = [];
+        this.testResults = [];
     }
 }
 

@@ -4,11 +4,11 @@ import cards from '../cards';
 class MergeArraysPrompt extends Prompt {
     constructor() {
         super();
-        this._name = 'Merge Arrays';
-        this._signature = 'function mergeArrays(arr1, arr2)';
-        this._constructor = 'MergeArraysPrompt';
+        this.name = 'Merge Arrays';
+        this.signature = 'function mergeArrays(arr1, arr2)';
+        this.constructor = 'MergeArraysPrompt';
 
-        this._cardSet = [
+        this.cardSet = [
             new cards.HashTableCard,
             new cards.HashTableCard,
             new cards.WhileCard,
@@ -32,20 +32,20 @@ class MergeArraysPrompt extends Prompt {
             new cards.SwitchCard
         ];
 
-        this._info = {
+        this.info = {
             title: 'Merge Arrays',
             description: 'Given two sorted arrays of integers, return one sorted array that includes all elements of both given arrays',
             examples: 'Given arr1 = [1,2,3,5], arr2 = [2,3,4,5]\nReturn [1,2,2,3,3,4,5,5] ' ,
         };
 
-        this._exampleTests = [
+        this.exampleTests = [
             {
                 input: [[1,2,3,5],[2,3,4,5]],
                 expected: [1,2,2,3,3,4,5,5]
             }
         ];
 
-        this._tests = [
+        this.tests = [
             {
                 input: [[-1,-1,0,2,3,5],[4,5]],
                 expected: [-1,-1,0,2,3,4,5,5]
@@ -67,9 +67,8 @@ class MergeArraysPrompt extends Prompt {
             }
         ];
 
-        this._exampleTestResults = [];
-        this._testResults = [];
-        this._testRunTimestampMS = Date.now()
+        this.exampleTestResults = [];
+        this.testResults = [];
     }
 }
 

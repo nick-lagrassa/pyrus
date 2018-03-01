@@ -34,7 +34,7 @@ export default class GameRunning extends Component {
     componentWillUpdate(nextProps, nextState) {
         const { isWaitingForTestResults } = this.state;
         const { prompt, game } = this.props;
-        if (isWaitingForTestResults && (prompt._exampleTestResults.length === 0 || prompt._testResults.length === 0)) {
+        if (isWaitingForTestResults && (prompt.exampleTestResults.length === 0 || prompt.testResults.length === 0)) {
             this.setState({ isWaitingForTestResults: false });
         }
 
@@ -85,8 +85,8 @@ export default class GameRunning extends Component {
         const { prompt, stream } = this.props;
         stream.sendCommand({
             type: COMMAND_RUN_CODE,
-            fn: `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
-            constructor: prompt._constructor
+            fn: `(${ prompt.signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
+            constructor: prompt.constructor
         });
 
         this.setState({
@@ -99,8 +99,8 @@ export default class GameRunning extends Component {
         const { prompt, stream } = this.props;
         stream.sendCommand({
             type: COMMAND_SUBMIT_CODE,
-            fn: `(${ prompt._signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
-            constructor: prompt._constructor
+            fn: `(${ prompt.signature }{${ this.editorElement.doc.getValue() + '\n' }})`,
+            constructor: prompt.constructor
         });
 
         this.setState({
@@ -200,16 +200,7 @@ export default class GameRunning extends Component {
 
     handleEndTurnClick = () => {
         const { stream } = this.props;
-        const { isWaitingForTestResults, shouldDisplayTestResultsIndicator } = this.state;
-        stream.sendAction({
-            type: GAME_END_TURN
-        });
-
-        this.setState({
-            ...this.initialState,
-            isWaitingForTestResults,
-            shouldDisplayTestResultsIndicator
-        });
+        stream.sendAction({ type: GAME_END_TURN });
     }
 
     handleEditorChange = () => {
@@ -358,7 +349,7 @@ export default class GameRunning extends Component {
                             <p className="f6 silver mb0">RUN AND SUBMIT</p>
                             <input
                                 type="button"
-                                className="db mv1 input-reset ba bg-pear-green b--pear-green pa3 br2 white pointer slide-left-1"
+                                className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer slide-left-1"
                                 value="Run Code"
                                 onClick={ this.handleRunCodeClick }
                             />

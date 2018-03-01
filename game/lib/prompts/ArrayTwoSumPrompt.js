@@ -4,11 +4,11 @@ import cards from '../cards';
 class ArrayTwoSumPrompt extends Prompt {
     constructor() {
         super();
-        this._name = 'Array Two Sum';
-        this._signature = 'function arrayTwoSum(nums, target)';
-        this._constructor = 'ArrayTwoSumPrompt';
+        this.name = 'Array Two Sum';
+        this.signature = 'function arrayTwoSum(nums, target)';
+        this.constructor = 'ArrayTwoSumPrompt';
 
-        this._cardSet = [
+        this.cardSet = [
             new cards.HashTableCard,
             new cards.HashTableCard,
             new cards.WhileCard,
@@ -28,20 +28,20 @@ class ArrayTwoSumPrompt extends Prompt {
             new cards.SwitchCard
         ];
 
-        this._info = {
+        this.info = {
             title: 'Array Two Sum',
             description: 'Given an unsorted array of numbers, return an array of the indices of two numbers such that they add up to a specific target.\nYou may assume that each input has exactly one solution, and you may not use the same element twice (i.e. you can\'t return an array with the same index twice).',
             examples: 'Given nums = [7, 2, 11, 15], target = 9\nBecause nums[0] + nums[1] = 7 + 2 = 9, return [0, 1]',
         };
 
-        this._exampleTests = [
+        this.exampleTests = [
             {
                 input: [[2,4,11,1,0,33],37],
                 expected: [1,5]
             }
         ];
 
-        this._tests = [
+        this.tests = [
             {
                 input: [[1,4,0,-1,3,19,2], 0],
                 expected: [0,3]
@@ -63,9 +63,8 @@ class ArrayTwoSumPrompt extends Prompt {
             }
         ];
 
-        this._exampleTestResults = [];
-        this._testResults = [];
-        this._testRunTimestampMS = Date.now()
+        this.exampleTestResults = [];
+        this.testResults = [];
     }
 }
 

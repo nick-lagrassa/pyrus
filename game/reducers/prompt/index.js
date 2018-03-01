@@ -7,8 +7,8 @@ import { GAME_RESET } from '../../constants/game';
 import settings from '../../config/settings';
 
 const initialState = {
-    _testResults: [],
-    _exampleTestResults: [],
+    testResults: [],
+    exampleTestResults: [],
 };
 
 export default function prompt(state=initialState, action) {
@@ -20,18 +20,18 @@ export default function prompt(state=initialState, action) {
         case PROMPT_SET_TEST_RESULTS:
             return {
                 ...state,
-                _testResults: action.results
+                testResults: action.results
             };
         case PROMPT_SET_EXAMPLE_TEST_RESULTS:
             return {
                 ...state,
-                _exampleTestResults: action.results
+                exampleTestResults: action.results
             };
         case GAME_RESET:
             return {
                 ...state,
-                _exampleTestResults: [],
-                _testResults: []
+                exampleTestResults: [],
+                testResults: []
             };
         default:
             return state;

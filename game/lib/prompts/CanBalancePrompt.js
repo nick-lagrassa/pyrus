@@ -4,11 +4,11 @@ import cards from '../cards';
 class CanBalancePrompt extends Prompt {
     constructor() {
         super();
-        this._name = 'Can Balance';
-        this._signature = 'function canBalance(arr)';
-        this._constructor = 'CanBalancePrompt';
+        this.name = 'Can Balance';
+        this.signature = 'function canBalance(arr)';
+        this.constructor = 'CanBalancePrompt';
 
-        this._cardSet = [
+        this.cardSet = [
             new cards.HashTableCard,
             new cards.HashTableCard,
             new cards.WhileCard,
@@ -29,20 +29,20 @@ class CanBalancePrompt extends Prompt {
             new cards.SwitchCard
         ];
 
-        this._info = {
+        this.info = {
             title: 'Can Balance',
             description: 'Given a non-empty array, return true if there is a place to split the array so that the sum of the numbers on one side equal the sum of the numbers on the other side.',
             examples: 'Given arr = [1,1,1,2,1]\nReturn true, because when split to [1,1,1] and [2,1],\n both sides sum up to 3.' ,
         };
 
-        this._exampleTests = [
+        this.exampleTests = [
             {
                 input: [[1,1,1,2,1]],
                 expected: true
             }
         ];
 
-        this._tests = [
+        this.tests = [
             {
                 input: [[2,3,4,5]],
                 expected: false
@@ -64,16 +64,15 @@ class CanBalancePrompt extends Prompt {
             }
         ];
 
-        this._hidden_tests = [
+        this.hiddenTests = [
             {
                 input: [[1]],
                 expected: false
             }
         ]
 
-        this._exampleTestResults = [];
-        this._testResults = [];
-        this._testRunTimestampMS = Date.now()
+        this.exampleTestResults = [];
+        this.testResults = [];
     }
 }
 

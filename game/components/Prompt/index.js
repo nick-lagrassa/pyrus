@@ -9,42 +9,6 @@ export default class Prompt {
         }
     }
 
-    // returns the name of the function
-    // -> String
-    get name() {
-        return this._name;
-    }
-
-    // returns the function signature
-    // -> String
-    get signature() {
-        return this._signature;
-    }
-
-    // returns example test cases
-    // -> List[{input: Object, expected: Object}]
-    get exampleTests() {
-        return this._exampleTests;
-    }
-
-    // returns the test cases
-    // -> List[{input: Object, expected: Object}]
-    get tests() {
-        return this._tests;
-    }
-
-    // returns the distribution of cards associated with this prompt
-    // -> List[Card]
-    get cardSet() {
-        return this._cardSet;
-    }
-
-    // returns information about the challenge
-    // -> {title: String, description: String, examples: String}
-    get info() {
-        return this._info;
-    }
-
     // set the implementation of the challenge to be the given function
     // Function ->
     set implementation(fn) {

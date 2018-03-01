@@ -4,11 +4,11 @@ import cards from '../cards';
 class ArraySequenceMatchPrompt extends Prompt {
     constructor() {
         super();
-        this._name = 'Array Sequence Match';
-        this._signature = 'function arraySequenceMatch(ls, sequence)';
-        this._constructor = 'ArraySequenceMatchPrompt';
+        this.name = 'Array Sequence Match';
+        this.signature = 'function arraySequenceMatch(ls, sequence)';
+        this.constructor = 'ArraySequenceMatchPrompt';
 
-        this._cardSet = [
+        this.cardSet = [
             new cards.HashTableCard,
             new cards.HashTableCard,
             new cards.WhileCard,
@@ -26,20 +26,20 @@ class ArraySequenceMatchPrompt extends Prompt {
             new cards.SwitchCard
         ];
 
-        this._info = {
+        this.info = {
             title: 'Array Sequence Match',
             description: 'Given an array of numbers and a string sequence, return true if that sequence appears in the array, otherwise return false. You may assume that the array consists of single digit integers only, and that the string sequence is at least 1 character long',
             examples: 'Given ls = [7, 1, 2, 3, 1, 5], target = "123"\nReturn true\n\nGiven ls = [1,7,3,5], target = "135"\nReturn false' ,
         };
 
-        this._exampleTests = [
+        this.exampleTests = [
             {
                 input: [[7,1,2,3,1,5],"1231"],
                 expected: true
             }
         ];
 
-        this._tests = [
+        this.tests = [
             {
                 input: [[1,7,3,5],"135"],
                 expected: false
@@ -61,7 +61,7 @@ class ArraySequenceMatchPrompt extends Prompt {
             }
         ];
 
-        this._hidden_tests = [
+        this.hiddenTests = [
             {
                 input: [[],"123"],
                 expected: false
@@ -80,9 +80,8 @@ class ArraySequenceMatchPrompt extends Prompt {
             }
         ];
 
-        this._exampleTestResults = [];
-        this._testResults = [];
-        this._testRunTimestampMS = Date.now()
+        this.exampleTestResults = [];
+        this.testResults = [];
     }
 }
 

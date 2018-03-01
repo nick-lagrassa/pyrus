@@ -4,11 +4,11 @@ import cards from '../cards';
 class AveragePassingScorePrompt extends Prompt {
     constructor() {
         super();
-        this._name = 'Average Passing Score';
-        this._signature = 'function averagePassingScore(scores)';
-        this._constructor = 'AveragePassingScorePrompt';
+        this.name = 'Average Passing Score';
+        this.signature = 'function averagePassingScore(scores)';
+        this.constructor = 'AveragePassingScorePrompt';
 
-        this._cardSet = [
+        this.cardSet = [
             new cards.HashTableCard,
             new cards.WhileCard,
             new cards.WhileCard,
@@ -28,20 +28,20 @@ class AveragePassingScorePrompt extends Prompt {
             new cards.SwitchCard
         ];
 
-        this._info = {
+        this.info = {
             title: 'Average Passing Score',
             description: 'Given a list of scores, return the average among the passing scores. A passing score is any score greater than or equal to 70. If the list is empty or does not include any passing scores return 0. Note: all numbers in Javascript are floats.',
             examples: 'Given: [60,70,80,90]\nReturn: 80\n\nGiven: [15,33,84,55,90,100]\nReturn: 91.33333333333333'
         };
 
-        this._exampleTests = [
+        this.exampleTests = [
             {
                 input: [[60,70,80,90]],
                 expected: 80
             }
         ];
 
-        this._tests = [
+        this.tests = [
             {
                 input: [[15,33,84,55,90,100]],
                 expected: 91.33333333333333
@@ -63,9 +63,8 @@ class AveragePassingScorePrompt extends Prompt {
             }
         ];
 
-        this._exampleTestResults = [];
-        this._testResults = [];
-        this._testRunTimestampMS = Date.now();
+        this.exampleTestResults = [];
+        this.testResults = [];
     }
 }
 
