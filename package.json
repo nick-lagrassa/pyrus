@@ -6,10 +6,14 @@
   "scripts": {
     "start": "updateEnv && npm run launch",
     "start:local": "updateEnv --local && npm run launch",
-    "launch": "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
-    "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
-    "dev": "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
-    "test": "jest"
+    "launch":
+      "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
+    "build":
+      "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
+    "dev":
+      "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
+    "test": "jest",
+    "pretty-quick": "pretty-quick"
   },
   "bin": {
     "safeEval": "./bin/safeEval.js",
@@ -79,13 +83,13 @@
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
     "pre-commit": "^1.2.2",
+    "prettier": "^1.11.1",
+    "pretty-quick": "^1.4.1",
     "react-redux": "^5.0.6",
     "style-loader": "^0.19.0",
     "tachyons-cli": "^1.0.11",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
   },
-  "pre-commit": [
-    "test"
-  ]
+  "pre-commit": ["test", "pretty-quick"]
 }

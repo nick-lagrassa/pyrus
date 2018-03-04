@@ -1,19 +1,15 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
-import GameInit from '../../components/gameInit';
+import GameInit from "../../components/gameInit";
 
 const mapStateToProps = (state, ownProps) => ({
-    players: state.players,
-    me: state.me
+  players: state.players,
+  me: state.me
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators({}, dispatch);
 
-}, dispatch);
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(GameInit);
+export default connect(mapStateToProps, mapDispatchToProps)(GameInit);
