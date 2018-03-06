@@ -1,68 +1,68 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { getGame } from '../../lib/api';
-import configureStore from '../../store/configureStore';
-import Game from '../../containers/game';
-import Spectator from '../../containers/spectator';
-import ClientStreamHandler from '../../lib/websocket';
+import { getGame } from "../../lib/api";
+import configureStore from "../../store/configureStore";
+import Game from "../../containers/game";
+import Spectator from "../../containers/spectator";
+import ClientStreamHandler from "../../lib/websocket";
 
 export default class GameProvider extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            initialState: null,
-            err: null,
-            ready: false,
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialState: null,
+      err: null,
+      ready: false
+    };
+  }
+
+  componentWillMount() {
+    const { gameId } = this.props.match.params;
+    const { me } = this.props;
+    getGame(gameId)
+      .then(initialState => {
+        this.setState({
+          initialState,
+          ready: true
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  render() {
+    const { params, path } = this.props.match;
+    const { gameId } = params;
+    const { initialState, err, ready } = this.state;
+
+    if (!ready) {
+      return <h1>loading</h1>;
     }
 
-    componentWillMount() {
-        const { gameId } = this.props.match.params;
-        const { me } = this.props;
-        getGame(gameId)
-            .then(initialState => {
-                this.setState({ 
-                    initialState,
-                    ready: true
-                });
-            })
-            .catch(err => console.log(err));
+    if (err) {
+      return (
+        <div>
+          <p>
+            Oops! Something went wrong and we can't fetch that game. Make sure
+            you have the right url and try again.
+          </p>
+          <Link to="/">Go back</Link>
+        </div>
+      );
     }
 
-    render() {
-        const { params, path } = this.props.match;
-        const { gameId } = params;
-        const { initialState, err, ready } = this.state;
+    const store = configureStore(initialState);
+    const stream = new ClientStreamHandler(store, gameId);
 
-        if (!ready) {
-            return <h1>loading</h1>;
-        }
-
-        if (err) {
-            return (
-                <div>
-                    <p>Oops! Something went wrong and we can't fetch that game. Make sure you have the right url and try again.</p>
-                    <Link to="/">Go back</Link>
-                </div>
-            );
-        }
-
-        const store = configureStore(initialState);
-        const stream = new ClientStreamHandler(store, gameId);
-
-        return (
-            <Provider store={ store }>
-                { path.indexOf('spectator') > -1 ?
-                    <Spectator gameId={ gameId } />
-                    :
-                    <Game
-                        gameId={ gameId }
-                        stream={ stream }
-                    />
-                }
-            </Provider>
-        );
-    }
+    return (
+      <Provider store={store}>
+        {path.indexOf("spectator") > -1 ? (
+          <Spectator gameId={gameId} />
+        ) : (
+          <Game gameId={gameId} stream={stream} />
+        )}
+      </Provider>
+    );
+  }
 }

@@ -1,3 +1,3 @@
 export default {
-    'DEFAULT_GAME': 'validParenthesesGame'
+  DEFAULT_GAME: "validParenthesesGame"
 };

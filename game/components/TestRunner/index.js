@@ -1,5 +1,3 @@
-class TestRunner {
-    
-}
+class TestRunner {}
 
 export default TestRunner;

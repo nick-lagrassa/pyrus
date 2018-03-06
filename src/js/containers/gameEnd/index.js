@@ -1,23 +1,19 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
-import GameEnd from '../../components/gameEnd';
+import GameEnd from "../../components/gameEnd";
 
 const mapStateToProps = (state, ownProps) => ({
-    players: state.players,
-    me: state.me,
-    prompt: state.prompt,
-    game: state.game,
-    board: state.board,
-    deck: state.deck
+  players: state.players,
+  me: state.me,
+  prompt: state.prompt,
+  game: state.game,
+  board: state.board,
+  deck: state.deck
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators({}, dispatch);
 
-}, dispatch);
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(GameEnd);
+export default connect(mapStateToProps, mapDispatchToProps)(GameEnd);

@@ -1,19 +1,20 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
-import Game from '../../components/game';
-import { setInfo } from '../../actions/me';
+import Game from "../../components/game";
+import { setInfo } from "../../actions/me";
 
 const mapStateToProps = (state, ownProps) => ({
-    ...state
+  ...state
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-    setInfo
-}, dispatch);
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators(
+    {
+      setInfo
+    },
+    dispatch
+  );
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

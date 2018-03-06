@@ -1,17 +1,13 @@
-import Card from '../../components/Card';
-import { CARDS_SWITCH_CASE } from '../../constants/cards.js';
-import {
-    isSwitch,
-    isEmptySwitchBlock,
-    getAST } from '../../util';
+import Card from "../../components/Card";
+import { CARDS_SWITCH_CASE } from "../../constants/cards.js";
+import { isSwitch, isEmptySwitchBlock, getAST } from "../../util";
 
 class SwitchCard extends Card {
-    constructor() {
-        super();
-        this.type = CARDS_SWITCH_CASE;
-        this.title = 'Switch';
-        this.implementation = 
-`switch(day) {
+  constructor() {
+    super();
+    this.type = CARDS_SWITCH_CASE;
+    this.title = "Switch";
+    this.implementation = `switch(day) {
     case "Monday":
         break;
     case "Tuesday":
@@ -19,8 +15,7 @@ class SwitchCard extends Card {
     default:
         break;
 }`;
-        this.example = 
-`var day = 'Monday';
+    this.example = `var day = 'Monday';
 switch(day) {
     case "Monday":
         console.log('Monday');
@@ -31,12 +26,12 @@ switch(day) {
     default:
         break;
 } // -> prints 'Monday'`;
-    }
+  }
 
-    isInstanceOf(code) {
-        const tree = getAST(code);
-        return isSwitch(tree) && isEmptySwitchBlock(tree.body[0]);
-    }
+  isInstanceOf(code) {
+    const tree = getAST(code);
+    return isSwitch(tree) && isEmptySwitchBlock(tree.body[0]);
+  }
 }
 
 export default SwitchCard;
