@@ -10,7 +10,6 @@ class AddingMachinePrompt extends Prompt {
 
     this._cardSet = [
       new cards.HashTableCard(),
-      new cards.HashTableCard(),
       new cards.WhileCard(),
       new cards.WhileCard(),
       new cards.FunctionCard(),

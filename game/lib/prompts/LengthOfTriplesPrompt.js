@@ -10,7 +10,6 @@ class LengthOfTriplesPrompt extends Prompt {
 
     this._cardSet = [
       new cards.HashTableCard(),
-      new cards.HashTableCard(),
       new cards.WhileCard(),
       new cards.FunctionCard(),
       new cards.StackCard(),
@@ -22,6 +21,7 @@ class LengthOfTriplesPrompt extends Prompt {
       new cards.ObjectCard(),
       new cards.ArrayCard(),
       new cards.ArrayCard(),
+      new cards.ForCard(),
       new cards.ForCard(),
       new cards.SwitchCard()
     ];
