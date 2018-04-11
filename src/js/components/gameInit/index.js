@@ -108,7 +108,7 @@ export default class GameInit extends Component {
           <p className="tc">
             {`${players.length}/${
               settings.MAX_PLAYERS_PER_GAME
-            } Partners Registered`}
+            } Players Registered`}
           </p>
           <div className="flex justify-center">{lobby}</div>
         </div>

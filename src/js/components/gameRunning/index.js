@@ -88,19 +88,6 @@ export default class GameRunning extends Component {
     }
   };
 
-  getPartner = () => {
-    const { players, me } = this.props;
-    for (let player of players) {
-      if (player.id !== me.id) {
-        return player;
-      }
-    }
-  };
-
-  getPartnersHand = () => {
-    return this.getPartner().hand;
-  };
-
   getMyHand = () => {
     return this.getMe().hand;
   };
@@ -296,7 +283,7 @@ export default class GameRunning extends Component {
       shouldDisplaySelectMoveIndicator
     } = this.state;
 
-    const isEditorEnabled = myTurn(me, game, players) && selectedMove;
+    const isEditorEnabled = true;
 
     return (
       <div className="flex flex-column vh-100 relative overflow-hidden">
@@ -330,7 +317,7 @@ export default class GameRunning extends Component {
         <InfoHeader />
         <div className="flex mw8 center">
           <div
-            className="w-50 pt3 ph3 mb7 overflow-scroll relative"
+            className="w-50 pt3 ph3 overflow-scroll relative"
             onScroll={() =>
               this.setState({ shouldDisplayTestResultsIndicator: false })
             }
@@ -359,57 +346,8 @@ export default class GameRunning extends Component {
               resetIsMoveCancelled={this.resetIsMoveCancelled}
               enabled={isEditorEnabled}
             />
-            {shouldDisplaySelectMoveIndicator && (
-              <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2 z-999">
-                You need to select an action first!
-              </div>
-            )}
           </div>
           <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
-            {myTurn(me, game, players) &&
-              isWaitingForSubmit && (
-                <div className="flex flex-column mb4">
-                  <p className="f6 silver mv0">SUBMIT ACTION</p>
-                  <input
-                    type="button"
-                    className={`db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1 ${
-                      isMoveValid ? "" : "pointer-none o-30"
-                    }`}
-                    value="Submit Action"
-                    onClick={this.handleSubmitActionClick}
-                  />
-                  <input
-                    type="button"
-                    className="db mv1 input-reset ba bg-red b--red pa3 br2 near-white pointer slide-left-1"
-                    value="Cancel Action"
-                    onClick={this.handleCancelAction}
-                  />
-                </div>
-              )}
-            {myTurn(me, game, players) &&
-              !isWaitingForSubmit && (
-                <div className="flex flex-column mb4">
-                  <p className="f6 silver mv0">ACTIONS</p>
-                  <input
-                    type="button"
-                    className="db mv1 input-reset ba bg-pear-blue b--pear-blue pa3 br2 white pointer slide-left-1"
-                    value="Write Code"
-                    onClick={this.handleWriteMoveClick}
-                  />
-                  <input
-                    type="button"
-                    className="db mv1 input-reset ba bg-pear-purple b--pear-purple pa3 br2 white pointer slide-left-1"
-                    value="Consume Card"
-                    onClick={this.handleConsumeMoveClick}
-                  />
-                  <input
-                    type="button"
-                    className="db mv1 input-reset ba bg-pear-yellow b--pear-yellow pa3 br2 near-black pointer slide-left-1"
-                    value="Discard Card"
-                    onClick={this.handleDiscardMoveClick}
-                  />
-                </div>
-              )}
             <div className="flex flex-column mb4">
               <p className="f6 silver mb0">RUN AND SUBMIT</p>
               <input
@@ -425,18 +363,6 @@ export default class GameRunning extends Component {
                 onClick={this.handleSubmitCodeClick}
               />
             </div>
-            {myTurn(me, game, players) &&
-              !selectedMove && (
-                <div className="flex flex-column">
-                  <p className="f6 silver mb0">END TURN</p>
-                  <input
-                    type="button"
-                    className="db mv1 input-reset ba bg-pear-near-white b--pear-light-gray pa3 br2 silver pointer slide-left-1"
-                    value="End Turn"
-                    onClick={this.handleEndTurnClick}
-                  />
-                </div>
-              )}
           </div>
         </div>
         <div
@@ -444,53 +370,6 @@ export default class GameRunning extends Component {
             this.shouldDisplayOverlay() ? "o-60 z-9999" : "o-0 z-0 dn"
           }`}
         />
-        <div>
-          <div
-            className="absolute bottom-5 w-50 left-0 z-9 ph2 flex flex-column self-end"
-            ref={e => (this.partnersHandContainerElement = e)}
-          >
-            <p className="silver f6 mv2 pa2 br2 dib bg-pear-near-white self-end ba b--pear-light-gray">
-              {`${this.getPartner().name}'s hand`}
-            </p>
-            <div className="flex-none relative">
-              <Hand
-                cards={this.getPartnersHand()}
-                inverse
-                handContainer={this.partnersHandContainerElement}
-              />
-            </div>
-          </div>
-          <div
-            className={`absolute bottom-5 w-50 right-0 ph2 flex flex-column ${
-              this.shouldDisplayOverlay() ? "z-9999" : "z-99"
-            }`}
-            ref={e => (this.myHandContainerElement = e)}
-          >
-            <div className="flex justify-between">
-              <p className="pear-near-white f6 mv2 pa2 br2 dib bg-pear-blue self-start ba b--pear-blue">
-                Your hand
-              </p>
-              {this.shouldDisplayOverlay() && (
-                <input
-                  type="button"
-                  className="db mv1 input-reset ba bg-red b--red pa3 br2 near-white pointer"
-                  value="Cancel Action"
-                  onClick={this.handleCancelAction}
-                />
-              )}
-            </div>
-            <div className="flex-none relative">
-              <Hand
-                cards={this.getMyHand()}
-                selectedCard={selectedCard}
-                handleCardClick={
-                  this.shouldDisplayOverlay() ? this.handleCardClick : null
-                }
-                handContainer={this.myHandContainerElement}
-              />
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
