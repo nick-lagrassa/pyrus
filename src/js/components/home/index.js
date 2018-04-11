@@ -93,17 +93,9 @@ export default class Home extends Component {
               <option value="" disabled>
                 Select Challenge ⬇️
               </option>
-              <option value="AveragePassingScorePrompt">
-                Average Passing Score
-              </option>
-              <option value="ArrayTwoSumPrompt">Array Two Sum</option>
-              <option value="MergeArraysPrompt">Merge Arrays</option>
-              <option value="LinearInPrompt">Linear In</option>
-              <option value="CanBalancePrompt">Can Balance</option>
-              <option value="ArraySequenceMatchPrompt">
-                Array Sequence Match
-              </option>
-              <option value="ValidParenthesesPrompt">Valid Parentheses</option>
+              <option value="AddingMachinePrompt">Adding Machine</option>
+              <option value="LengthOfTriplesPrompt">Length of Triples</option>
+              <option value="IsPalindromePrompt">Is Palindrome</option>
             </select>
             <input
               className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"

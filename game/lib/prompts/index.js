@@ -1,17 +1,9 @@
-import AveragePassingScorePrompt from "./AveragePassingScorePrompt";
-import ArrayTwoSumPrompt from "./ArrayTwoSumPrompt";
-import ArraySequenceMatchPrompt from "./ArraySequenceMatchPrompt";
-import MergeArraysPrompt from "./MergeArraysPrompt";
-import LinearInPrompt from "./LinearInPrompt";
-import CanBalancePrompt from "./CanBalancePrompt";
-import ValidParenthesesPrompt from "./ValidParenthesesPrompt";
+import AddingMachinePrompt from "./AddingMachinePrompt";
+import LengthOfTriplesPrompt from "./LengthOfTriplesPrompt";
+import IsPalindromePrompt from "./IsPalindromePrompt";
 
 export {
-  AveragePassingScorePrompt,
-  ArrayTwoSumPrompt,
-  ArraySequenceMatchPrompt,
-  MergeArraysPrompt,
-  LinearInPrompt,
-  CanBalancePrompt,
-  ValidParenthesesPrompt
+  AddingMachinePrompt,
+  LengthOfTriplesPrompt,
+  IsPalindromePrompt,
 };
