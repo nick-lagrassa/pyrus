@@ -8,7 +8,7 @@ import TestCard from "../lib/cards/TestCard";
 import cards from "../lib/cards";
 
 const nonPrimitiveCode = [
-  "var i = { 'x': 5 }",
+  "var i = { x: 5 }",
   "var i = { }",
   "let array = [1,2,3,4]",
   "if (true) {}",
@@ -60,7 +60,7 @@ describe("isLegalMove", () => {
       game.start();
       const player = game._board.players[0];
       const discardMove = new DiscardMove(player.id, player.hand[0]);
-      expect(game._re.isLegalMove(game._board, discardMove)).toBe(true);
+      expect(game._re.isLegalMove(game._board, discardMove)[0]).toBe(true);
     });
 
     test("is illegal", () => {
@@ -69,7 +69,7 @@ describe("isLegalMove", () => {
       game.start();
       const player = game._board.players[0];
       const discardMove = new DiscardMove(player.id, new TestCard());
-      expect(game._re.isLegalMove(game._board, discardMove)).toBe(false);
+      expect(game._re.isLegalMove(game._board, discardMove)[0]).toBe(false);
     });
   });
 
@@ -83,7 +83,7 @@ describe("isLegalMove", () => {
             player.hand[0],
             player.hand[0].implementation
           );
-          expect(game._re.isLegalMove(game._board, consumeMove)).toBe(true);
+          expect(game._re.isLegalMove(game._board, consumeMove)[0]).toBe(true);
         });
       }
     });
@@ -96,7 +96,7 @@ describe("isLegalMove", () => {
         new ArrayCard(),
         objectCode
       );
-      expect(game._re.isLegalMove(game._board, badConsumeMove)).toBe(false);
+      expect(game._re.isLegalMove(game._board, badConsumeMove)[0]).toBe(false);
     });
   });
 
@@ -106,22 +106,21 @@ describe("isLegalMove", () => {
       const code2 = "x = x.insertFunction(arg);";
       const writeMove = new WriteMove(player, code);
       const writeMove2 = new WriteMove(player, code2);
-      expect(game._re.isLegalMove(game._board, writeMove)).toBe(true);
-      expect(game._re.isLegalMove(game._board, writeMove2)).toBe(true);
+      expect(game._re.isLegalMove(game._board, writeMove)[0]).toBe(true);
+      expect(game._re.isLegalMove(game._board, writeMove2)[0]).toBe(true);
     });
 
     describe("is illegal", () => {
       test("non-primitive code", () => {
         for (let i = 0; i < nonPrimitiveCode.length; i++) {
-          const writeMove = new WriteMove(player, nonPrimitiveCode[i]);
-          expect(game._re.isLegalMove(game._board, writeMove)).toBe(false);
+          expect(game._re.isPrimitiveWrite(nonPrimitiveCode[i])).toBe(false);
         }
       });
 
       test("helper function creation", () => {
         for (let i = 0; i < functionCode.length; i++) {
           const writeMove = new WriteMove(player, functionCode[i]);
-          expect(game._re.isLegalMove(game._board, writeMove)).toBe(false);
+          expect(game._re.isLegalMove(game._board, writeMove)[0]).toBe(false);
         }
       });
     });

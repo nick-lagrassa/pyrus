@@ -15,13 +15,32 @@ import {
   MOVE_WRITE,
   MOVE_CANCEL
 } from "../../../../game/constants/move";
-import { GAME_END_TURN, GAME_END } from "../../../../game/constants/game";
+import {
+  GAME_END_TURN,
+  GAME_END,
+  RULE_DECK_NOT_EMPTY,
+  RULE_PLAYER_HAS_CARD,
+  RULE_IS_SINGLE_MOVE,
+  RULE_IS_VALID_CODE,
+  RULE_IS_PRIMITIVE_WRITE,
+  RULE_IS_VALID_MOVE
+} from "../../../../game/constants/game";
 import {
   COMMAND_RUN_CODE,
   COMMAND_LOG_CODE
 } from "../../../../app/constants/command";
 
 const LOG_CODE_INTERVAL_MS = 30000;
+
+const ruleViolationDescriptions = {
+  RULE_DECK_NOT_EMPTY: "The deck is not empty!",
+  RULE_PLAYER_HAS_CARD: "You don't have the right card for that move!",
+  RULE_IS_SINGLE_MOVE: "You can only write a single expression per move!",
+  RULE_IS_VALID_CODE: "The code you wrote doesn't match the card you played!",
+  RULE_IS_PRIMITIVE_WRITE:
+    "You can only declare a primitive or perform operations on an existing variable!",
+  RULE_IS_VALID_MOVE: "This type of move is invalid!"
+};
 
 export default class GameRunning extends Component {
   constructor(props) {
@@ -31,6 +50,7 @@ export default class GameRunning extends Component {
       isWaitingForSubmit: false,
       isWaitingForTestResults: false,
       isMoveValid: false,
+      ruleViolation: "",
       isMoveCancelled: null,
       selectedMove: null,
       selectedCard: null,
@@ -233,7 +253,7 @@ export default class GameRunning extends Component {
 
   handleEditorChange = () => {
     const { game, board, players, deck, prompt } = this.props;
-    const { isMoveValid, selectedMove, selectedCard } = this.state;
+    const { selectedMove, selectedCard } = this.state;
     const activePlayer = getActivePlayer(game, players);
 
     let code = this.editorElement.doc.getValue();
@@ -249,8 +269,15 @@ export default class GameRunning extends Component {
         return;
     }
 
+    const [isMoveValid, ruleViolation] = this.re.isLegalMove(
+      board,
+      move,
+      deck,
+      players
+    );
     this.setState({
-      isMoveValid: this.re.isLegalMove(board, move, deck, players)
+      isMoveValid,
+      ruleViolation
     });
   };
 
@@ -293,7 +320,8 @@ export default class GameRunning extends Component {
       isWaitingForTestResults,
       shouldDisplaySubmitModal,
       shouldDisplayTestResultsIndicator,
-      shouldDisplaySelectMoveIndicator
+      shouldDisplaySelectMoveIndicator,
+      ruleViolation
     } = this.state;
 
     const isEditorEnabled = myTurn(me, game, players) && selectedMove;
@@ -364,6 +392,12 @@ export default class GameRunning extends Component {
                 You need to select an action first!
               </div>
             )}
+            {!isMoveValid &&
+              ruleViolation && (
+                <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2 z-999">
+                  {`🛑 ${ruleViolationDescriptions[ruleViolation]}`}
+                </div>
+              )}
           </div>
           <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
             {myTurn(me, game, players) &&
