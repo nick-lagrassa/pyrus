@@ -18,9 +18,9 @@ class LengthOfTriplesPrompt extends Prompt {
       new cards.ConditionalCard(),
       new cards.ConditionalCard(),
       new cards.ObjectCard(),
-      new cards.ObjectCard(),
       new cards.ArrayCard(),
       new cards.ArrayCard(),
+      new cards.ForCard(),
       new cards.ForCard(),
       new cards.ForCard(),
       new cards.SwitchCard()
