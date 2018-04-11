@@ -4,9 +4,9 @@ import cards from "../cards";
 class LengthOfTriplesPrompt extends Prompt {
   constructor() {
     super();
-    this._name = "Array Sequence Match";
-    this._signature = "function arraySequenceMatch(ls, sequence)";
-    this._constructor = "ArraySequenceMatchPrompt";
+    this._name = "Length of Triples";
+    this._signature = "function lengthOfTriples(list)";
+    this._constructor = "LengthOfTriplesPrompt";
 
     this._cardSet = [
       new cards.HashTableCard(),
@@ -27,66 +27,44 @@ class LengthOfTriplesPrompt extends Prompt {
     ];
 
     this._info = {
-      title: "Array Sequence Match",
+      title: "Length of Triples",
       description:
-        "Given an array of numbers and a string sequence, return true if that sequence appears in the array, otherwise return false. You may assume that the array consists of single digit integers only, and that the string sequence is at least 1 character long",
+        "Design a program that consumes a list of strings and produces the length of the longest concatenation of three consecutive elements. Assume the input contains at least three strings.",
       examples:
-        'Given ls = [7, 1, 2, 3, 1, 5], target = "123"\nReturn true\n\nGiven ls = [1,7,3,5], target = "135"\nReturn false'
+        'Given list = ["a","ab","aba","a","a"]\nReturn 6\n\nGiven list = ["abra","cadab","r","aabra","a"]\nReturn 11'
     };
 
     this._tests = [
       {
-        input: [[7, 1, 2, 3, 1, 5], "1231"],
-        expected: true
+        input: [["a","ab","aba","a","a"]],
+        expected: 6
       },
       {
-        input: [[1, 7, 3, 5], "135"],
-        expected: false
+        input: [["abra","cadab","r","aabra","a"]],
+        expected: 11
       },
       {
-        input: [[5, 5, 5, 9, 5, 9, 4], "594"],
-        expected: true
+        input: [["a","ab","aba","ba","a"]],
+        expected: 7
       },
       {
-        input: [[2, 0], "21"],
-        expected: false
+        input: [["abcba","ab","aba","ab","abccba"]],
+        expected: 11
       },
       {
-        input: [[7, 6, 8, 7, 6, 8], "76868"],
-        expected: false
+        input: [["","","","","a"]],
+        expected: 1
       },
       {
-        input: [[7, 6, 7, 7, 7, 6], "776"],
-        expected: true
+        input: [["","","","",""]],
+        expected: 0
       },
       {
-        input: [[1, 2, 3, 4, 5, 3, 2, 2, 4, 4], "1"],
-        expected: true
+        input: [["aa","a","aabccbaa","ab","aba","aabcbaa","a"]],
+        expected: 13
       }
     ];
 
-    this._hidden_tests = [
-      {
-        input: [[], "123"],
-        expected: false
-      },
-      {
-        input: [[2, 0], "201"],
-        expected: false
-      },
-      {
-        input: [[0, 4], "1"],
-        expected: false
-      },
-      {
-        input: [[7, 6, 7, 7, 7, 6], "7677767"],
-        expected: false
-      },
-      {
-        input: [[1, 2, 4, 2, 5, 3, 2, 5, 3, 5, 6, 5], "1242i5"],
-        expected: false
-      }
-    ];
     this._testResults = [];
     this._testRunTimestampMS = Date.now();
   }

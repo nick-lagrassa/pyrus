@@ -4,9 +4,9 @@ import cards from "../cards";
 class IsPalindromePrompt extends Prompt {
   constructor() {
     super();
-    this._name = "Valid Parentheses";
-    this._signature = "function validParentheses(str)";
-    this._constructor = "MergeArraysPrompt";
+    this._name = "Is Palindrome";
+    this._signature = "function isPalindromePrompt(str)";
+    this._constructor = "IsPalindromePrompt";
 
     this._cardSet = [
       new cards.HashTableCard(),
@@ -30,40 +30,40 @@ class IsPalindromePrompt extends Prompt {
     ];
 
     this._info = {
-      title: "Valid Parentheses",
+      title: "Is Palindrome",
       description:
-        "Given a string containing some combination of the parentheses `()`, `[]`, `{}`, and the space character (s), return whether that string contains a valid sequence of parens.",
-      examples: "Given: `()`\nReturn: true\n\nGiven: `(]`\nReturn: false"
+        "A palindrome is a string with the same order of letters in forward and reverse order (ignore capitilization). Design a program that consumes a string and determines whether the string with all spaces and punctuation removed is a palindrome. Treat all non-alphanumeric characters as punctuation. Assume an empty string is a palindrome.",
+      examples: "Given: `aba`\nReturn: true\n\nGiven: `abab`\nReturn: false"
     };
 
     this._tests = [
       {
-        input: ["()"],
+        input: ["aba"],
         expected: true
       },
       {
-        input: ["({[]})"],
-        expected: true
-      },
-      {
-        input: ["{]"],
+        input: ["abab"],
         expected: false
       },
       {
-        input: ["()[]{}"],
+        input: ["ab.b.a "],
         expected: true
       },
       {
-        input: [" (({} {}) [])"],
+        input: ["a"],
         expected: true
       },
       {
-        input: ["(((()){})"],
+        input: [" RaceCar"],
+        expected: true
+      },
+      {
+        input: ["races car"],
         expected: false
       },
       {
-        input: ["{[]{{()}}}}}}}"],
-        expected: false
+        input: [""],
+        expected: true
       }
     ];
 
