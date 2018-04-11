@@ -18,7 +18,7 @@ export default class GameEnd extends Component {
     const { isNextPromptClicked } = this.state;
 
     if (isNextPromptClicked) {
-      return <Redirect to="/" />;
+      return <Redirect push to="/" />;
     }
 
     return (

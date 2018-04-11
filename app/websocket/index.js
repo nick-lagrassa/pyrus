@@ -1,5 +1,8 @@
 import { WS_ACTION, WS_COMMAND } from "../../app/constants/ws";
-import { COMMAND_RUN_CODE } from "../../app/constants/command";
+import {
+  COMMAND_RUN_CODE,
+  COMMAND_LOG_CODE
+} from "../../app/constants/command";
 import { PLAYERS_REGISTER_PLAYER } from "../../game/constants/players";
 import { ME_SET_INFO } from "../../src/js/constants/me";
 import { GAME_START, GAME_END, GAME_END_TURN } from "../../game/constants/game";
@@ -157,6 +160,10 @@ export default class ServerStreamHandler {
           .catch(reason => {
             console.error(reason);
           });
+        break;
+      case COMMAND_LOG_CODE:
+        // this is a no-op because the ServerStreamHandler already logs all messages
+        console.log(COMMAND_LOG_CODE);
         break;
       default:
         break;

@@ -1,1 +1,2 @@
 export const COMMAND_RUN_CODE = "COMMAND_RUN_CODE";
+export const COMMAND_LOG_CODE = "COMMAND_LOG_CODE";

@@ -16,7 +16,12 @@ import {
   MOVE_CANCEL
 } from "../../../../game/constants/move";
 import { GAME_END_TURN, GAME_END } from "../../../../game/constants/game";
-import { COMMAND_RUN_CODE } from "../../../../app/constants/command";
+import {
+  COMMAND_RUN_CODE,
+  COMMAND_LOG_CODE
+} from "../../../../app/constants/command";
+
+const LOG_CODE_INTERVAL_MS = 30000;
 
 export default class GameRunning extends Component {
   constructor(props) {
@@ -34,6 +39,10 @@ export default class GameRunning extends Component {
       shouldDisplaySelectMoveIndicator: false
     };
     this.state = this.initialState;
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(this.sendCodeLog, LOG_CODE_INTERVAL_MS);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -56,6 +65,10 @@ export default class GameRunning extends Component {
     if (!isWaitingForTestResults && prevState.isWaitingForTestResults) {
       this.setState({ shouldDisplayTestResultsIndicator: true });
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   shouldDisplayOverlay = () => {
@@ -254,6 +267,19 @@ export default class GameRunning extends Component {
     this.setState({
       isMoveCancelled: null
     });
+  };
+
+  sendCodeLog = () => {
+    const { stream, prompt, me, game, players } = this.props;
+
+    if (myTurn(me, game, players)) {
+      stream.sendCommand({
+        type: COMMAND_LOG_CODE,
+        fn: `(${prompt._signature}{${this.editorElement.doc.getValue() +
+          "\n"}})`,
+        constructor: prompt._constructor
+      });
+    }
   };
 
   render() {

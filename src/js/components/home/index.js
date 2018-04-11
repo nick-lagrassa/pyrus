@@ -71,10 +71,10 @@ export default class Home extends Component {
 
     if (gameReady) {
       if (shouldDisplaySpectatorViewInput) {
-        return <Redirect to={`/spectator/${gameId}`} />;
+        return <Redirect push to={`/spectator/${gameId}`} />;
       }
 
-      return <Redirect to={`/challenge/${gameId}`} />;
+      return <Redirect push to={`/challenge/${gameId}`} />;
     }
 
     return (
