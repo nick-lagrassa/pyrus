@@ -32,12 +32,12 @@ class AddingMachinePrompt extends Prompt {
       description:
         "Design a program that consumes a list of numbers and produces a list of the sums of each non-empty sublist separated by zeros. Ignore input elements that occur after the first occurrence of two consecutive zeros. You can assume that the first element will be non-zero and the input list is non-empty.",
       examples:
-        'Given list = [7, 1, 0 ,3, 0, 13, 0, 0]\nReturn [8, 3, 13]\n\nGiven list = [1, 2, 0, 1, 0, 0]\nReturn [3, 1]'
+        "Given list = [7, 1, 0 ,3, 0, 13, 0, 0]\nReturn [8, 3, 13]\n\nGiven list = [1, 2, 0, 1, 0, 0]\nReturn [3, 1]"
     };
 
     this._tests = [
       {
-        input: [[7, 1, 0 ,3, 0, 13, 0, 0]],
+        input: [[7, 1, 0, 3, 0, 13, 0, 0]],
         expected: [8, 3, 13]
       },
       {
@@ -57,7 +57,7 @@ class AddingMachinePrompt extends Prompt {
         expected: [1, 0, -4]
       },
       {
-        input: [[1,0,0]],
+        input: [[1, 0, 0]],
         expected: [1]
       },
       {

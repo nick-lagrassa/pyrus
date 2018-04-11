@@ -79,7 +79,7 @@ export default class Home extends Component {
 
     return (
       <div className="mw6 center mt6">
-        <h1 className="tc f1 near-black">Collaborative Programming</h1>
+        <h1 className="tc f1 near-black">Programming Challenges</h1>
         <div>
           <form
             className="flex w-100 justify-between"
@@ -93,6 +93,7 @@ export default class Home extends Component {
               <option value="" disabled>
                 Select Challenge ⬇️
               </option>
+              <option value="ExamplePrompt">Example Challenge</option>
               <option value="AddingMachinePrompt">Adding Machine</option>
               <option value="LengthOfTriplesPrompt">Length of Triples</option>
               <option value="IsPalindromePrompt">Is Palindrome</option>

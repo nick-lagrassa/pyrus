@@ -36,31 +36,31 @@ class LengthOfTriplesPrompt extends Prompt {
 
     this._tests = [
       {
-        input: [["a","ab","aba","a","a"]],
+        input: [["a", "ab", "aba", "a", "a"]],
         expected: 6
       },
       {
-        input: [["abra","cadab","r","aabra","a"]],
+        input: [["abra", "cadab", "r", "aabra", "a"]],
         expected: 11
       },
       {
-        input: [["a","ab","aba","ba","a"]],
+        input: [["a", "ab", "aba", "ba", "a"]],
         expected: 7
       },
       {
-        input: [["abcba","ab","aba","ab","abccba"]],
+        input: [["abcba", "ab", "aba", "ab", "abccba"]],
         expected: 11
       },
       {
-        input: [["","","","","a"]],
+        input: [["", "", "", "", "a"]],
         expected: 1
       },
       {
-        input: [["","","","",""]],
+        input: [["", "", "", "", ""]],
         expected: 0
       },
       {
-        input: [["aa","a","aabccbaa","ab","aba","aabcbaa","a"]],
+        input: [["aa", "a", "aabccbaa", "ab", "aba", "aabcbaa", "a"]],
         expected: 13
       }
     ];
