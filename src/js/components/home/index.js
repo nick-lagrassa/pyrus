@@ -93,8 +93,7 @@ export default class Home extends Component {
               <option value="" disabled>
                 Select Challenge ⬇️
               </option>
-              <option value="ExamplePrompt">Example Challenge</option>
-              <option value="AddingMachinePrompt">Adding Machine</option>
+              <option value="LengthOfTriplesPrompt">Length of Triples</option>
             </select>
             <input
               className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
