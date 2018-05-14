@@ -379,6 +379,17 @@ export default class GameRunning extends Component {
               this.setState({ shouldDisplaySelectMoveIndicator: false })
             }
           >
+            {shouldDisplaySelectMoveIndicator && (
+              <div className="absolute top-2 o-30 glow pointer right-2 pa3 bg-pear-yellow br2 z-999">
+                You need to select an action first!
+              </div>
+            )}
+            {!isMoveValid &&
+              ruleViolation && (
+                <div className="absolute top-2 o-30 glow pointer right-2 pa3 bg-pear-yellow br2 z-999">
+                  {`🛑 ${ruleViolationDescriptions[ruleViolation]}`}
+                </div>
+              )}
             <Editor
               gameId={gameId}
               isMoveCancelled={isMoveCancelled}
@@ -387,17 +398,6 @@ export default class GameRunning extends Component {
               resetIsMoveCancelled={this.resetIsMoveCancelled}
               enabled={isEditorEnabled}
             />
-            {shouldDisplaySelectMoveIndicator && (
-              <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2 z-999">
-                You need to select an action first!
-              </div>
-            )}
-            {!isMoveValid &&
-              ruleViolation && (
-                <div className="absolute top-2 right-2 pa3 bg-pear-yellow br2 z-999">
-                  {`🛑 ${ruleViolationDescriptions[ruleViolation]}`}
-                </div>
-              )}
           </div>
           <div className="absolute right--2 top-3 slide-left-3 flex flex-column z-999">
             {myTurn(me, game, players) &&
