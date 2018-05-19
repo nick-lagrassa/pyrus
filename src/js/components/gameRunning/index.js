@@ -202,7 +202,8 @@ export default class GameRunning extends Component {
       isMoveCancelled: true,
       selectedMove: null,
       isWaitingForSubmit: false,
-      selectedCard: null
+      selectedCard: null,
+      ruleViolation: ""
     });
   };
 
