@@ -19,15 +19,9 @@ export default class Editor extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { board, resetIsMoveCancelled } = this.props;
-    const { isMoveCancelled } = nextProps;
+    const { board } = this.props;
     if (board.lastResetTimestampMS !== nextProps.board.lastResetTimestampMS) {
       this.codeMirror.setValue("");
-    }
-
-    if (isMoveCancelled) {
-      this.codeMirror.setValue(board.editor);
-      resetIsMoveCancelled();
     }
   }
 
@@ -40,7 +34,6 @@ export default class Editor extends Component {
       mode: "javascript",
       theme: "monokai"
     });
-    this.codeMirror.on("change", handleEditorChange);
     this.firepad = Firepad.fromCodeMirror(
       this.firebaseRef,
       this.codeMirror,
@@ -50,9 +43,9 @@ export default class Editor extends Component {
   }
 
   render() {
-    const { prompt, enabled } = this.props;
+    const { prompt } = this.props;
     return (
-      <div className={`mb6 ${enabled ? "" : "pointer-none"}`}>
+      <div className="mb6">
         <pre className="moon-gray antialias ma0 pv2 ph3 br2 br--top bg-near-black">{`${
           prompt._signature
         } {`}</pre>
