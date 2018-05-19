@@ -40,6 +40,7 @@ export default class Game extends Component {
     const { game } = this.props;
 
     if (
+      this.recorder &&
       game.status === GAME_STATUS_INIT &&
       nextProps.game.status === GAME_STATUS_RUNNING
     ) {
@@ -47,6 +48,7 @@ export default class Game extends Component {
     }
 
     if (
+      this.recorder &&
       game.status === GAME_STATUS_RUNNING &&
       nextProps.game.status === GAME_STATUS_END
     ) {
