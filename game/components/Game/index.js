@@ -100,7 +100,9 @@ class Game {
       return false;
     }
 
-    if (this._re.isLegalMove(this._board, move)) {
+    const [isLegalMove] = this._re.isLegalMove(this._board, move);
+
+    if (isLegalMove) {
       this._me.executeMove(this._board, move);
       this._store.dispatch(spendMove());
 

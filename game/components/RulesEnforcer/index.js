@@ -1,13 +1,21 @@
 import { MOVE_WRITE, MOVE_DISCARD, MOVE_CONSUME } from "../../constants/move";
+import {
+  RULE_DECK_NOT_EMPTY,
+  RULE_PLAYER_HAS_CARD,
+  RULE_IS_SINGLE_MOVE,
+  RULE_IS_VALID_CODE,
+  RULE_IS_PRIMITIVE_WRITE,
+  RULE_IS_VALID_MOVE
+} from "../../constants/game";
 import cards from "../../lib/cards";
 import * as util from "../../util";
 import * as JsDiff from "diff";
 import * as cardConstants from "../../constants/cards";
 
 class RulesEnforcer {
-  // Returns whether a given move is legal to perform
-  // THIS FUNCTION IS VERY BAD!! I'M NOT PROUD OF THIS
-  // Board, Move -> bool
+  // Returns whether a given move is legal to perform and if not, what the
+  // error is
+  // Board, Move -> [bool, string]
   isLegalMove(board, move, deck, players) {
     let checkMoveArgs;
 
@@ -19,35 +27,69 @@ class RulesEnforcer {
         checkMoveArgs = [board, move, board.deck, board.players];
         break;
       default:
-        return false;
+        throw new Error(
+          `isLegalMove arity mismatch, expected either 2 or 4 arguments, got ${
+            arguments.length
+          }`
+        );
     }
 
     try {
       return this._checkMove(...checkMoveArgs);
     } catch (e) {
-      return true;
+      return [true, ""];
     }
   }
 
   _checkMove(board, move, deck, players) {
     let diff;
+    let deckNotEmpty, hasCard, singleMove, validCode, primitiveWrite;
     switch (move.type) {
       case MOVE_DISCARD:
-        return deck.cards.length > 0 && this.playerHasCard(players, move);
+        deckNotEmpty = deck.cards.length > 0;
+        hasCard = this.playerHasCard(players, move);
+
+        if (!deckNotEmpty) {
+          return [false, RULE_DECK_NOT_EMPTY];
+        } else if (!hasCard) {
+          return [false, RULE_PLAYER_HAS_CARD];
+        } else {
+          return [true, ""];
+        }
       case MOVE_CONSUME:
         diff = this.getEditorDifference(board.editor, move.code);
-        return (
-          this.playerHasCard(players, move) &&
-          this.isSingleMove(diff) &&
-          this.isValidCodeForCard(move.card.type, diff)
-        );
+        hasCard = this.playerHasCard(players, move);
+        singleMove = this.isSingleMove(diff);
+        validCode = this.isValidCodeForCard(move.card.type, diff);
+
+        if (!hasCard) {
+          return [false, RULE_PLAYER_HAS_CARD];
+        } else if (!singleMove) {
+          return [false, RULE_IS_SINGLE_MOVE];
+        } else if (!validCode) {
+          return [false, RULE_IS_VALID_CODE];
+        } else {
+          return [true, ""];
+        }
+
       case MOVE_WRITE:
         diff = this.getEditorDifference(board.editor, move.code);
-        return this.isSingleMove(diff) && this.isPrimitiveWrite(diff);
+        singleMove = this.isSingleMove(diff);
+        primitiveWrite = this.isPrimitiveWrite(diff);
+
+        if (!singleMove) {
+          return [false, RULE_IS_SINGLE_MOVE];
+        } else if (!primitiveWrite) {
+          return [false, RULE_IS_PRIMITIVE_WRITE];
+        } else {
+          return [true, ""];
+        }
+
       default:
-        return false;
+        return [false, RULE_IS_VALID_MOVE];
     }
-    return true;
+
+    return [true, ""];
   }
 
   playerHasCard(players, move) {
@@ -147,7 +189,34 @@ class RulesEnforcer {
       return true;
     }
 
-    return tree.body.length <= 1;
+    if (tree.body.length > 1) {
+      return false;
+    }
+
+    const expression = tree.body[0];
+
+    switch (expression.type) {
+      case "IfStatement":
+        return (
+          tree.body[0].alternate.body.length === 0 &&
+          tree.body[0].consequent.body.length === 0
+        );
+      case "ForStatement":
+      case "WhileStatement":
+        return tree.body[0].body.body.length === 0;
+      case "SwitchStatement":
+        return tree.body[0].cases.reduce(
+          (prev, curr) =>
+            prev &&
+            (curr.type === "SwitchCase" &&
+              (curr.consequent.length < 1 ||
+                (curr.consequent.length === 1 &&
+                  curr.consequent[0].type === "BreakStatement"))),
+          true
+        );
+      default:
+        return tree.body.length <= 1;
+    }
   }
 
   isPrimitiveWrite(code) {
