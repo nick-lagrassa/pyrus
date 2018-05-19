@@ -96,11 +96,6 @@ export default class ServerStreamHandler {
       case GAME_END:
         this.game.end();
         break;
-      case MOVE_DISCARD:
-      case MOVE_WRITE:
-      case MOVE_CONSUME:
-        this.game.receiveMove(action.move);
-        break;
       default:
         break;
     }
