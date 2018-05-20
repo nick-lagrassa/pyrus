@@ -198,21 +198,24 @@ class RulesEnforcer {
     switch (expression.type) {
       case "IfStatement":
         return (
-          tree.body[0].alternate.body.length === 0 &&
-          tree.body[0].consequent.body.length === 0
+          (!expression.alternate || expression.alternate.body.length === 0) &&
+          (!expression.consequent || expression.consequent.body.length === 0)
         );
       case "ForStatement":
       case "WhileStatement":
-        return tree.body[0].body.body.length === 0;
+        return expression.body && expression.body.body.length === 0;
       case "SwitchStatement":
-        return tree.body[0].cases.reduce(
-          (prev, curr) =>
-            prev &&
-            (curr.type === "SwitchCase" &&
-              (curr.consequent.length < 1 ||
-                (curr.consequent.length === 1 &&
-                  curr.consequent[0].type === "BreakStatement"))),
-          true
+        return (
+          !expression.cases ||
+          expression.cases.reduce(
+            (prev, curr) =>
+              prev &&
+              (curr.type === "SwitchCase" &&
+                (curr.consequent.length < 1 ||
+                  (curr.consequent.length === 1 &&
+                    curr.consequent[0].type === "BreakStatement"))),
+            true
+          )
         );
       default:
         return tree.body.length <= 1;
