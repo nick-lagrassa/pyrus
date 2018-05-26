@@ -33,37 +33,37 @@ class Fix34Prompt extends Prompt {
       description:
         "Return an array that contains exactly the same numbers as the given array, but rearranged so that every 3 is immediately followed by a 4. The output should maintain the original location of 3's, but every other number may move. The array contains the same number of 3's and 4's, and every 3 has a number after it that is not a 3.",
       examples:
-        "Given list = [1,3,1,4,4,3,1]\nReturn [1,3,4,1,1,3,4]\n\nGiven list = [1,2,3,2,0,4]\nReturn [1,2,3,4,2,0]"
+        "Given list = [1, 3, 1, 4]\nReturn [1, 3, 4, 1]\n\nGiven list = [1, 3, 1, 4, 4, 3, 1]\nReturn [1, 3, 4, 1, 1, 3, 4]"
     };
 
     this._tests = [
       {
-        input: [[1, 2, 4, 2, 0, 5]],
-        expected: [1, 2, 4, 5, 2, 0]
+        input: [[1, 3, 1, 4]],
+        expected: [1, 3, 4, 1]
       },
       {
-        input: [[1, 4, 1, 5, 5, 4, 1]],
-        expected: [1, 4, 5, 1, 1, 4, 5]
+        input: [[1, 3, 1, 4, 4, 3, 1]],
+        expected: [1, 3, 4, 1, 1, 3, 4]
       },
       {
         input: [[0, 0]],
         expected: [0, 0]
       },
       {
-        input: [[4, 5]],
-        expected: [4, 5]
+        input: [[3, 4]],
+        expected: [3, 4]
       },
       {
-        input: [[1, 0, -1, 1, 0, -4, 0]],
-        expected: [1, 0, -1, 1, 0, -4, 0]
+        input: [[3, 2, 2, 4]],
+        expected: [3, 4, 2, 2]
       },
       {
-        input: [[4, 5, 4, 5, 0]],
-        expected: [4, 5, 4, 5, 0]
+        input: [[3, 2, 3, 2, 4, 4]],
+        expected: [3, 4, 3, 4, 2, 2]
       },
       {
-        input: [[1, 4, 9, 0, 0, 1, 2, 5, 0, 4, 5]],
-        expected: [1, 4, 5, 9, 0, 0, 1, 2, 0, 4, 5]
+        input: [[3, 1, 1, 3, 4, 4]],
+        expected: [3, 4, 1, 3, 4, 1]
       }
     ];
 

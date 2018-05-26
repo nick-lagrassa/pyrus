@@ -32,7 +32,8 @@ class PalindromePermutationPrompt extends Prompt {
       title: "Palindrome Permutation",
       description:
         "Given a string, write a function to check if it is a permutation of a palindrome (ignore captilization). A palindrome is a word or phrase that is same forwards and backwards. A permutation is a rearrangement of letters.",
-      examples: "Given: `caCba`\nReturn: true\n\nGiven: `abybkayb`\nReturn: false"
+      examples:
+        "Given: `caCba`\nReturn: true\n\nGiven: `abybkayb`\nReturn: false"
     };
 
     this._tests = [

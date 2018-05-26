@@ -94,7 +94,10 @@ export default class Home extends Component {
                 Select Challenge ⬇️
               </option>
               <option value="ExamplePrompt">Example Challenge</option>
-              <option value="LengthOfTriplesPrompt">Length of Triples</option>
+              <option value="Fix34Prompt">Fix 34</option>
+              <option value="PalindromePermutationPrompt">
+                Palindrome Permutation
+              </option>
             </select>
             <input
               className="input-reset ba bg-pear-blue b--pear-blue pa3 br2 br--right white pointer"
