@@ -6,12 +6,9 @@
   "scripts": {
     "start": "updateEnv && npm run launch",
     "start:local": "updateEnv --local && npm run launch",
-    "launch":
-      "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
-    "build":
-      "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
-    "dev":
-      "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
+    "launch": "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
+    "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
+    "dev": "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
     "test": "jest",
     "pretty-quick": "pretty-quick"
   },
@@ -92,5 +89,8 @@
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
   },
-  "pre-commit": ["test", "pretty-quick"]
+  "pre-commit": [
+    "test",
+    "pretty-quick"
+  ]
 }
