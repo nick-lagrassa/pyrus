@@ -46,15 +46,10 @@ export default class ServerStreamHandler {
       }
     });
 
-    // remove player from state
-    this.socket.addEventListener("close", () => {});
-
     // print error message
     this.socket.addEventListener("error", err => {
       console.log("ServerStreamHandler received error: %s", err);
     });
-
-    this.socket.addEventListener("end", () => {});
   }
 
   // Send message (action) into this.socket to be received on client side

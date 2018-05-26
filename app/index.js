@@ -10,6 +10,8 @@ import ws from "ws";
 import ServerStreamHandler from "./websocket";
 import PearLogger from "./logger";
 import dotenv from "dotenv";
+import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from "../game/constants/game";
+import { ME_SET_INFO } from "../src/js/constants/me";
 
 dotenv.config();
 
@@ -37,17 +39,55 @@ server.listen(port, process.env.APP_BACKEND, () => {
 const WebSocketServer = ws.Server;
 const wss = new WebSocketServer({ server });
 
+const disconnectedPlayers = {};
+
 wss.on("connection", (socket, req) => {
-  const id = url.parse(req.url, true).path.replace("/", "");
-  const hash = crypto.createHash("md5");
-  const playerId = hash.update(id + Date.now() + Math.random()).digest("hex");
-  const stream = new ServerStreamHandler(
-    socket,
-    activeGames[id],
-    playerId,
-    new PearLogger(id)
-  );
-  activeStreams[id][playerId] = stream;
+  const gameId = url.parse(req.url, true).path.replace("/", "");
+  let playerId;
+  let stream;
+
+  if (
+    activeGames[gameId].status === GAME_STATUS_RUNNING &&
+    disconnectedPlayers[gameId]
+  ) {
+    // note: this only gives you the player who disconnected first, which may
+    // not be what you want. the best solution would be to implement a route
+    // at which players can select which player they'd like to rejoin as
+    playerId = disconnectedPlayers[gameId].shift();
+    stream = new ServerStreamHandler(
+      socket,
+      activeGames[gameId],
+      playerId,
+      new PearLogger(gameId)
+    );
+
+    stream.sendAction({
+      type: ME_SET_INFO,
+      name: activeGames[gameId]._board.players.filter(
+        player => player.id === playerId
+      )[0].name,
+      id: playerId
+    });
+  } else {
+    const hash = crypto.createHash("md5");
+    playerId = hash.update(gameId + Date.now() + Math.random()).digest("hex");
+    stream = new ServerStreamHandler(
+      socket,
+      activeGames[gameId],
+      playerId,
+      new PearLogger(gameId)
+    );
+  }
+
+  activeStreams[gameId][playerId] = stream;
+
+  socket.on("close", () => {
+    if (activeGames[gameId].status === GAME_STATUS_RUNNING) {
+      disconnectedPlayers[gameId] = disconnectedPlayers[gameId] || [];
+      disconnectedPlayers[gameId].push(playerId);
+      delete activeStreams[gameId][playerId];
+    }
+  });
 });
 
 app.get("/new/:promptTitle", (req, res) => {

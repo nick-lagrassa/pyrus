@@ -11,6 +11,8 @@ import ClientStreamHandler from "../../lib/websocket";
 export default class GameProvider extends Component {
   constructor(props) {
     super(props);
+    this.store = null;
+    this.stream = null;
     this.state = {
       initialState: null,
       err: null,
@@ -24,8 +26,16 @@ export default class GameProvider extends Component {
     getGame(gameId)
       .then(initialState => {
         this.setState({
-          initialState,
-          ready: true
+          initialState
+        });
+
+        this.store = configureStore(initialState);
+        this.stream = new ClientStreamHandler(this.store, gameId);
+        return this.stream.ready;
+      })
+      .then(ready => {
+        this.setState({
+          ready
         });
       })
       .catch(err => console.log(err));
@@ -52,15 +62,12 @@ export default class GameProvider extends Component {
       );
     }
 
-    const store = configureStore(initialState);
-    const stream = new ClientStreamHandler(store, gameId);
-
     return (
-      <Provider store={store}>
+      <Provider store={this.store}>
         {path.indexOf("spectator") > -1 ? (
           <Spectator gameId={gameId} />
         ) : (
-          <Game gameId={gameId} stream={stream} />
+          <Game gameId={gameId} stream={this.stream} />
         )}
       </Provider>
     );

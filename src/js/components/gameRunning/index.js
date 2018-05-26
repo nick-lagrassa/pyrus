@@ -325,6 +325,10 @@ export default class GameRunning extends Component {
       ruleViolation
     } = this.state;
 
+    if (!me.id) {
+      return <div>loading...</div>;
+    }
+
     const isEditorEnabled = myTurn(me, game, players) && selectedMove;
 
     return (

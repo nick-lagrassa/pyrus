@@ -4,23 +4,27 @@ export default class ClientStreamHandler {
   constructor(store, gameId) {
     this.store = store;
     this.gameId = gameId;
-    this.socket = new WebSocket(
-      `ws://${process.env.APP_BACKEND}:${process.env.APP_BACKEND_PORT}/${
-        this.gameId
-      }`
-    );
+    this.ready = new Promise(resolve => {
+      this.socket = new WebSocket(
+        `ws://${process.env.APP_BACKEND}:${process.env.APP_BACKEND_PORT}/${
+          this.gameId
+        }`
+      );
 
-    this.socket.addEventListener("message", message => {
-      const data = JSON.parse(message.data);
-      if (data.type === WS_ACTION) {
-        this.store.dispatch(data.action);
-      }
-    });
+      this.socket.addEventListener("message", message => {
+        const data = JSON.parse(message.data);
+        if (data.type === WS_ACTION) {
+          this.store.dispatch(data.action);
+        }
+      });
 
-    this.socket.addEventListener("close", () => {});
+      this.socket.addEventListener("error", err => {
+        console.log("ClientStreamHandler received error: %s", err);
+      });
 
-    this.socket.addEventListener("error", err => {
-      console.log("ClientStreamHandler received error: %s", err);
+      this.socket.addEventListener("open", () => {
+        resolve(true);
+      });
     });
   }
 
