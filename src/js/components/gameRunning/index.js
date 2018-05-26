@@ -90,7 +90,7 @@ export default class GameRunning extends Component {
   };
 
   render() {
-    const { game, gameId, stream } = this.props;
+    const { game, gameId, stream, me } = this.props;
     const {
       isWaitingForTestResults,
       shouldDisplaySubmitModal,
@@ -100,8 +100,6 @@ export default class GameRunning extends Component {
     if (!me.id) {
       return <div>loading...</div>;
     }
-
-    const isEditorEnabled = myTurn(me, game, players) && selectedMove;
 
     return (
       <div className="flex flex-column vh-100 relative overflow-hidden">
