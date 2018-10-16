@@ -11,9 +11,7 @@ import {
   MOVE_CONSUME,
   MOVE_WRITE
 } from "../../game/constants/move";
-import DiscardMove from "../../game/components/DiscardMove";
-import WriteMove from "../../game/components/WriteMove";
-import { encode, decode } from "../util/safeEncode";
+import { encode } from "../util/safeEncode";
 import trimBrackets from "../util/trimBrackets";
 import * as prompts from "../../game/lib/prompts";
 
@@ -114,7 +112,12 @@ export default class ServerStreamHandler {
           formattedInputs.push(formattedInput);
           tests.push(
             exec(
-              `safeEval '(${encode(command.fn)})(${encode(formattedInput)})'`
+              `./bin/safeEval.js '(${encode(command.fn)})(${encode(
+                formattedInput
+              )})'`,
+              {
+                cwd: "./"
+              }
             )
           );
         }

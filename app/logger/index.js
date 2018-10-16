@@ -1,6 +1,5 @@
-import fs from "fs";
 import path from "path";
-import { createLogger, transports, format } from "winston";
+import { createLogger, transports } from "winston";
 
 export default class PearLogger {
   constructor(id) {
