@@ -1,4 +1,4 @@
-import _ from "lodash";
+import isEqual from "lodash.isequal";
 
 export default class Prompt {
   // The Prompt class is abstract and should only ever be implemented
@@ -49,7 +49,7 @@ export default class Prompt {
   // challenge matches our test case
   // Object, Object -> boolean
   equivalent(got, expected) {
-    return _.isEqual(got, expected);
+    return isEqual(got, expected);
   }
 
   // format the input for better printing
