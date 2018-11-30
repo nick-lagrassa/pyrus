@@ -4,17 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "updateEnv && npm run launch",
-    "start:local": "updateEnv --local && npm run launch",
+    "start": "./bin/updateEnv.js && npm run launch",
+    "start:local": "./bin/updateEnv.js --local && npm run launch",
     "launch": "npm run build && parallelshell 'babel-node server.js' 'babel-node app/index.js'",
     "build": "webpack && ./node_modules/.bin/tachyons src/css/tachyons.css > public/tachyons.css",
     "dev": "parallelshell 'webpack-dev-server --history-api-fallback --content-base public/' 'babel-node app/index.js'",
     "test": "jest",
     "pretty-quick": "pretty-quick"
-  },
-  "bin": {
-    "safeEval": "./bin/safeEval.js",
-    "updateEnv": "./bin/updateEnv.js"
   },
   "repository": {
     "type": "git",
@@ -47,7 +43,7 @@
     "is-nan": "^1.2.1",
     "jest": "^21.2.1",
     "json-loader": "^0.5.7",
-    "lodash": "^4.17.4",
+    "lodash.isequal": "^4.5.0",
     "parallelshell": "^3.0.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

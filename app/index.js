@@ -1,7 +1,6 @@
 import http from "http";
 import express from "express";
 import url from "url";
-import settings from "./config/settings";
 import Game from "../game/components/Game";
 import * as promptsLibrary from "../game/lib/prompts";
 import bodyParser from "body-parser";
@@ -10,7 +9,7 @@ import ws from "ws";
 import ServerStreamHandler from "./websocket";
 import PearLogger from "./logger";
 import dotenv from "dotenv";
-import { GAME_STATUS_INIT, GAME_STATUS_RUNNING } from "../game/constants/game";
+import { GAME_STATUS_RUNNING } from "../game/constants/game";
 import { ME_SET_INFO } from "../src/js/constants/me";
 
 dotenv.config();
